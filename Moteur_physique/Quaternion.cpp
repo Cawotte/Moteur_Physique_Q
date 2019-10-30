@@ -41,6 +41,14 @@ void Quaternion::operator*=(const Quaternion& q)
 		j_ * q.i_;
 }
 
+void Quaternion::operator+=(const Quaternion& q)
+{
+	r_ += q.r_;
+	i_ += q.i_;
+	k_ += q.j_;
+	k_ += q.k_;
+}
+
 void Quaternion::rotate(Vector3D vec)
 {
 	Quaternion q{0, vec.x, vec.y, vec.z };
@@ -50,4 +58,15 @@ void Quaternion::rotate(Vector3D vec)
 
 void Quaternion::updateAngularVelocity(Vector3D vec, float timeElapsed)
 {
+	vec = vec * (timeElapsed / 2.f);
+	Quaternion w{ 0, vec.x, vec.y, vec.z };
+
+	//ugly af
+
+	// O1' = O1 + dT/2f * w1 * O1;
+
+	Quaternion theta = *this;
+	w *= *this;
+	*this += w;
+
 }

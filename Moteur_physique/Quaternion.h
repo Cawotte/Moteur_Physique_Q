@@ -16,10 +16,10 @@ public:
 
 	}
 
-
 	void normalize();
 
 	void operator*=(const Quaternion& q);
+	void operator+=(const Quaternion& q);
 
 	void rotate(Vector3D vec);
 	void updateAngularVelocity(Vector3D vec, float timeElapsed);
