@@ -15,6 +15,8 @@
 
 #include "Vector3D.h"
 
+#include <iostream>
+
 class Matrix3
 {
 	float data_[9];
@@ -33,6 +35,15 @@ public:
 	Matrix3 operator*(const Matrix3& b);
 	//Produit avec Vector
 	Vector3D operator*(const Vector3D& b);
+
+	//Transposee
+	Matrix3 transpo();
+
+	//Inverse
+	Matrix3 inv();
+
+	//Fonction d'affichage pour les tests
+	void display();
 
 	~Matrix3();
 };
