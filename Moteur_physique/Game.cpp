@@ -40,14 +40,6 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		seeInWater_ = !seeInWater_;
 		break;
 
-	case 'o':
-		simulator_.addParticle(factory_.getTestWater());
-		break;
-
-	case 'd':
-		simulator_.deleteAndClearAll();
-		break;
-
 	//ESCAPE key
 	case 27:
 		exit(0);
@@ -76,7 +68,6 @@ void Game::handlePassiveMouseMotion(int x, int y) {
 	float h = (float)(screenHeight - y - 50);
 	Vector3D mouseDirection2D = Vector3D(0.0f, (float)x, h);
 
-	crosshair_.setAim(mouseDirection2D);
 }
 
 void Game::handleMouseClick(int button, int state, int x, int y) {
@@ -87,7 +78,6 @@ void Game::handleMouseClick(int button, int state, int x, int y) {
 			if (state == GLUT_UP) {
 
 				//TIREZ!
-				simulator_.addParticle(crosshair_.fireParticle());
 				isLeftMouseButtonDown_ = false;
 			}
 			else if (state == GLUT_DOWN) {
@@ -100,41 +90,11 @@ void Game::handleMouseClick(int button, int state, int x, int y) {
 
 			if (state == GLUT_DOWN) {
 
-				crosshair_.selectNextParticle();
 				drawScene();
 			}
 
 		break;
 	}
-}
-
-void Game::drawGround() {
-	GlutUtils::drawRectangle(Vector3D(0, 0, -2.5), 400, 200, 5, Color::brown);
-}
-
-void Game::drawPool() {
-
-	GlutUtils::drawHollowRectangle(Vector3D(0, 200, -25), 400, 200, 50, Color::lightBlue);
-}
-
-void Game::drawWall() {
-
-	GlutUtils::drawRectangle(Vector3D(0, 85, 25), 200, 10, 30, Color::darkGray);
-
-}
-
-void Game::addWalls() {
-
-	std::shared_ptr<Particle> paWall = std::make_shared<Particle>(Particle{ new Vector3D(0, 85, 25), 50000000.f});
-	paWall->setShape(new Rect3D(paWall->getPos(), Color::darkGray, 200.f, 10.f, 30));
-	paWall->isStatic_ = true;
-
-	std::shared_ptr<Particle> paGround = std::make_shared<Particle>(Particle{ new Vector3D(0, 0, -2.5), 50000000.f});
-	paGround->setShape(new Rect3D(paGround->getPos(), Color::brown, 400.f, 200.f, 5.f));
-	paGround->isStatic_ = true;
-
-	simulator_.addParticle(paWall);
-	simulator_.addParticle(paGround);
 }
 
 
@@ -149,11 +109,6 @@ void Game::drawScene()
 		lookCamera_.x, lookCamera_.y, lookCamera_.z, 
 		0, 0, 1);
 	
-	//drawGround();
-	drawPool();
-	//drawWall();
-	simulator_.draw();
-	crosshair_.draw();
 
 	glutSwapBuffers();
 }
@@ -170,13 +125,10 @@ void Game::update(int value)
 	stopTime = clock();
 	elapsedTime = ((float)(stopTime - startTime)) / (CLOCKS_PER_SEC);
 
-	//elapsedTime = std::fmaxf(elapsedTime, 0.000001f);
-
-	simulator_.updatePhysics(elapsedTime);
 
 	//Charge le tir
 	if (isLeftMouseButtonDown_) {
-		crosshair_.loadShot(elapsedTime);
+		//nein
 	}
 
 	drawScene();
@@ -207,7 +159,6 @@ void Game::instructions() {
 void Game::execute(int argc, char** argv)
 {
 	instructions();
-	addWalls();
 
 	//launch Glut
 	glutInit(&argc, argv);

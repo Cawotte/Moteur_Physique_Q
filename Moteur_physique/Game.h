@@ -57,10 +57,6 @@ public:
 	void handleMouseClick(int button, int state, int x, int y);
 
 	//fonctions draw
-	void drawGround();
-	void drawPool();
-	void drawWall();
-	void addWalls();
 	void drawScene();
 
 	//// fonctions update
