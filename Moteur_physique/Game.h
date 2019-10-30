@@ -7,35 +7,16 @@
 #include <list>
 #include <time.h>
 
-#include "Particle.h"
-#include "ParticleGroup.h"
 #include "Vector3D.h"
-#include "ParticleForceRegister.h"
-#include "DragFG.h"
-#include "GravityFG.h"
-#include "SpringFG.h"
-#include "BuoyancyFG.h"
-#include "AnchoredSpringFG.h"
-#include "BungeeSpringFG.h"
-#include "WeakSpringFG.h"
-#include "IParticle.h"
-#include "ParticleFactory.h"
-#include "ContactResolver.h"
-#include "Crosshair.h"
-#include "PhysicSimulator.h"
 
 // Classe de gestion globale. Dessine la scène, gère les particules, upate la logique et appelle leur fonction pour les dessiner
 class Game
 {
 private:
 
-	Crosshair crosshair_;
 
 	bool isLeftMouseButtonDown_ = false;
 
-	PhysicSimulator simulator_;
-
-	ParticleFactory factory_;
 
 	//time
 	float elapsedTime;
