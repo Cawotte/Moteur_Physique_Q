@@ -98,6 +98,25 @@ void Quaternion::updateAngularVelocity(Vector3D vec, float timeElapsed)
 
 }
 
+Matrix3 Quaternion::toMatrix3()
+{
+	float data[9] = {
+		1.f - (2 * j_ * j_ + 2 * k_ * k_), 
+		2 * i_ * j_ + 2 * k_ * r_,
+		2 * i_ * k_ - 2 * j_ * r_,
+
+		2 * i_ * j_ - 2 * k_ * r_,
+		1 - (2 * i_ * i_ + 2 * k_ * k_),
+		2 * j_ * k_ + 2 * i_ * r_,
+
+		2 * i_ * k_ + 2 * j_ * r_,
+		2 * j_ * k_ - 2 * i_ * r_,
+		1 -(2 * i_ * i_ + 2 * j_ * j_)
+	};
+
+	return Matrix3{data};
+}
+
 void Quaternion::print()
 {
 	cout << "(" << r_ << ", " << i_ << ", " << j_ << ", " << k_ << ")";
