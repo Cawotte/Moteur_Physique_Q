@@ -20,53 +20,104 @@ void Quaternion::normalize()
 
 void Quaternion::operator*=(const Quaternion& q)
 {
-	r_ = r_ * q.r_ - 
-		i_ * q.i_ - 
-		j_ * q.j_ - 
-		k_ * q.k_;
+	*this = *this * q;
+}
 
-	i_ = r_* q.i_ +
+Quaternion Quaternion::operator*(const Quaternion& q)
+{
+	return Quaternion{
+		r_ * q.r_ -
+		i_ * q.i_ -
+		j_ * q.j_ -
+		k_ * q.k_,
+
+		r_ * q.i_ +
 		i_ * q.r_ +
 		j_ * q.k_ -
-		k_ * q.j_;
+		k_ * q.j_,
 
-	j_ = r_ * q.j_ +
+		r_ * q.j_ +
 		j_ * q.r_ +
 		k_ * q.i_ -
-		i_ * q.k_;
+		i_ * q.k_,
 
-	k_ = r_ * q.k_ +
+		r_ * q.k_ +
 		k_ * q.r_ +
 		i_ * q.j_ -
-		j_ * q.i_;
+		j_ * q.i_
+	};
+
+}
+
+Quaternion Quaternion::operator*(const float& f)
+{
+	return Quaternion{
+		r_ * f,
+
+		i_ * f,
+
+		j_ * f,
+
+		k_ * f
+	};
+
 }
 
 void Quaternion::operator+=(const Quaternion& q)
 {
-	r_ += q.r_;
-	i_ += q.i_;
-	k_ += q.j_;
-	k_ += q.k_;
+	*this = *this + q;
+}
+
+Quaternion Quaternion::operator+(const Quaternion& q)
+{
+	return Quaternion{
+		r_ + q.r_,
+		i_ + q.i_,
+		j_ + q.j_,
+		k_ + q.k_,
+	};
 }
 
 void Quaternion::rotate(Vector3D vec)
 {
 	Quaternion q{0, vec.x, vec.y, vec.z };
 
-	*this *= q; // ?
+	*this *= q; //change the value of that object with the result
 }
 
 void Quaternion::updateAngularVelocity(Vector3D vec, float timeElapsed)
 {
-	vec = vec * (timeElapsed / 2.f);
+	//turn the Vector3D into a quaternion
 	Quaternion w{ 0, vec.x, vec.y, vec.z };
-
-	//ugly af
 
 	// O1' = O1 + dT/2f * w1 * O1;
 
-	Quaternion theta = *this;
-	w *= *this;
-	*this += w;
+	Quaternion thetaPrime = *this + (w * (timeElapsed / 2.f)) * *this;
+	*this = thetaPrime;
+	
 
+}
+
+Matrix3 Quaternion::toMatrix3()
+{
+	float data[9] = {
+		1.f - (2 * j_ * j_ + 2 * k_ * k_), 
+		2 * i_ * j_ + 2 * k_ * r_,
+		2 * i_ * k_ - 2 * j_ * r_,
+
+		2 * i_ * j_ - 2 * k_ * r_,
+		1 - (2 * i_ * i_ + 2 * k_ * k_),
+		2 * j_ * k_ + 2 * i_ * r_,
+
+		2 * i_ * k_ + 2 * j_ * r_,
+		2 * j_ * k_ - 2 * i_ * r_,
+		1 -(2 * i_ * i_ + 2 * j_ * j_)
+	};
+
+	return Matrix3{data};
+}
+
+void Quaternion::print()
+{
+	cout << "(" << r_ << ", " << i_ << ", " << j_ << ", " << k_ << ")";
 }
