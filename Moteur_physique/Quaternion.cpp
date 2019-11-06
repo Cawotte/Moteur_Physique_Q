@@ -117,6 +117,28 @@ Matrix3 Quaternion::toMatrix3()
 	return Matrix3{data};
 }
 
+Matrix4 Quaternion::toMatrix4()
+{
+	float data[12] = {
+		1.f - (2 * j_ * j_ + 2 * k_ * k_),
+		2 * i_ * j_ + 2 * k_ * r_,
+		2 * i_ * k_ - 2 * j_ * r_,
+		i_, //New line for Matrix4
+
+		2 * i_ * j_ - 2 * k_ * r_,
+		1 - (2 * i_ * i_ + 2 * k_ * k_),
+		2 * j_ * k_ + 2 * i_ * r_,
+		j_, //New line for Matrix4
+
+		2 * i_ * k_ + 2 * j_ * r_,
+		2 * j_ * k_ - 2 * i_ * r_,
+		1 - (2 * i_ * i_ + 2 * j_ * j_),
+		k_ //New line for Matrix4
+	};
+
+	return Matrix4{ data };
+}
+
 void Quaternion::print()
 {
 	cout << "(" << r_ << ", " << i_ << ", " << j_ << ", " << k_ << ")";

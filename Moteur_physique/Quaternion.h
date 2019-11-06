@@ -4,6 +4,7 @@
 
 #include "Vector3D.h"
 #include "Matrix3.h"
+#include "Matrix4.h"
 
 class Quaternion
 {
@@ -37,8 +38,9 @@ public:
 	//Mets à jour l'orientation du Quaternion en fonction d'une vélocité angulaire et de delta T
 	void updateAngularVelocity(Vector3D vec, float timeElapsed);
 
-	//Convertie le Quaternion en la Matrix3 correspondante.
+	//Convertie le Quaternion en la Matrix3/4 correspondante. (SetOrientation)
 	Matrix3 toMatrix3();
+	Matrix4 toMatrix4();
 
 	void print();
 };
