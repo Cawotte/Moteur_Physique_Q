@@ -46,6 +46,11 @@ public:
 	//Inverse
 	Matrix3 inv();
 
+	//Changement de base
+
+	Matrix3 changeBase(Matrix3 B) {
+		return (B * *this * B.inv());
+	}
 	//Fonction d'affichage pour les tests
 	void display();
 
