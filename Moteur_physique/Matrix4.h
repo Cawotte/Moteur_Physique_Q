@@ -42,6 +42,16 @@ public:
 	//Inverse
 	Matrix4 inv();
 
+	//Transformation du vecteur de direction
+	Vector3D transfoDir(Vector3D dir) {
+		return prodWithVec(dir, false);
+	}
+
+	//Transformation inverse du vecteur de direction
+	Vector3D transfoInvDir(Vector3D dir) {
+		return (inv()).prodWithVec(dir, false);
+	}
+
 	//Fonction d'affichage pour les tests
 	void display();
 };
