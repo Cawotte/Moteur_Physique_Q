@@ -142,14 +142,6 @@ void Game::instructions() {
 	cout << "##############################################" << endl;
 	cout << "# Bienvenue dans le test du moteur physique! #" << endl;
 	cout << "##############################################" << endl << endl;
-	cout << "Les differentes touches sont:" << endl << endl;
-	cout << "Clic gauche pour tirer (il faut rester appuye pour augmenter la puissance)." << endl;
-	cout << "Clic droit pour changer de type de projectile." << endl;
-	cout << "Touche S pour changer la camera (3 cameras sont disponibles)." << endl;
-	cout << "Touche V pour voir dans la piscine." << endl;
-	cout << "Touche O pour faire apparaitre une particule directement dans la piscine." << endl;
-	cout << "Touche D pour supprimer les particules." << endl;
-	cout << "Touche ESCAPE pour quitter le test." << endl;
 }
 
 

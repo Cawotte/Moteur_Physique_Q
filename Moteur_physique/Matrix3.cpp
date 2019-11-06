@@ -1,12 +1,13 @@
 #include "Matrix3.h"
 
+//Constructeur
 Matrix3::Matrix3(float data[9]){
 	for (int i = 0; i < 9; i++) {
 		data_[i] = data[i];
 	}
 }
 
-
+//Destructeur
 Matrix3::~Matrix3()
 {
 }

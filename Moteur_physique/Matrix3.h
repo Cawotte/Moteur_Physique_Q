@@ -23,8 +23,12 @@ class Matrix3
 
 public:
 
+	//Constructeurs
 	Matrix3() {};
 	Matrix3(float data[9]);
+
+	//Destructeur
+	~Matrix3();
 
 	////Surcharges Opérateurs
 	//Somme
@@ -45,7 +49,6 @@ public:
 	//Fonction d'affichage pour les tests
 	void display();
 
-	~Matrix3();
 };
 
 #endif
