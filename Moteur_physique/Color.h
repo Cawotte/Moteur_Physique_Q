@@ -4,6 +4,9 @@
 
 #include "Vector3D.h"
 
+/* Color : permet d'accéder facilement aux couleurs utilitaires.
+Chaque membre, soit chaque couleur, correspond à un Vector3D, soit les composantes RGB de la couleur en question.
+*/
 class Color
 {
 public:

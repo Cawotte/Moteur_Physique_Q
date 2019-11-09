@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
 
 void static testQuaternion() {
 
-	float pi = atan(1) * 4;
+	float pi = (float)(atan(1) * 4.0f);
 
 	//Product
 	Quaternion q{ 0.5f, 0.5f, 0.5f, 0.5f };

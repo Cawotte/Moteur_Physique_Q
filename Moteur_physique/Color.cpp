@@ -1,6 +1,8 @@
 
 #include "Color.h"
 
+//On écrit dans chaque membre le code RGB qui lui correspond.
+
 Vector3D Color::red = Vector3D(1, 0, 0);
 Vector3D Color::green = Vector3D(0, 1, 0);
 Vector3D Color::blue = Vector3D(0, 0, 1);
@@ -18,5 +20,5 @@ Vector3D Color::lightGray = Vector3D(0.75, 0.75, 0.75);
 Vector3D Color::darkGray = Vector3D(0.25, 0.25, 0.25);
 
 
-Vector3D Color::brown = Vector3D(0.7, 0.5, 0);
-Vector3D Color::lightBlue = Vector3D(0.3, 0.8, 1);
+Vector3D Color::brown = Vector3D(0.7f, 0.5f, 0.0f);
+Vector3D Color::lightBlue = Vector3D(0.3f, 0.8f, 1.0f);
