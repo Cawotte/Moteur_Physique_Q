@@ -5,6 +5,10 @@
 
 using namespace std;
 
+//Pour éviter des références circulaires, on les déclare ici.
+class Matrix3;
+class Matrix4;
+
 // Classe permettant de manipuler les vecteurs 3D
 class Vector3D
 {
@@ -17,7 +21,7 @@ public:
 
 	//constructors
 	Vector3D();//vecteur nul
-	Vector3D(float x, float y, float z);//vecteur initialisé avec les valeurs en paramètre
+	Vector3D(float x, float y, float z); //vecteur initialisé avec les valeurs en paramètre
 
 	~Vector3D();
 
@@ -35,6 +39,10 @@ public:
 	Vector3D normalized();//normalise le vecteur
 
 	float distanceWith(Vector3D other);//calcule la distance avec un autre vecteur 3
+
+	//Repères
+	Vector3D fromLocalToWorld(Matrix3 transMatrix);
+	Vector3D fromWorldToLocal(Matrix3 transMatrix);
 
 	//affichage du vecteur pour le debug
 	void display();
