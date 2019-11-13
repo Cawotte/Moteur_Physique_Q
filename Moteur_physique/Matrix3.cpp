@@ -48,6 +48,7 @@ Matrix3 Matrix3::operator*(const Matrix3& b) {
 	return result;
 }
 
+/*
 //Produit avec Vector
 Vector3D Matrix3::operator*(const Vector3D& b) {
 	Vector3D result;
@@ -57,7 +58,7 @@ Vector3D Matrix3::operator*(const Vector3D& b) {
 	result.z = this->data_[6] * b.x + this->data_[7] * b.y + this->data_[8] * b.z;
 	return result;
 }
-
+*/
 
 //Transposee
 Matrix3 Matrix3::transpo() {
@@ -102,7 +103,7 @@ Matrix3 Matrix3::inv() {
 //	d e f
 //	g h i
 void Matrix3::display() {
-	std::cout << this->data_[0] << " " << this->data_[1] << " " << this->data_[2] << endl;
-	std::cout << this->data_[3] << " " << this->data_[4] << " " << this->data_[5] << endl;
-	std::cout << this->data_[6] << " " << this->data_[7] << " " << this->data_[8] << endl;
+	std::cout << this->data_[0] << " " << this->data_[1] << " " << this->data_[2] << std::endl;
+	std::cout << this->data_[3] << " " << this->data_[4] << " " << this->data_[5] << std::endl;
+	std::cout << this->data_[6] << " " << this->data_[7] << " " << this->data_[8] << std::endl;
 }

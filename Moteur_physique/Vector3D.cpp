@@ -84,6 +84,17 @@ float Vector3D::distanceWith(Vector3D other) {
 		pow(this->z - other.z, 2.f)
 		);
 }
+
+//effectue le produit mat * this
+Vector3D Vector3D::multiply(Matrix3 mat) {
+	Vector3D result;
+	//pour chaque coordonnée du vecteur résultat, on additionne les produits des cases adaptées de la matrice et du vecteur multiplicateur
+	result.x = mat.data_[0] * x + mat.data_[1] * y + mat.data_[2] * z;
+	result.y = mat.data_[3] * x + mat.data_[4] * y + mat.data_[5] * z;
+	result.z = mat.data_[6] * x + mat.data_[7] * y + mat.data_[8] * z;
+	return result;
+}
+
 #pragma endregion
 
 //Display

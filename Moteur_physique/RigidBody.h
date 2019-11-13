@@ -1,11 +1,13 @@
-#include "Vector3D.h"
-#include "Quaternion.h"
 #ifndef RIGIDBODY_H
 #define RIGIDBODY_H
 
+#include "Vector3D.h"
+#include "Quaternion.h"
+
 class RigidBody
 {
-private:
+protected:
+
 	float inverseMass_;
 	float linearDamping_;
 	float angularDamping_;
@@ -23,14 +25,10 @@ private:
 	Vector3D forceAccum_;
 	Vector3D torqueAccum_;
 
-
-	void clearAccumulators();
-
 public:
 
 	RigidBody(float mass, Vector3D position, float linearDamping, float angularDamping) :
 		inverseMass_(1 / mass), position_(position), linearDamping_(linearDamping), angularDamping_(angularDamping_) {
-
 	}
 
 	#pragma region Getter
@@ -81,12 +79,13 @@ public:
 		rotation_ = rotation;
 	}
 
-
-
 	#pragma endregion
 
 	//Forces
 	void addForce(Vector3D force);
+
+	//Torques
+	void addTorque(Vector3D torque);
 
 	//Applique F a un point précis de l'objet. (Repère Monde)
 	void addForceAtPoint(Vector3D force, Vector3D point);
@@ -96,6 +95,12 @@ public:
 
 	//Compute the new orientation, velocities and position for the next frame.
 	void integrate(float elapsedTime);
+	
+	//Vide les accumulateurs
+	void clearAccumulators();
+
+	//Calcul transformMatrix et moment d'inertie
+	void calculDonneesDerivees() { };
 };
 
 #endif

@@ -10,8 +10,8 @@ void SpringTorque::updateForce(RigidBody* rb, float t)
 	//Calculer vec p1-p2
 	Vector3D force = p1world - p2world;
 
-
 	//Calculer magnitude force
+	force = force.normalized()  * springCst_ * (force.norm() - restLenght_);
 
 	//Appliquer la force
 	rb->addForceAtPoint(force, p1_);

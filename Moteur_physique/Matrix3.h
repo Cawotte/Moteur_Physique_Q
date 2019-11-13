@@ -10,18 +10,17 @@
 //			- matrice inverse
 //			- changement de base
 // Date de creation : 30/10/2019
-// Derniere modification : 30/10/2019
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#include "Vector3D.h"
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
+class Vector3D;
 
 class Matrix3
 {
-	float data_[9];//tableau de flottants représentant les 9 cases de la matrice 3*3, en lisant ligne par ligne
 
 public:
+
+	float data_[9];//tableau de flottants représentant les 9 cases de la matrice 3*3, en lisant ligne par ligne
 
 	//Constructeurs
 	Matrix3() {};//construit une matrice vide
@@ -38,7 +37,7 @@ public:
 	//Produit Matriciel
 	Matrix3 operator*(const Matrix3& b);//multiplie la matrice par une autre matrice 3*3 et renvoie le résultat
 	//Produit avec Vector
-	Vector3D operator*(const Vector3D& b);//multiplie la matrice par un vecteur 3 et renvoie le résultat
+	//Vector3D operator*(const Vector3D& b);//multiplie la matrice par un vecteur 3 et renvoie le résultat
 
 	//Transposee
 	Matrix3 transpo();//calcule et renvoie la transposée de la matrice

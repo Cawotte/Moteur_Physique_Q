@@ -8,18 +8,11 @@
 #include "Quaternion.h"
 #include <math.h>
 
-void static testQuaternion();
-
 int main(int argc, char** argv) {
 
-	testQuaternion();
-
 	Game jeu;
-	//jeu.execute(argc, argv);
-
-	int val;
-	cin >> val;
-
+	jeu.execute(argc, argv);
+	
 	return 0;
 }
 
@@ -42,9 +35,11 @@ void static testQuaternion() {
 	Vector3D theta{ 0.f, pi, 0.f };
 	q.updateAngularVelocity(theta, 2.f);
 
-
 	cout << "angular velocity:" << endl;
 	q.print();
 	cout << endl << endl;
+
+	int val;
+	cin >> val;
 
 }
