@@ -5,6 +5,7 @@
 #include "Vector3D.h"
 #include "Matrix3.h"
 #include "Matrix4.h"
+#include <cmath>
 
 class Quaternion
 {
@@ -43,6 +44,8 @@ public:
 	//Convertie le Quaternion en la Matrix3/4 correspondante. (SetOrientation)
 	Matrix3 toMatrix3();
 	Matrix4 toMatrix4();
+
+	void toEulerAngles(float& xAngle, float& yAngle, float& zAngle);
 
 	void print();
 };

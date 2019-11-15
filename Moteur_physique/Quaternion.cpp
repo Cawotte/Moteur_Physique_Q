@@ -139,6 +139,15 @@ Matrix4 Quaternion::toMatrix4()
 	return Matrix4{ data };
 }
 
+void Quaternion::toEulerAngles(float& xAngle, float& yAngle, float& zAngle)
+{
+	xAngle = atanf( (2.f * (r_ * i_ + j_ * k_)) / ( 1.f - 2 * (i_ * i_ + j_ * j_)));
+
+	yAngle = asinf(2.f * (r_ * j_ - k_ * i_));
+
+	zAngle = atanf((2.f * (r_ * k_ + i_ * j_)) / (1.f - 2 * (j_ * j_ + k_ * k_)));
+}
+
 void Quaternion::print()
 {
 	cout << "(" << r_ << ", " << i_ << ", " << j_ << ", " << k_ << ")";
