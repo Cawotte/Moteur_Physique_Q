@@ -21,3 +21,7 @@ void Box::calculDonneesDerivees() {
 	inverseInertiaTensor_ = I.inv().changeBase(transformMatrix_);
 
 }
+
+void Box::display() {
+	GlutUtils::drawRectangle(getPosition(), dx_, dy_, dz_, Color::red);
+}

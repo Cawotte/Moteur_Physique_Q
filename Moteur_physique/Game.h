@@ -8,15 +8,27 @@
 #include <time.h>
 
 #include "Vector3D.h"
+#include "RigidBody.h"
+#include "Box.h"
+#include "ForceRegister.h"
+#include "GravityFG.h"
+#include "SpringTorque.h"
 
 // Classe de gestion globale. Dessine la scène, gère les objets, upate la logique et appelle la fonction pour les dessiner
 class Game
 {
 private:
 
+	//Objets
+	list<RigidBody*> bodies_;
+
+	//registre pour les forces
+	ForceRegister register_;
+
+	//Constantes
+	Vector3D g_ = Vector3D(0, 0, -9.8f);
 
 	bool isLeftMouseButtonDown_ = false;
-
 
 	//pour calculer le framerate variable 
 	float elapsedTime;//durée d'une frame : différence entre les deux variables suivantes
@@ -32,8 +44,6 @@ private:
 	Vector3D lookCamera_ = Vector3D(0.f, 100.f, 15.f); //point regardé par la caméra
 
 
-	//efface ou affiche le premier plan dessiné de la piscine, pour voir ce qu'il s'y passe dedans
-	bool seeInWater_ = true;
 
 public:
 
@@ -56,6 +66,27 @@ public:
 
 	//dessine tout ce qu'il faut à l'écran
 	void drawScene();
+
+	//dessine les rigid bodies
+	void drawBodies();
+
+	//permet d'ajouter un RigidBody a la liste des bodies
+	void addBody(RigidBody* rb);
+
+	//permet de retirer un RigidBody a la liste des bodies
+	void deleteBody(RigidBody* rb);
+
+	//permet de supprimer tous les bodies
+	void deleteAllBodies();
+
+	//permet de supprimer tous les éléments
+	void deleteAndClearAll();
+
+	//applique les forces sur les bodies
+	void applyRegister();
+
+	//pplique les mouvements sur les bodies
+	void applyMovements();
 
 	//// fonctions update
 	// global update, appelée à chaque frame pour mettre à jour les entrées, la logique et les sorties

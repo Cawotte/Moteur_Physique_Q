@@ -9,19 +9,24 @@
 
 #include "RigidBody.h"
 #include "Vector3D.h"
+#include "GlutUtils.h"
+#include "Color.h"
 
 class Box : public RigidBody
 {
 private:
+	
+public:
 
 	float dx_;
 	float dy_;
 	float dz_;
 
-public:
 	Box(float mass, Vector3D position, float linearDamping, float angularDamping, float dx, float dy, float dz);
 
 	void calculDonneesDerivees();
+
+	void display();
 
 	~Box();
 };

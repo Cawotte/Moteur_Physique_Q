@@ -1,7 +1,5 @@
 #include "Game.h"
 
-
-
 #pragma region Public Methods 
 
 #pragma region Glut Callbacks
@@ -16,6 +14,7 @@ Game::Game()
 //Gestion de l'appui sur une touche du clavier
 void Game::handleKeypress(unsigned char key, int x, int y)
 {
+	Box * b = NULL;
 	switch (key)
 	{
 	case 's'://touche 's' : change le point de vue de la caméra
@@ -37,10 +36,16 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		}
 		break;
 
-	case 'v'://touche 'v' : permet de voir/cacher l'intérieur de la piscine
-		seeInWater_ = !seeInWater_;
+	case 'b'://touche 'b' : lance une box
+		b = new Box(50.0f, Vector3D(0., 0., 5.), 0.9f, 0.9f, 10., 5., 15.);
+		b->setVelocity(Vector3D(0., 10., 10.));
+		b->setRotation(Vector3D(0., 0., 20.));
+		addBody(b);
 		break;
 
+	case 'd':
+		deleteAndClearAll();
+		break;
 	
 	case 27://touche echap : ferme le programme
 		exit(0);
@@ -96,6 +101,39 @@ void Game::handleMouseClick(int button, int state, int x, int y) {
 	}
 }
 
+//Applique les forces sur les bodies
+void Game::applyRegister() {
+
+	std::list<RigidBody*>::iterator it;
+
+	//Register bodies
+	for (it = bodies_.begin(); it != bodies_.end(); it++)
+	{
+		register_.add(*it, new GravityFG(g_));
+	}
+
+	register_.updateForces(elapsedTime);
+	register_.clear();
+}
+
+//Applique les mouvements sur les bodies
+void Game::applyMovements() {
+
+	std::list<RigidBody*>::iterator it;
+
+	//update physics for each particles
+	for (it = bodies_.begin(); it != bodies_.end(); it++)
+	{
+		//If particle isn't null for some reasons
+		if (*it != NULL) {
+
+			//Compute new positions !
+			(*it)->integrate(elapsedTime);
+
+		}
+	}
+}
+
 //Dessin de tout ce qui est affiché à l'écran
 void Game::drawScene()
 {
@@ -110,6 +148,17 @@ void Game::drawScene()
 	
 
 	glutSwapBuffers();
+}
+
+//Dessine les bodies
+void Game::drawBodies() {
+	std::list<RigidBody*>::iterator it;
+	for (it = bodies_.begin(); it != bodies_.end(); it++)
+	{
+		if (*it != NULL) {
+			(*it)->display();
+		}
+	}
 }
 
 #pragma endregion
@@ -130,6 +179,8 @@ void Game::update(int value)
 
 	//dessine à l'écran
 	drawScene();
+	//dessine les bodies
+	drawBodies();
 
 	glutPostRedisplay();//indique qu'il faut redessiner à la frame suivante
 	glutTimerFunc((unsigned int)elapsedTime * 1000, updateCallback, 0);//gestion de la durée de la frame
@@ -142,8 +193,25 @@ void Game::instructions() {
 	cout << "##############################################" << endl << endl;
 }
 
+void Game::addBody(RigidBody* rb) {
+	bodies_.push_back(rb);
+}
 
+void Game::deleteBody(RigidBody* rb) {
+	bodies_.remove(rb);
+	delete(rb);
+}
 
+void Game::deleteAllBodies() {
+	while (!bodies_.empty()) {
+		deleteBody(bodies_.front());
+	}
+}
+
+void Game::deleteAndClearAll() {
+	deleteAllBodies();
+	register_.clear();
+}
 
 //démarrage du jeu : paramétrage de glut pour le bon fonctionnement du moteur - on a suivi ce qu'on a trouvé dans les exemples sur internet
 void Game::execute(int argc, char** argv)
