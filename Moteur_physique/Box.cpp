@@ -23,5 +23,5 @@ void Box::calculDonneesDerivees() {
 }
 
 void Box::display() {
-	GlutUtils::drawRectangle(getPosition(), dx_, dy_, dz_, Color::red);
+	GlutUtils::drawRectangle(getPosition(), getOrientation(), dx_, dy_, dz_, Color::blue);
 }

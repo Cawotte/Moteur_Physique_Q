@@ -48,8 +48,8 @@ void RigidBody::integrate(float elapsedTime)
 	rotation_ = rotation_ * std::powf(angularDamping_, elapsedTime) + angularAcc * elapsedTime;
 
 	// 5 - Ajouter le drag aux deux vélocités (à améliorer avec k1 * vit + k2 * vit ** 2)
-	velocity_ = velocity_ * 0.9f;
-	rotation_ = rotation_ * 0.9f;
+	//velocity_ = velocity_ * 0.9f;
+	//rotation_ = rotation_ * 0.9f;
 
 	// 6 - Mettre à jour la position
 	position_ = position_ + velocity_ * elapsedTime;
@@ -63,4 +63,6 @@ void RigidBody::integrate(float elapsedTime)
 	// 9 - Clear Accumulators
 	clearAccumulators();
 
+	// Affichage de la nouvelle position pour debug
+	getPosition().display();
 }

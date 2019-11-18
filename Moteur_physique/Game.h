@@ -20,7 +20,7 @@ class Game
 private:
 
 	//Objets
-	list<RigidBody*> bodies_;
+	list<Box*> bodies_;
 
 	//registre pour les forces
 	ForceRegister register_;
@@ -71,10 +71,10 @@ public:
 	void drawBodies();
 
 	//permet d'ajouter un RigidBody a la liste des bodies
-	void addBody(RigidBody* rb);
+	void addBody(Box* rb);
 
 	//permet de retirer un RigidBody a la liste des bodies
-	void deleteBody(RigidBody* rb);
+	void deleteBody(Box* rb);
 
 	//permet de supprimer tous les bodies
 	void deleteAllBodies();
@@ -83,10 +83,10 @@ public:
 	void deleteAndClearAll();
 
 	//applique les forces sur les bodies
-	void applyRegister();
+	void applyRegister(float time);
 
 	//pplique les mouvements sur les bodies
-	void applyMovements();
+	void applyMovements(float time);
 
 	//// fonctions update
 	// global update, appelée à chaque frame pour mettre à jour les entrées, la logique et les sorties

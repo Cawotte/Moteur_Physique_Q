@@ -148,6 +148,13 @@ void Quaternion::toEulerAngles(float& xAngle, float& yAngle, float& zAngle)
 	zAngle = atanf((2.f * (r_ * k_ + i_ * j_)) / (1.f - 2 * (j_ * j_ + k_ * k_)));
 }
 
+void Quaternion::toAngleAndAxes(float& normAngle, Vector3D& n) {
+	normAngle = 2 * acos(r_);
+	n.x = i_ / sin(normAngle / 2);
+	n.y = j_ / sin(normAngle / 2);
+	n.z = k_ / sin(normAngle / 2);
+}
+
 void Quaternion::print()
 {
 	cout << "(" << r_ << ", " << i_ << ", " << j_ << ", " << k_ << ")";

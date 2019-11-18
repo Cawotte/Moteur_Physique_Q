@@ -5,7 +5,7 @@
 #pragma region Glut Callbacks
 
 
-//Constructeur. Appelé au démarrage. Indique que le temps de la frame précédente (qui n'existe en réalité pas) est de 0
+//Constructeur. Appelé au démarrage. Indique que le temps de la frame précédente (qui n'existe pas en réalité) est de 0
 Game::Game()
 {
 	elapsedTime = 0.f;
@@ -37,9 +37,9 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		break;
 
 	case 'b'://touche 'b' : lance une box
-		b = new Box(50.0f, Vector3D(0., 0., 5.), 0.9f, 0.9f, 10., 5., 15.);
-		b->setVelocity(Vector3D(0., 10., 10.));
-		b->setRotation(Vector3D(0., 0., 20.));
+		b = new Box(100.0f, Vector3D(0.f, 0.f, 5.f), 0.9f, 0.9f, 10.f, 5.f, 15.f);
+		b->setVelocity(Vector3D(0.f, 100.f, 100.f));
+		b->setRotation(Vector3D(0.f, 20.f, 20.f));
 		addBody(b);
 		break;
 
@@ -102,9 +102,9 @@ void Game::handleMouseClick(int button, int state, int x, int y) {
 }
 
 //Applique les forces sur les bodies
-void Game::applyRegister() {
+void Game::applyRegister(float time) {
 
-	std::list<RigidBody*>::iterator it;
+	std::list<Box*>::iterator it;
 
 	//Register bodies
 	for (it = bodies_.begin(); it != bodies_.end(); it++)
@@ -112,14 +112,14 @@ void Game::applyRegister() {
 		register_.add(*it, new GravityFG(g_));
 	}
 
-	register_.updateForces(elapsedTime);
+	register_.updateForces(time);
 	register_.clear();
 }
 
 //Applique les mouvements sur les bodies
-void Game::applyMovements() {
+void Game::applyMovements(float time) {
 
-	std::list<RigidBody*>::iterator it;
+	std::list<Box*>::iterator it;
 
 	//update physics for each particles
 	for (it = bodies_.begin(); it != bodies_.end(); it++)
@@ -128,8 +128,19 @@ void Game::applyMovements() {
 		if (*it != NULL) {
 
 			//Compute new positions !
-			(*it)->integrate(elapsedTime);
+			(*it)->integrate(time);
 
+		}
+	}
+}
+
+//Dessine les bodies
+void Game::drawBodies() {
+	std::list<Box*>::iterator it;
+	for (it = bodies_.begin(); it != bodies_.end(); it++)
+	{
+		if (*it != NULL) {
+			(*it)->display();
 		}
 	}
 }
@@ -145,20 +156,11 @@ void Game::drawScene()
 	gluLookAt(posCamera_.x, posCamera_.y, posCamera_.z, 
 		lookCamera_.x, lookCamera_.y, lookCamera_.z, 
 		0, 0, 1);//réglage de la caméra
-	
+
+	//dessine les bodies
+	drawBodies();
 
 	glutSwapBuffers();
-}
-
-//Dessine les bodies
-void Game::drawBodies() {
-	std::list<RigidBody*>::iterator it;
-	for (it = bodies_.begin(); it != bodies_.end(); it++)
-	{
-		if (*it != NULL) {
-			(*it)->display();
-		}
-	}
 }
 
 #pragma endregion
@@ -171,6 +173,8 @@ void Game::update(int value)
 	stopTime = clock();
 	elapsedTime = ((float)(stopTime - startTime)) / (CLOCKS_PER_SEC);
 
+	applyRegister(elapsedTime);
+	applyMovements(elapsedTime);
 
 	//Charge le tir si le clic est enclenché
 	if (isLeftMouseButtonDown_) {
@@ -179,8 +183,6 @@ void Game::update(int value)
 
 	//dessine à l'écran
 	drawScene();
-	//dessine les bodies
-	drawBodies();
 
 	glutPostRedisplay();//indique qu'il faut redessiner à la frame suivante
 	glutTimerFunc((unsigned int)elapsedTime * 1000, updateCallback, 0);//gestion de la durée de la frame
@@ -191,13 +193,15 @@ void Game::instructions() {
 	cout << "##############################################" << endl;
 	cout << "# Bienvenue dans le test du moteur physique! #" << endl;
 	cout << "##############################################" << endl << endl;
+	cout << "La touche B sert a lancer une boite." << endl;
+	cout << "La touche D sert a supprimer les objets ajoutes par l'utilisateur." << endl;
 }
 
-void Game::addBody(RigidBody* rb) {
+void Game::addBody(Box* rb) {
 	bodies_.push_back(rb);
 }
 
-void Game::deleteBody(RigidBody* rb) {
+void Game::deleteBody(Box* rb) {
 	bodies_.remove(rb);
 	delete(rb);
 }
