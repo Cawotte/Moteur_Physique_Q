@@ -37,9 +37,9 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		break;
 
 	case 'b'://touche 'b' : lance une box
-		b = new Box(100.0f, Vector3D(0.f, 0.f, 5.f), 0.9f, 0.9f, 10.f, 5.f, 15.f);
-		b->setVelocity(Vector3D(0.f, 100.f, 100.f));
-		b->setRotation(Vector3D(0.f, 20.f, 20.f));
+		b = new Box(100.0f, Vector3D(0.f, 0.f, 5.f), 0.99f, 0.99f, 10.f, 5.f, 15.f);
+		b->setVelocity(Vector3D(0.f, 50.f, 20.f));
+		b->setRotation(Vector3D(0.f, 0.f, 10.f));
 		addBody(b);
 		break;
 
@@ -193,6 +193,7 @@ void Game::instructions() {
 	cout << "##############################################" << endl;
 	cout << "# Bienvenue dans le test du moteur physique! #" << endl;
 	cout << "##############################################" << endl << endl;
+	cout << "La touche S sert a changer la camera." << endl;
 	cout << "La touche B sert a lancer une boite." << endl;
 	cout << "La touche D sert a supprimer les objets ajoutes par l'utilisateur." << endl;
 }

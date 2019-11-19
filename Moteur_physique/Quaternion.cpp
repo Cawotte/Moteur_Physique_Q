@@ -157,5 +157,5 @@ void Quaternion::toAngleAndAxes(float& normAngle, Vector3D& n) {
 
 void Quaternion::print()
 {
-	cout << "(" << r_ << ", " << i_ << ", " << j_ << ", " << k_ << ")";
+	cout << "(" << r_ << ", " << i_ << ", " << j_ << ", " << k_ << ")" << endl;
 }

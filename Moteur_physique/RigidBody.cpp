@@ -64,5 +64,5 @@ void RigidBody::integrate(float elapsedTime)
 	clearAccumulators();
 
 	// Affichage de la nouvelle position pour debug
-	getPosition().display();
+	//getPosition().display();
 }
