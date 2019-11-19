@@ -27,9 +27,8 @@ protected:
 
 public:
 
-	RigidBody(float mass, Vector3D position, float linearDamping, float angularDamping) :
-		inverseMass_(1 / mass), position_(position), linearDamping_(linearDamping), angularDamping_(angularDamping) {
-		orientation_ = Quaternion(0., 0., 0., 1.);
+	RigidBody(float mass, Vector3D position, Quaternion orientation, float linearDamping, float angularDamping) :
+		inverseMass_(1 / mass), position_(position), orientation_(orientation), linearDamping_(linearDamping), angularDamping_(angularDamping) {
 	}
 
 	#pragma region Getter

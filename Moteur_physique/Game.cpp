@@ -37,9 +37,9 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		break;
 
 	case 'b'://touche 'b' : lance une box
-		b = new Box(100.0f, Vector3D(0.f, 0.f, 5.f), 0.99f, 0.99f, 10.f, 5.f, 15.f);
+		b = new Box(100.0f, Vector3D(0.f, 0.f, 5.f), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 10.f, 5.f, 15.f);
 		b->setVelocity(Vector3D(0.f, 50.f, 20.f));
-		b->setRotation(Vector3D(0.f, 0.f, 10.f));
+		b->setRotation(Vector3D(10.f, 10.f, 10.f));
 		addBody(b);
 		break;
 

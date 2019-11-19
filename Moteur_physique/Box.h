@@ -22,7 +22,7 @@ public:
 	float dy_;
 	float dz_;
 
-	Box(float mass, Vector3D position, float linearDamping, float angularDamping, float dx, float dy, float dz);
+	Box(float mass, Vector3D position, Quaternion orientation, float linearDamping, float angularDamping, float dx, float dy, float dz);
 
 	void calculDonneesDerivees();
 

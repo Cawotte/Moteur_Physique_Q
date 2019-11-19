@@ -1,7 +1,7 @@
 #include "Box.h"
 
-Box::Box(float mass, Vector3D position, float linearDamping, float angularDamping, float dx, float dy, float dz)
-	:RigidBody(mass, position, linearDamping, angularDamping), dx_(dx), dy_(dy), dz_(dz)
+Box::Box(float mass, Vector3D position, Quaternion orientation, float linearDamping, float angularDamping, float dx, float dy, float dz)
+	:RigidBody(mass, position, orientation, linearDamping, angularDamping), dx_(dx), dy_(dy), dz_(dz)
 {
 }
 
