@@ -39,9 +39,9 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		break;
 
 	case 'b'://touche 'b' : lance une box
-		b = new Box(100.0f, Vector3D(0.f, 0.f, 5.f), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 10.f, 5.f, 15.f);
+		b = new Box(100.0f, Vector3D(0.f, 0.f, 5.f), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 5.f, 20.f, 5.f);
 		b->setVelocity(Vector3D(0.f, 50.f, 20.f));
-		b->setRotation(Vector3D(10.f, 10.f, 10.f));
+		b->setRotation(Vector3D(3.f, 0.f, 0.f));
 		addBody(b);
 		break;
 
@@ -49,7 +49,7 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		v1 = new Box(100.0f, Vector3D(0.f, 0.f, 5.f), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 5.f, 20.f, 5.f);
 		v1->setVelocity(Vector3D(0.f, 20.f, 0.f));
 		v1->setColor(Color::red);
-		v2 = new Box(100.0f, Vector3D(60.f, 60.f, 5.f), Quaternion(0., 0., 0., 1.f), 0.99f, 0.99f, 5.f, 20.f, 5.f);
+		v2 = new Box(100.0f, Vector3D(60.f, 60.f, 5.f), Quaternion(0.71f, 0., 0., 0.71f), 0.99f, 0.99f, 5.f, 20.f, 5.f);
 		v2->setVelocity(Vector3D(-20.f, 0.f, 0.f));
 		v2->setColor(Color::green);
 		bodies2_.push_back(v1);
@@ -167,8 +167,18 @@ void Game::applyCollisions(float time)
 		Box* v1 = *it++;
 		Box* v2 = *it;
 		Vector3D pos1 = v1->getPosition();
-		if (pos1.y > 49.95f && pos1.y < 50.05f) {
-			v1->addForceAtPoint(v2->getVelocity() * time, Vector3D(2.5f, 10.f, 0.f));
+		if (pos1.y > 49.995f && pos1.y < 50.005f) {
+			cout << "COLLISION!!" << endl;
+
+			Vector3D pointImpact(2.5f, 60.f, 5.f);
+
+			//v1->addForceAtPoint(v2->getVelocity() * time, pointImpact);
+						
+			//Changement de la vitesse
+			v1->setVelocity(v1->getVelocity() + v2->getVelocity());
+			//Changement de la rotation
+			v1->setRotation(v1->getRotation() + (v1->getVelocity().crossProd(v2->getVelocity()).normalized()) * (pointImpact - v1->getPosition()).norm());
+			
 		}
 	}
 }

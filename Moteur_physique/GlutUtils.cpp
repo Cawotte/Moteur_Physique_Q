@@ -48,6 +48,7 @@ void GlutUtils::drawRectangle(Vector3D pos, Quaternion orientation, float width,
 	glTranslatef(pos.x, pos.y, pos.z);//positionnement au centre de l'objet
 	glRotatef(angle, n.x, n.y, n.z);//rotation du repère
 	*/
+
 	float xAngle;
 	float yAngle;
 	float zAngle;
@@ -58,9 +59,9 @@ void GlutUtils::drawRectangle(Vector3D pos, Quaternion orientation, float width,
 	glColor3f(color.x, color.y, color.z);//réglage couleur
 	glTranslatef(pos.x, pos.y, pos.z);//positionnement au centre de l'objet
 
-	glRotatef(xAngle, 1.f, 0., 0.);//rotation du repère autour de l'axe x
-	glRotatef(yAngle, 0., 1.f, 0.);//rotation du repère autour de l'axe y
-	glRotatef(zAngle, 0., 0., 1.f);//rotation du repère autour de l'axe z
+	glRotatef(xAngle * 180.f / 3.1416f, 1.f, 0., 0.);//rotation du repère autour de l'axe x
+	glRotatef(yAngle * 180.f / 3.1416f, 0., 1.f, 0.);//rotation du repère autour de l'axe y
+	glRotatef(zAngle * 180.f / 3.1416f, 0., 0., 1.f);//rotation du repère autour de l'axe z
 
 	glBegin(GL_QUADS);//macro openGL pour dessiner des quadrilatères, que l'on va utiliser 6 fois autour du centre
 	//dessin du "haut"
