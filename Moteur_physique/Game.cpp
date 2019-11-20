@@ -263,7 +263,7 @@ void Game::instructions() {
 	cout << "# Bienvenue dans le test du moteur physique! #" << endl;
 	cout << "##############################################" << endl << endl;
 	cout << "La touche S sert a changer la camera." << endl;
-	cout << "La touche B sert a lancer une boite." << endl;
+	cout << "La touche B sert a lancer une boite (l'axe change a chaque fois)." << endl;
 	cout << "La touche V sert a lancer le test de la collision entre les deux boites." << endl;
 	cout << "La touche D sert a supprimer les objets ajoutes par l'utilisateur." << endl;
 }
