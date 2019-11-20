@@ -24,6 +24,9 @@ private:
 	list<Box*> bodies_;//liste de base utilisée pour stocker les bodies
 	list<Box*> bodies2_;//pour faire le test de la collision sans appliquer la gravité (à supprimer avec l'ajout du système de collisions)
 
+	//int pour les 3 types de rotation pour le premier test
+	int typeRotation_ = 0;
+
 	//registre pour les forces
 	ForceRegister register_;
 

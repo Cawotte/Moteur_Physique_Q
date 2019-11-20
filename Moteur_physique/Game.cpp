@@ -41,7 +41,18 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 	case 'b'://touche 'b' : lance une box
 		b = new Box(100.0f, Vector3D(0.f, 0.f, 5.f), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 5.f, 20.f, 5.f);
 		b->setVelocity(Vector3D(0.f, 50.f, 20.f));
-		b->setRotation(Vector3D(3.f, 0.f, 0.f));
+		if (typeRotation_ == 0) {
+			b->setRotation(Vector3D(3.f, 0.f, 0.f));
+		}else if (typeRotation_ == 1) {
+			b->setRotation(Vector3D(0.f, 3.f, 0.f));
+			b->setColor(Color::orange);
+		}
+		else if (typeRotation_ == 2) {
+			b->setRotation(Vector3D(0.f, 0.f, 3.f));
+			b->setColor(Color::purple);
+		}
+		typeRotation_ += 1;
+		typeRotation_ %= 3;
 		addBody(b);
 		break;
 
