@@ -5,6 +5,7 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <list>
+#include <vector>
 #include <time.h>
 
 #include "Vector3D.h"
@@ -20,7 +21,8 @@ class Game
 private:
 
 	//Objets
-	list<Box*> bodies_;
+	list<Box*> bodies_;//liste de base utilisée pour stocker les bodies
+	list<Box*> bodies2_;//pour faire le test de la collision sans appliquer la gravité (à supprimer avec l'ajout du système de collisions)
 
 	//registre pour les forces
 	ForceRegister register_;
@@ -85,8 +87,11 @@ public:
 	//applique les forces sur les bodies
 	void applyRegister(float time);
 
-	//pplique les mouvements sur les bodies
+	//applique les mouvements sur les bodies
 	void applyMovements(float time);
+
+	//applique les collisons sur les bodies
+	void applyCollisions(float time);
 
 	//// fonctions update
 	// global update, appelée à chaque frame pour mettre à jour les entrées, la logique et les sorties

@@ -15,6 +15,8 @@ Game::Game()
 void Game::handleKeypress(unsigned char key, int x, int y)
 {
 	Box * b = NULL;
+	Box * v1 = NULL;
+	Box * v2 = NULL;
 	switch (key)
 	{
 	case 's'://touche 's' : change le point de vue de la caméra
@@ -41,6 +43,17 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		b->setVelocity(Vector3D(0.f, 50.f, 20.f));
 		b->setRotation(Vector3D(10.f, 10.f, 10.f));
 		addBody(b);
+		break;
+
+	case 'v'://touche 'v' : lance le test des collisions (à supprimer avec l'ajout du système de collisions)
+		v1 = new Box(100.0f, Vector3D(0.f, 0.f, 5.f), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 5.f, 20.f, 5.f);
+		v1->setVelocity(Vector3D(0.f, 20.f, 0.f));
+		v1->setColor(Color::red);
+		v2 = new Box(100.0f, Vector3D(60.f, 60.f, 5.f), Quaternion(0., 0., 0., 1.f), 0.99f, 0.99f, 5.f, 20.f, 5.f);
+		v2->setVelocity(Vector3D(-20.f, 0.f, 0.f));
+		v2->setColor(Color::green);
+		bodies2_.push_back(v1);
+		bodies2_.push_back(v2);
 		break;
 
 	case 'd':
@@ -132,12 +145,46 @@ void Game::applyMovements(float time) {
 
 		}
 	}
+
+	//uptade physics for bodies2_ (à supprimer avec l'ajout du système de collisions)
+	for (it = bodies2_.begin(); it != bodies2_.end(); it++)
+	{
+		//If particle isn't null for some reasons
+		if (*it != NULL) {
+
+			//Compute new positions !
+			(*it)->integrate(time);
+
+		}
+	}
+}
+
+//Applique les collisions sur les bodies (à modifier avec l'ajout du système de collisions)
+void Game::applyCollisions(float time)
+{
+	if (!bodies2_.empty()) {
+		std::list<Box*>::iterator it = bodies2_.begin();
+		Box* v1 = *it++;
+		Box* v2 = *it;
+		Vector3D pos1 = v1->getPosition();
+		if (pos1.y > 49.95f && pos1.y < 50.05f) {
+			v1->addForceAtPoint(v2->getVelocity() * time, Vector3D(2.5f, 10.f, 0.f));
+		}
+	}
 }
 
 //Dessine les bodies
 void Game::drawBodies() {
 	std::list<Box*>::iterator it;
 	for (it = bodies_.begin(); it != bodies_.end(); it++)
+	{
+		if (*it != NULL) {
+			(*it)->display();
+		}
+	}
+
+	//(à supprimer avec l'ajout du système de collisions)
+	for (it = bodies2_.begin(); it != bodies2_.end(); it++)
 	{
 		if (*it != NULL) {
 			(*it)->display();
@@ -175,6 +222,7 @@ void Game::update(int value)
 
 	applyRegister(elapsedTime);
 	applyMovements(elapsedTime);
+	applyCollisions(elapsedTime);
 
 	//Charge le tir si le clic est enclenché
 	if (isLeftMouseButtonDown_) {
@@ -195,6 +243,7 @@ void Game::instructions() {
 	cout << "##############################################" << endl << endl;
 	cout << "La touche S sert a changer la camera." << endl;
 	cout << "La touche B sert a lancer une boite." << endl;
+	cout << "La touche V sert a lancer le test de la collision entre les deux boites." << endl;
 	cout << "La touche D sert a supprimer les objets ajoutes par l'utilisateur." << endl;
 }
 
@@ -210,6 +259,12 @@ void Game::deleteBody(Box* rb) {
 void Game::deleteAllBodies() {
 	while (!bodies_.empty()) {
 		deleteBody(bodies_.front());
+	}
+	//(à supprimer avec l'ajout du système de collisions)
+	while (!bodies2_.empty()) {
+		Box* rb = bodies2_.front();
+		bodies2_.remove(rb);
+		delete(rb);
 	}
 }
 
