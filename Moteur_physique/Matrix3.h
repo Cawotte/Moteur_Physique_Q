@@ -49,6 +49,9 @@ public:
 	Matrix3 changeBase(Matrix3 B) {
 		return (B * *this * B.inv());
 	}
+	
+	//Retourne une matrice 4 par 4 avec pour derniere colonne et dernière ligne 0 0 0 1
+	float* toMat44();
 
 	//Fonction d'affichage pour les tests
 	void display();

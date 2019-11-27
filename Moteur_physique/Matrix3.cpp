@@ -1,4 +1,5 @@
 #include "Matrix3.h"
+#pragma warning (disable:4172)
 
 //Constructeur : copie le tableau passé en paramètre dans celui membre de la classe
 Matrix3::Matrix3(float data[9]){
@@ -95,6 +96,28 @@ Matrix3 Matrix3::inv() {
 		result = result * (1 / det);
 	}
 	return result;
+}
+
+//Retourne une matrice 4 par 4 avec pour derniere colonne et dernière ligne 0 0 0 1
+float* Matrix3::toMat44() {
+	float mat[16];
+	mat[0] = this->data_[0];
+	mat[1] = this->data_[1];
+	mat[2] = this->data_[2];
+	mat[3] = 0;
+	mat[4] = this->data_[3];
+	mat[5] = this->data_[4];
+	mat[6] = this->data_[5];
+	mat[7] = 0;
+	mat[8] = this->data_[6];
+	mat[9] = this->data_[7];
+	mat[10] = this->data_[8];
+	mat[11] = 0;
+	mat[12] = 0;
+	mat[13] = 0;
+	mat[14] = 0;
+	mat[15] = 1;
+	return mat;
 }
 
 //Display
