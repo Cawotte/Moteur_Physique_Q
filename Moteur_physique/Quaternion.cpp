@@ -93,6 +93,7 @@ void Quaternion::updateAngularVelocity(Vector3D vec, float timeElapsed)
 	// O1' = O1 + dT/2f * w1 * O1;
 
 	Quaternion thetaPrime = *this + (w * (timeElapsed / 2.f)) * *this;
+	thetaPrime.normalize();
 	*this = thetaPrime;
 	
 
