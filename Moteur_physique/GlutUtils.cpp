@@ -37,18 +37,6 @@ void GlutUtils::drawSphere(Vector3D pos, float radius, Vector3D color)
 //Dessine un parallélépipède rectangle
 void GlutUtils::drawRectangle(Vector3D pos, Quaternion orientation, float width, float height, float depth, Vector3D color)
 {
-	/*
-	float angle;
-	Vector3D n;
-	orientation.toAngleAndAxes(angle, n);
-
-	glPushMatrix();
-
-	glColor3f(color.x, color.y, color.z);//réglage couleur
-	glTranslatef(pos.x, pos.y, pos.z);//positionnement au centre de l'objet
-	glRotatef(angle, n.x, n.y, n.z);//rotation du repère
-	*/
-
 	float xAngle;
 	float yAngle;
 	float zAngle;

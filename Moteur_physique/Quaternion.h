@@ -47,8 +47,6 @@ public:
 
 	void toEulerAngles(float& xAngle, float& yAngle, float& zAngle);
 
-	void toAngleAndAxes(float& normAngle, Vector3D& n);
-
 	void print();
 };
 
