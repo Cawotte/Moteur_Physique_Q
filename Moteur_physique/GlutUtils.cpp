@@ -46,35 +46,35 @@ void GlutUtils::drawRectangle(Vector3D pos, Quaternion orientation, float width,
 
 	glBegin(GL_QUADS);//macro openGL pour dessiner des quadrilatères, que l'on va utiliser 6 fois autour du centre
 	//dessin du "haut"
-	glVertex3f(-width / 2, -height / 2, depth / 2);
-	glVertex3f(-width / 2, height / 2, depth / 2);
-	glVertex3f(width / 2, height / 2, depth / 2);
-	glVertex3f(width / 2, -height / 2, depth / 2);
+	glVertex3f(-width, -height, depth);
+	glVertex3f(-width, height, depth);
+	glVertex3f(width, height, depth);
+	glVertex3f(width, -height, depth);
 	//dessin du "bas"
-	glVertex3f(-width / 2, -height / 2, -depth / 2);
-	glVertex3f(-width / 2, height / 2, -depth / 2);
-	glVertex3f(width / 2, height / 2, -depth / 2);
-	glVertex3f(width / 2, -height / 2, -depth / 2);
+	glVertex3f(-width, -height, -depth);
+	glVertex3f(-width, height, -depth);
+	glVertex3f(width, height, -depth);
+	glVertex3f(width, -height, -depth);
 	//dessin de la face "droite"
-	glVertex3f(-width / 2, -height / 2, depth / 2);
-	glVertex3f(-width / 2, height / 2, depth / 2);
-	glVertex3f(-width / 2, height / 2, -depth / 2);
-	glVertex3f(-width / 2, -height / 2, -depth / 2);
+	glVertex3f(-width, -height, depth);
+	glVertex3f(-width, height, depth);
+	glVertex3f(-width, height, -depth);
+	glVertex3f(-width, -height, -depth);
 	//dessin de "l'arrière"
-	glVertex3f(width / 2, height / 2, depth / 2);
-	glVertex3f(-width / 2, height / 2, depth / 2);
-	glVertex3f(-width / 2, height / 2, -depth / 2);
-	glVertex3f(width / 2, height / 2, -depth / 2);
+	glVertex3f(width, height, depth);
+	glVertex3f(-width, height, depth);
+	glVertex3f(-width, height, -depth);
+	glVertex3f(width, height, -depth);
 	//dessin de la face "gauche"
-	glVertex3f(-width / 2, -height / 2, depth / 2);
-	glVertex3f(width / 2, -height / 2, depth / 2);
-	glVertex3f(width / 2, -height / 2, -depth / 2);
-	glVertex3f(-width / 2, -height / 2, -depth / 2);
+	glVertex3f(-width, -height, depth);
+	glVertex3f(width, -height, depth);
+	glVertex3f(width, -height, -depth);
+	glVertex3f(-width, -height, -depth);
 	//dessin de "l'avant"
-	glVertex3f(width / 2, height / 2, depth / 2);
-	glVertex3f(width / 2, -height / 2, depth / 2);
-	glVertex3f(width / 2, -height / 2, -depth / 2);
-	glVertex3f(width / 2, height / 2, -depth / 2);
+	glVertex3f(width, height, depth);
+	glVertex3f(width, -height, depth);
+	glVertex3f(width, -height, -depth);
+	glVertex3f(width, height, -depth);
 
 	glEnd();
 
@@ -89,25 +89,25 @@ void GlutUtils::drawHollowRectangle(Vector3D pos, float width, float height, flo
 
 	glBegin(GL_QUADS);//macro openGL pour dessiner des quadrilatères, que l'on va utiliser 4 fois autour du centre
 	//dessin du "bas"
-	glVertex3f(-width / 2, -height / 2, -depth / 2);
-	glVertex3f(-width / 2, height / 2, -depth / 2);
-	glVertex3f(width / 2, height / 2, -depth / 2);
-	glVertex3f(width / 2, -height / 2, -depth / 2);
+	glVertex3f(-width, -height, -depth);
+	glVertex3f(-width, height, -depth);
+	glVertex3f(width, height, -depth);
+	glVertex3f(width, -height, -depth);
 	//dessin de la face "droite"
-	glVertex3f(-width / 2, -height / 2, depth / 2);
-	glVertex3f(-width / 2, height / 2, depth / 2);
-	glVertex3f(-width / 2, height / 2, -depth / 2);
-	glVertex3f(-width / 2, -height / 2, -depth / 2);
+	glVertex3f(-width, -height, depth);
+	glVertex3f(-width, height, depth);
+	glVertex3f(-width, height, -depth);
+	glVertex3f(-width, -height, -depth);
 	//dessin de "l'arrière"
-	glVertex3f(width / 2, height / 2, depth / 2);
-	glVertex3f(-width / 2, height / 2, depth / 2);
-	glVertex3f(-width / 2, height / 2, -depth / 2);
-	glVertex3f(width / 2, height / 2, -depth / 2);
+	glVertex3f(width, height, depth);
+	glVertex3f(-width, height, depth);
+	glVertex3f(-width, height, -depth);
+	glVertex3f(width, height, -depth);
 	//dessin de la face "gauche"
-	glVertex3f(-width / 2, -height / 2, depth / 2);
-	glVertex3f(width / 2, -height / 2, depth / 2);
-	glVertex3f(width / 2, -height / 2, -depth / 2);
-	glVertex3f(-width / 2, -height / 2, -depth / 2);
+	glVertex3f(-width, -height, depth);
+	glVertex3f(width, -height, depth);
+	glVertex3f(width, -height, -depth);
+	glVertex3f(-width, -height, -depth);
 
 	glEnd();
 
