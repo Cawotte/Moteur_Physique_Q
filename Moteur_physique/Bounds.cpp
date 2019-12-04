@@ -12,7 +12,7 @@ Bounds::Bounds(float xmin, float xmax, float ymin, float ymax, float zmin, float
 	zmax_ = zmax;
 	width_ = xmax_ - xmin_;
 	height_ = ymax_ - ymin_;
-	deepth_ = zmax_ - zmin_;
+	depth_ = zmax_ - zmin_;
 }
 
 Bounds::Bounds()
@@ -25,7 +25,7 @@ Bounds::Bounds()
 	zmax_ = 0;
 	width_ = xmax_ - xmin_;
 	height_ = ymax_ - ymin_;
-	deepth_ = zmax_ - zmin_;
+	depth_ = zmax_ - zmin_;
 }
 
 
