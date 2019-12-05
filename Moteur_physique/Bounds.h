@@ -1,4 +1,5 @@
-#pragma once
+#ifndef BOUNDS_H
+#define BOUNDS_H
 class Bounds
 {
 public:
@@ -12,6 +13,8 @@ public:
 	double width_;
 	double depth_;
 	Bounds(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax);
+	Bounds();
 	~Bounds();
 };
 
+#endif
