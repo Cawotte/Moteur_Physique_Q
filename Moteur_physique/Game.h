@@ -14,6 +14,8 @@
 #include "ForceRegister.h"
 #include "GravityFG.h"
 #include "SpringTorque.h"
+#include "Octree.h"
+#include "Primitive.h"
 
 // Classe de gestion globale. Dessine la scène, gère les objets, upate la logique et appelle la fonction pour les dessiner
 class Game
@@ -26,6 +28,10 @@ private:
 
 	//int pour les 3 types de rotation pour le premier test
 	int typeRotation_ = 0;
+
+	Octree tree_ = Octree(0,Bounds(-1,40,-1,40,-1,40));//arbre servant à la broad phase pour les collisions
+	list<Primitive*> primitives_;//liste des primitives des objets étant sur scène
+	vector<pair<Primitive*, Primitive*>> paires_;//liste des paires de primitives à tester pour la collision, issue de la broad phase
 
 	//registre pour les forces
 	ForceRegister register_;

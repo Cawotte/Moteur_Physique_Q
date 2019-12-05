@@ -8,6 +8,7 @@
 //Constructeur. Appelé au démarrage. Indique que le temps de la frame précédente (qui n'existe pas en réalité) est de 0
 Game::Game()
 {
+	srand(unsigned int(time(NULL)));
 	elapsedTime = 0.f;
 }
 
@@ -17,6 +18,10 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 	Box * b = NULL;
 	Box * v1 = NULL;
 	Box * v2 = NULL;
+	std::list<Primitive*>::iterator it;
+	int xxx ;
+	int yyy;
+	int zzz ;
 	switch (key)
 	{
 	case 's'://touche 's' : change le point de vue de la caméra
@@ -54,6 +59,44 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		typeRotation_ += 1;
 		typeRotation_ %= 3;
 		addBody(b);
+		break;
+
+	case 't'://touche 't' : fair apparaitre un cube dans la zone -1/40 en x/y/z
+		//tirage des valeurs de x/y/z
+		xxx = rand() % (41) -1;
+		yyy = rand() % (41) - 1;
+		zzz = rand() % (41) - 1;
+		//création de la boite à la position tirée
+		b = new Box(100.f, Vector3D(float(xxx), float(yyy), float(zzz)), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 1.f, 1.f, 1.f);
+		//velocite et rotation nulle pour la boite : test en statique
+		b->setVelocity(Vector3D(0.f, 0.f, 0.f));
+		b->setRotation(Vector3D(0.f, 0.f, 0.f));
+		b->setColor(Color::darkGray);
+		//on ajoute la primitive associée à la liste + la box à la liste
+		primitives_.push_back(new Primitive(Bounds(xxx-0.5f,xxx+0.5f,yyy-0.5f,yyy+0.5f,zzz-0.5f,zzz+0.5f)));
+		addBody(b);
+		break;
+	case 'm'://touche 'm' : broad phase manuelle
+		tree_.clear();//vide l'octree
+		//ajoute chaque primitive dans l'octree
+		for (it = primitives_.begin(); it != primitives_.end(); it++)
+		{
+				tree_.insert((*it));			
+		}
+		//affiche l'octree
+		tree_.display();
+		//vide la liste de paires
+		paires_.clear();
+		//effectue le pairing
+		tree_.pairing(paires_);
+		//affiche chaque paire calculée
+		for (int k = 0; k < paires_.size(); k++)
+		{
+			cout << "paire numero " << k ;
+			cout << " ("<<(paires_[k].first->bounds_.xmin_ + paires_[k].first->bounds_.xmax_) / 2 << " " << (paires_[k].first->bounds_.ymin_ + paires_[k].first->bounds_.ymax_) / 2 << " " << (paires_[k].first->bounds_.zmin_ + paires_[k].first->bounds_.zmax_) / 2 << ") ";
+			cout << "("<<(paires_[k].second->bounds_.xmin_ + paires_[k].second->bounds_.xmax_) / 2 << " " << (paires_[k].second->bounds_.ymin_ + paires_[k].second->bounds_.ymax_) / 2 << " " << (paires_[k].second->bounds_.zmin_ + paires_[k].second->bounds_.zmax_) / 2 <<")"<<endl;
+		}
+
 		break;
 
 	case 'v'://touche 'v' : lance le test des collisions (à supprimer avec l'ajout du système de collisions)
@@ -133,7 +176,7 @@ void Game::applyRegister(float time) {
 	//Register bodies
 	for (it = bodies_.begin(); it != bodies_.end(); it++)
 	{
-		register_.add(*it, new GravityFG(g_));
+		//register_.add(*it, new GravityFG(g_));
 	}
 
 	register_.updateForces(time);
@@ -249,6 +292,15 @@ void Game::update(int value)
 	if (isLeftMouseButtonDown_) {
 		//nein
 	}
+
+	/*tree_.clear();
+	std::list<Primitive*>::iterator it;
+	for (it = primitives_.begin(); it != primitives_.end(); it++)
+	{
+		tree_.insert((*it));
+		
+	}*/
+	
 
 	//dessine à l'écran
 	drawScene();

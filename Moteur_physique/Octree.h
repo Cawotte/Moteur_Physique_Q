@@ -13,16 +13,16 @@ private:
 	vector<Primitive*> primitives_;
 	vector<Octree*> nodes_;
 	int nbObj_;
-	Bounds bounds_;
+	Bounds bounds_ = Bounds(0, 0, 0, 0, 0, 0);;
 
 public:
-	Octree(int level, Bounds bounds);
+	Octree(int level, Bounds b);
 	~Octree();
 	void clear();
 	void split();
 	vector<int> getIndex(Primitive* prim);
-	//bool inArea(Primitive* prim);
 	void insert(Primitive* prim);
 	void pairing(vector<pair<Primitive*, Primitive*>> &paires);
+	void display();
 };
 #endif

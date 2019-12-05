@@ -2,8 +2,9 @@
 
 
 
-Primitive::Primitive()
+Primitive::Primitive(Bounds b) 
 {
+	bounds_ = b;
 }
 
 

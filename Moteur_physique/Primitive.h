@@ -10,8 +10,8 @@ private :
 	Matrix4 offset;
 	
 public:
-	Primitive();
+	Primitive(Bounds b);
 	~Primitive();
-	Bounds bounds_;
+	Bounds bounds_ = Bounds(0,0,0,0,0,0);
 };
 #endif
