@@ -19,9 +19,10 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 	Box * v1 = NULL;
 	Box * v2 = NULL;
 	std::list<Primitive*>::iterator it;
-	int xxx ;
+	int xxx;
 	int yyy;
-	int zzz ;
+	int zzz;
+
 	switch (key)
 	{
 	case 's'://touche 's' : change le point de vue de la caméra
@@ -58,10 +59,12 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		}
 		typeRotation_ += 1;
 		typeRotation_ %= 3;
+		//on ajoute la primitive associée à la liste + la box à la liste
+		primitives_.push_back(new Primitive(Bounds(0.f - 2.5f, 0.f + 2.5f, 0.f - 10.f, 0.f + 10.f, 5.f - 2.5f, 5.f + 2.5f)));
 		addBody(b);
 		break;
 
-	case 't'://touche 't' : fair apparaitre un cube dans la zone -1/40 en x/y/z
+	case 't'://touche 't' : fait apparaitre un cube dans la zone -1/40 en x/y/z
 		//tirage des valeurs de x/y/z
 		xxx = rand() % (41) -1;
 		yyy = rand() % (41) - 1;
@@ -73,9 +76,10 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		b->setRotation(Vector3D(0.f, 0.f, 0.f));
 		b->setColor(Color::darkGray);
 		//on ajoute la primitive associée à la liste + la box à la liste
-		primitives_.push_back(new Primitive(Bounds(xxx-0.5f,xxx+0.5f,yyy-0.5f,yyy+0.5f,zzz-0.5f,zzz+0.5f)));
+		primitives_.push_back(new Primitive(Bounds(xxx - 0.5f, xxx + 0.5f, yyy - 0.5f, yyy + 0.5f, zzz - 0.5f, zzz + 0.5f)));;
 		addBody(b);
 		break;
+
 	case 'm'://touche 'm' : broad phase manuelle
 		tree_.clear();//vide l'octree
 		//ajoute chaque primitive dans l'octree
@@ -96,18 +100,9 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 			cout << " ("<<(paires_[k].first->bounds_.xmin_ + paires_[k].first->bounds_.xmax_) / 2 << " " << (paires_[k].first->bounds_.ymin_ + paires_[k].first->bounds_.ymax_) / 2 << " " << (paires_[k].first->bounds_.zmin_ + paires_[k].first->bounds_.zmax_) / 2 << ") ";
 			cout << "("<<(paires_[k].second->bounds_.xmin_ + paires_[k].second->bounds_.xmax_) / 2 << " " << (paires_[k].second->bounds_.ymin_ + paires_[k].second->bounds_.ymax_) / 2 << " " << (paires_[k].second->bounds_.zmin_ + paires_[k].second->bounds_.zmax_) / 2 <<")"<<endl;
 		}
-
 		break;
 
-	case 'v'://touche 'v' : lance le test des collisions (à supprimer avec l'ajout du système de collisions)
-		v1 = new Box(100.0f, Vector3D(0.f, 0.f, 5.f), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 5.f, 20.f, 5.f);
-		v1->setVelocity(Vector3D(0.f, 20.f, 0.f));
-		v1->setColor(Color::red);
-		v2 = new Box(100.0f, Vector3D(60.f, 60.f, 5.f), Quaternion(0.71f, 0., 0., 0.71f), 0.99f, 0.99f, 5.f, 20.f, 5.f);
-		v2->setVelocity(Vector3D(-20.f, 0.f, 0.f));
-		v2->setColor(Color::green);
-		bodies2_.push_back(v1);
-		bodies2_.push_back(v2);
+	case 'v'://touche 'v' : affiche ou non les murs
 		break;
 
 	case 'd':
@@ -176,7 +171,7 @@ void Game::applyRegister(float time) {
 	//Register bodies
 	for (it = bodies_.begin(); it != bodies_.end(); it++)
 	{
-		//register_.add(*it, new GravityFG(g_));
+		register_.add(*it, new GravityFG(g_));
 	}
 
 	register_.updateForces(time);
@@ -200,41 +195,12 @@ void Game::applyMovements(float time) {
 		}
 	}
 
-	//uptade physics for bodies2_ (à supprimer avec l'ajout du système de collisions)
-	for (it = bodies2_.begin(); it != bodies2_.end(); it++)
-	{
-		//If particle isn't null for some reasons
-		if (*it != NULL) {
-
-			//Compute new positions !
-			(*it)->integrate(time);
-
-		}
-	}
 }
 
-//Applique les collisions sur les bodies (à modifier avec l'ajout du système de collisions)
+//Applique les collisions sur les bodies
 void Game::applyCollisions(float time)
 {
-	if (!bodies2_.empty()) {
-		std::list<Box*>::iterator it = bodies2_.begin();
-		Box* v1 = *it++;
-		Box* v2 = *it;
-		Vector3D pos1 = v1->getPosition();
-		if (pos1.y > 49.995f && pos1.y < 50.005f) {
-			cout << "COLLISION!!" << endl;
 
-			Vector3D pointImpact(2.5f, 60.f, 5.f);
-
-			//v1->addForceAtPoint(v2->getVelocity() * time, pointImpact);
-						
-			//Changement de la vitesse
-			v1->setVelocity(v1->getVelocity() + v2->getVelocity());
-			//Changement de la rotation
-			v1->setRotation(v1->getRotation() + (v1->getVelocity().crossProd(v2->getVelocity()).normalized()) * (pointImpact - v1->getPosition()).norm());
-			
-		}
-	}
 }
 
 //Dessine les bodies
@@ -247,13 +213,6 @@ void Game::drawBodies() {
 		}
 	}
 
-	//(à supprimer avec l'ajout du système de collisions)
-	for (it = bodies2_.begin(); it != bodies2_.end(); it++)
-	{
-		if (*it != NULL) {
-			(*it)->display();
-		}
-	}
 }
 
 //Dessin de tout ce qui est affiché à l'écran
@@ -288,20 +247,6 @@ void Game::update(int value)
 	applyMovements(elapsedTime);
 	applyCollisions(elapsedTime);
 
-	//Charge le tir si le clic est enclenché
-	if (isLeftMouseButtonDown_) {
-		//nein
-	}
-
-	/*tree_.clear();
-	std::list<Primitive*>::iterator it;
-	for (it = primitives_.begin(); it != primitives_.end(); it++)
-	{
-		tree_.insert((*it));
-		
-	}*/
-	
-
 	//dessine à l'écran
 	drawScene();
 
@@ -316,7 +261,9 @@ void Game::instructions() {
 	cout << "##############################################" << endl << endl;
 	cout << "La touche S sert a changer la camera." << endl;
 	cout << "La touche B sert a lancer une boite (l'axe change a chaque fois)." << endl;
-	cout << "La touche V sert a lancer le test de la collision entre les deux boites." << endl;
+	cout << "La touche V sert a afficher les murs." << endl;
+	cout << "La touche T sert a ajouter un cube avec une position aleatoire dans la zone [-1, 40]." << endl;
+	cout << "La touche M sert a lancer une broadphase manuelle." << endl;
 	cout << "La touche D sert a supprimer les objets ajoutes par l'utilisateur." << endl;
 }
 
@@ -330,20 +277,15 @@ void Game::deleteBody(Box* rb) {
 }
 
 void Game::deleteAllBodies() {
-	while (!bodies_.empty()) {
+	while (!bodies_.empty())
 		deleteBody(bodies_.front());
-	}
-	//(à supprimer avec l'ajout du système de collisions)
-	while (!bodies2_.empty()) {
-		Box* rb = bodies2_.front();
-		bodies2_.remove(rb);
-		delete(rb);
-	}
 }
 
 void Game::deleteAndClearAll() {
 	deleteAllBodies();
 	register_.clear();
+	tree_.clear();
+	paires_.clear();
 }
 
 //démarrage du jeu : paramétrage de glut pour le bon fonctionnement du moteur - on a suivi ce qu'on a trouvé dans les exemples sur internet

@@ -24,12 +24,11 @@ private:
 
 	//Objets
 	list<Box*> bodies_;//liste de base utilisée pour stocker les bodies
-	list<Box*> bodies2_;//pour faire le test de la collision sans appliquer la gravité (à supprimer avec l'ajout du système de collisions)
 
 	//int pour les 3 types de rotation pour le premier test
 	int typeRotation_ = 0;
 
-	Octree tree_ = Octree(0,Bounds(-1,40,-1,40,-1,40));//arbre servant à la broad phase pour les collisions
+	Octree tree_ = Octree(0, Bounds(-1, 40, -1, 40, -1, 40));//arbre servant à la broad phase pour les collisions
 	list<Primitive*> primitives_;//liste des primitives des objets étant sur scène
 	vector<pair<Primitive*, Primitive*>> paires_;//liste des paires de primitives à tester pour la collision, issue de la broad phase
 
@@ -53,8 +52,6 @@ private:
 	//reglages camera
 	Vector3D posCamera_ = Vector3D(50.0f, -50.f, 5.f); //position de la caméra
 	Vector3D lookCamera_ = Vector3D(0.f, 100.f, 15.f); //point regardé par la caméra
-
-
 
 public:
 
