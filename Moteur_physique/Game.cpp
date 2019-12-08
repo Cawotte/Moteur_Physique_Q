@@ -21,6 +21,8 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 	int xxx;
 	int yyy;
 	int zzz;
+	float sizeBox;
+	int areaBox;
 
 	switch (key)
 	{
@@ -59,15 +61,18 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		typeRotation_ += 1;
 		typeRotation_ %= 3;
 		//on ajoute la primitive associée à la liste + la box à la liste
-		primitives_.push_back(new Primitive(Bounds(0.f - 2.5f, 0.f + 2.5f, 0.f - 10.f, 0.f + 10.f, 5.f - 2.5f, 5.f + 2.5f)));
+		primitives_.push_back(new Primitive(b, Bounds(0.f - 2.5f, 0.f + 2.5f, 0.f - 10.f, 0.f + 10.f, 5.f - 2.5f, 5.f + 2.5f)));
 		addBody(b);
 		break;
 
 	case 't'://touche 't' : fait apparaitre un cube dans la zone -1/40 en x/y/z
+
+		sizeBox = 2.f; //0.5f
+		areaBox = 1; //41
 		//tirage des valeurs de x/y/z
-		xxx = rand() % (41) -1;
-		yyy = rand() % (41) - 1;
-		zzz = rand() % (41) - 1;
+		xxx = rand() % (areaBox) -1;
+		yyy = rand() % (areaBox) - 1;
+		zzz = rand() % (areaBox) - 1;
 		//création de la boite à la position tirée
 		b = new Box(100.f, Vector3D(float(xxx), float(yyy), float(zzz)), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 1.f, 1.f, 1.f);
 		//velocite et rotation nulle pour la boite : test en statique
@@ -75,23 +80,16 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		b->setRotation(Vector3D(0.f, 0.f, 0.f));
 		b->setColor(Color::darkGray);
 		//on ajoute la primitive associée à la liste + la box à la liste
-		primitives_.push_back(new Primitive(Bounds(xxx - 0.5f, xxx + 0.5f, yyy - 0.5f, yyy + 0.5f, zzz - 0.5f, zzz + 0.5f)));;
+		primitives_.push_back(new Primitive(b, Bounds(xxx - sizeBox, xxx + sizeBox, yyy - sizeBox, yyy + sizeBox, zzz - sizeBox, zzz + sizeBox)));;
 		addBody(b);
 		break;
 
 	case 'm'://touche 'm' : broad phase manuelle
-		tree_.clear();//vide l'octree
-		//ajoute chaque primitive dans l'octree
-		for (it = primitives_.begin(); it != primitives_.end(); it++)
-		{
-				tree_.insert((*it));			
-		}
-		//affiche l'octree
+
+		applyCollisions(elapsedTime);
+
 		tree_.display();
-		//vide la liste de paires
-		paires_.clear();
-		//effectue le pairing
-		tree_.pairing(paires_);
+
 		//affiche chaque paire calculée
 		for (int k = 0; k < paires_.size(); k++)
 		{
@@ -170,7 +168,7 @@ void Game::applyRegister(float time) {
 	//Register bodies
 	for (it = bodies_.begin(); it != bodies_.end(); it++)
 	{
-		register_.add(*it, new GravityFG(g_));
+		//register_.add(*it, new GravityFG(g_));
 	}
 
 	register_.updateForces(time);
@@ -214,6 +212,15 @@ void Game::applyCollisions(float time)
 	tree_.pairing(paires_);
 
 	//NarrowPhase
+	std::vector<pair<Primitive*, Primitive*>>::iterator itp;
+	for (itp = paires_.begin(); itp != paires_.end(); itp++)
+	{
+		Primitive* a = itp->first;
+		Primitive* b = itp->second;
+		if (a->hasCollision(b)) {
+			cout << "Collision!" << endl;
+		}
+	}
 
 }
 

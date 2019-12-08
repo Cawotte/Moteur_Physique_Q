@@ -6,12 +6,19 @@
 class Primitive
 {
 private :
-	RigidBody *body;
-	Matrix4 offset;
+	RigidBody *body_;
+	Matrix4 rotation;
+
+	Vector3D pointRotationByQuaternion(Vector3D point, Quaternion q);
+	bool pointIsWithinBox(Vector3D point, Vector3D* p);
 	
 public:
-	Primitive(Bounds b);
+	Primitive(RigidBody* body, Bounds b);
 	~Primitive();
+
 	Bounds bounds_ = Bounds(0,0,0,0,0,0);
+
+	Vector3D* rotatedRepere();
+	bool hasCollision(Primitive* primitive);
 };
 #endif
