@@ -15,13 +15,13 @@ Vector3D Primitive::pointRotationByQuaternion(Vector3D point, Quaternion q)
 
 bool Primitive::pointIsWithinBox(Vector3D point, Vector3D* p)
 {
-	Vector3D u = (p[0] - p[2]).crossProd(p[0] - p[3]);
-	Vector3D v = (p[0] - p[1]).crossProd(p[0] - p[3]);
-	Vector3D w = (p[0] - p[1]).crossProd(p[0] - p[2]);
+	Vector3D u = p[0] - p[1];
+	Vector3D v = p[0] - p[2];
+	Vector3D w = p[0] - p[3];
 
 	return (u.x > u.dotProd(p[0]) && u.x < u.dotProd(p[1]) &&
-		v.x > u.dotProd(p[0]) && v.x < v.dotProd(p[2]) &&
-		w.x > u.dotProd(p[0]) && w.x < w.dotProd(p[3])
+		v.x > v.dotProd(p[0]) && v.x < v.dotProd(p[2]) &&
+		w.x > w.dotProd(p[0]) && w.x < w.dotProd(p[3])
 		);
 
 }
