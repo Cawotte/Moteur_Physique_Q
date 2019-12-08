@@ -16,8 +16,7 @@ Game::Game()
 void Game::handleKeypress(unsigned char key, int x, int y)
 {
 	Box * b = NULL;
-	Box * v1 = NULL;
-	Box * v2 = NULL;
+
 	std::list<Primitive*>::iterator it;
 	int xxx;
 	int yyy;
@@ -200,6 +199,21 @@ void Game::applyMovements(float time) {
 //Applique les collisions sur les bodies
 void Game::applyCollisions(float time)
 {
+	//BroadPhase
+	//vide l'octree
+	tree_.clear();
+	//ajoute chaque primitive dans l'octree
+	std::list<Primitive*>::iterator it;
+	for (it = primitives_.begin(); it != primitives_.end(); it++)
+	{
+		tree_.insert((*it));
+	}
+	//vide la liste de paires
+	paires_.clear();
+	//effectue le pairing
+	tree_.pairing(paires_);
+
+	//NarrowPhase
 
 }
 
