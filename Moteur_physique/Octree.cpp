@@ -1,7 +1,5 @@
 #include "Octree.h"
 
-
-
 Octree::Octree(int level, Bounds b)
 {
 	maxObj_ = 3;
@@ -28,9 +26,9 @@ void Octree::clear()
 
 void Octree::split()
 {
-	double subWidht = bounds_.width_ / 2;
-	double subHeight = bounds_.height_ / 2;
-	double subDeepth = bounds_.depth_ / 2;
+	float subWidht = bounds_.width_ / 2;
+	float subHeight = bounds_.height_ / 2;
+	float subDeepth = bounds_.depth_ / 2;
 	nodes_.push_back(new Octree(level_ + 1, Bounds(bounds_.xmin_, bounds_.xmin_ + subWidht, bounds_.ymin_, bounds_.ymin_ + subHeight, bounds_.zmin_, bounds_.zmin_ + subDeepth)));
 	nodes_.push_back(new Octree(level_ + 1, Bounds(bounds_.xmin_ + subWidht, bounds_.xmin_ + 2 * subWidht, bounds_.ymin_, bounds_.ymin_ + subHeight, bounds_.zmin_, bounds_.zmin_ + subDeepth)));
 	nodes_.push_back(new Octree(level_ + 1, Bounds(bounds_.xmin_ + subWidht, bounds_.xmin_ + 2 * subWidht, bounds_.ymin_ + subHeight, bounds_.ymin_ + 2 * subHeight, bounds_.zmin_, bounds_.zmin_ + subDeepth)));
@@ -46,9 +44,9 @@ void Octree::split()
 vector<int> Octree::getIndex(Primitive* prim)
 {
 	vector<int> index;
-	double widthMidPoint = bounds_.xmin_ + bounds_.width_ / 2;
-	double heightMidPoint = bounds_.ymin_ + bounds_.height_ / 2;
-	double deepthMidPoint = bounds_.zmin_ + bounds_.depth_ / 2;
+	float widthMidPoint = bounds_.xmin_ + bounds_.width_ / 2;
+	float heightMidPoint = bounds_.ymin_ + bounds_.height_ / 2;
+	float deepthMidPoint = bounds_.zmin_ + bounds_.depth_ / 2;
 	bool topQuadrant = (prim->bounds_.ymax_ > heightMidPoint && prim->bounds_.ymin_ < bounds_.ymax_);
 	bool bottomQuadrant = (prim->bounds_.ymax_ > bounds_.ymin_ && prim->bounds_.ymin_ < heightMidPoint);
 	bool backQuadrant = (prim->bounds_.zmax_ > deepthMidPoint && prim->bounds_.zmin_ < bounds_.zmax_);

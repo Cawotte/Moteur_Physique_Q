@@ -1,6 +1,16 @@
 #include "Primitive.h"
 
+Primitive::Primitive(RigidBody* body, Bounds b)
+{
 
+	bounds_ = b;
+	body_ = body;
+}
+
+
+Primitive::~Primitive()
+{
+}
 
 Vector3D Primitive::pointRotationByQuaternion(Vector3D point, Quaternion q)
 {
@@ -66,32 +76,4 @@ Vector3D* Primitive::rotatedRepere()
 	}
 
 	return points;
-}
-
-Primitive::Primitive(RigidBody* body, Bounds b)
-{
-
-	bounds_ = b;
-	body_ = body;
-}
-
-
-Primitive::~Primitive()
-{
-}
-
-bool Primitive::hasCollision(Primitive* primitive)
-{
-
-	Vector3D* a = rotatedRepere();
-	Vector3D* b = primitive->rotatedRepere();
-
-	for (int i = 0; i < 8; i++) {
-
-		if (pointIsWithinBox(b[i], a)) {
-			return true;
-		}
-	}
-
-	return false;
 }

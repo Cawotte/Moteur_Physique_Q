@@ -10,6 +10,14 @@ Game::Game()
 {
 	srand(unsigned int(time(NULL)));
 	elapsedTime = 0.f;
+	createWalls();
+}
+
+//Destructeur
+Game::~Game() {
+	deleteAllBodies();
+	register_.clear();
+	contactResolver_.clear();
 }
 
 //Gestion de l'appui sur une touche du clavier
@@ -46,8 +54,8 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		break;
 
 	case 'b'://touche 'b' : lance une box
-		b = new Box(100.0f, Vector3D(0.f, 0.f, 5.f), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 5.f, 20.f, 5.f);
-		b->setVelocity(Vector3D(0.f, 50.f, 20.f));
+		b = new Box(100.0f, Vector3D(5.f, 5.f, 5.f), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 5.f, 5.f, 5.f);
+		b->setVelocity(Vector3D(10.f, 50.f, 20.f));
 		if (typeRotation_ == 0) {
 			b->setRotation(Vector3D(3.f, 3.f, 0.f));
 		}else if (typeRotation_ == 1) {
@@ -61,16 +69,16 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		typeRotation_ += 1;
 		typeRotation_ %= 3;
 		//on ajoute la primitive associée à la liste + la box à la liste
-		primitives_.push_back(new Primitive(b, Bounds(0.f - 2.5f, 0.f + 2.5f, 0.f - 10.f, 0.f + 10.f, 5.f - 2.5f, 5.f + 2.5f)));
+		contactResolver_.addPrimitive(new Primitive(b, Bounds(0.f - 2.5f, 0.f + 2.5f, 0.f - 10.f, 0.f + 10.f, 5.f - 2.5f, 5.f + 2.5f)));
 		addBody(b);
 		break;
 
 	case 't'://touche 't' : fait apparaitre un cube dans la zone -1/40 en x/y/z
 
 		sizeBox = 2.f; //0.5f
-		areaBox = 1; //41
+		areaBox = 41; //1
 		//tirage des valeurs de x/y/z
-		xxx = rand() % (areaBox) -1;
+		xxx = rand() % (areaBox) - 1;
 		yyy = rand() % (areaBox) - 1;
 		zzz = rand() % (areaBox) - 1;
 		//création de la boite à la position tirée
@@ -78,28 +86,21 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		//velocite et rotation nulle pour la boite : test en statique
 		b->setVelocity(Vector3D(0.f, 0.f, 0.f));
 		b->setRotation(Vector3D(0.f, 0.f, 0.f));
-		b->setColor(Color::darkGray);
+		b->setColor(Color::green);
 		//on ajoute la primitive associée à la liste + la box à la liste
-		primitives_.push_back(new Primitive(b, Bounds(xxx - sizeBox, xxx + sizeBox, yyy - sizeBox, yyy + sizeBox, zzz - sizeBox, zzz + sizeBox)));;
+		contactResolver_.addPrimitive(new Primitive(b, Bounds(xxx - sizeBox, xxx + sizeBox, yyy - sizeBox, yyy + sizeBox, zzz - sizeBox, zzz + sizeBox)));;
 		addBody(b);
 		break;
 
 	case 'm'://touche 'm' : broad phase manuelle
 
-		applyCollisions(elapsedTime);
-
-		tree_.display();
-
-		//affiche chaque paire calculée
-		for (int k = 0; k < paires_.size(); k++)
-		{
-			cout << "paire numero " << k ;
-			cout << " ("<<(paires_[k].first->bounds_.xmin_ + paires_[k].first->bounds_.xmax_) / 2 << " " << (paires_[k].first->bounds_.ymin_ + paires_[k].first->bounds_.ymax_) / 2 << " " << (paires_[k].first->bounds_.zmin_ + paires_[k].first->bounds_.zmax_) / 2 << ") ";
-			cout << "("<<(paires_[k].second->bounds_.xmin_ + paires_[k].second->bounds_.xmax_) / 2 << " " << (paires_[k].second->bounds_.ymin_ + paires_[k].second->bounds_.ymax_) / 2 << " " << (paires_[k].second->bounds_.zmin_ + paires_[k].second->bounds_.zmax_) / 2 <<")"<<endl;
-		}
+		contactResolver_.broadPhase();
+		contactResolver_.displayBroadPhase();
 		break;
 
 	case 'v'://touche 'v' : affiche ou non les murs
+		vueWalls_ += 1;
+		vueWalls_ %= 3;
 		break;
 
 	case 'd':
@@ -198,30 +199,10 @@ void Game::applyMovements(float time) {
 void Game::applyCollisions(float time)
 {
 	//BroadPhase
-	//vide l'octree
-	tree_.clear();
-	//ajoute chaque primitive dans l'octree
-	std::list<Primitive*>::iterator it;
-	for (it = primitives_.begin(); it != primitives_.end(); it++)
-	{
-		tree_.insert((*it));
-	}
-	//vide la liste de paires
-	paires_.clear();
-	//effectue le pairing
-	tree_.pairing(paires_);
-
+	contactResolver_.broadPhase();
+	
 	//NarrowPhase
-	std::vector<pair<Primitive*, Primitive*>>::iterator itp;
-	for (itp = paires_.begin(); itp != paires_.end(); itp++)
-	{
-		Primitive* a = itp->first;
-		Primitive* b = itp->second;
-		if (a->hasCollision(b)) {
-			cout << "Collision!" << endl;
-		}
-	}
-
+	contactResolver_.narrowPhase();
 }
 
 //Dessine les bodies
@@ -236,6 +217,128 @@ void Game::drawBodies() {
 
 }
 
+//Dessine un mur
+void Game::drawWall(typeWall typeW) {
+
+	Vector3D color = Color::darkGray;
+	Vector3D pos;
+	float width;
+	float height;
+	float depth;
+	switch (typeW) {
+
+	case upWall:
+		pos.x = 19.5f;
+		pos.y = 19.5f;
+		pos.z = 39.5f;
+		height = 1.f;
+		depth = 39.f;
+		width = 39.f;
+		break;
+
+	case downWall:
+		pos.x = 19.5f;
+		pos.y = 19.5f;
+		pos.z = -0.5f;
+		height = 1.f;
+		depth = 39.f;
+		width = 39.f;
+		break;
+
+	case rightWall:
+		pos.x = 19.5f;
+		pos.y = 39.5f;
+		pos.z = 19.5f;
+		height = 39.f;
+		depth = 39.f;
+		width = 1.f;
+		break;
+
+	case leftWall:
+		pos.x = 19.5f;
+		pos.y = -0.5f;
+		pos.z = 19.5f;
+		height = 39.f;
+		depth = 39.f;
+		width = 1.f;
+		break;
+
+	case frontWall:
+		pos.x = 39.5f;
+		pos.y = 19.5f;
+		pos.z = 19.5f;
+		height = 39.f;
+		depth = 1.f;
+		width = 39.f;
+		break;
+
+	case behindWall:
+		pos.x = -0.5f;
+		pos.y = 19.5f;
+		pos.z = 19.5f;
+		height = 39.f;
+		depth = 1.f;
+		width = 39.f;
+		break;
+
+	}
+	glPushMatrix();
+
+	glColor3f(color.x, color.y, color.z);//réglage couleur
+	glTranslatef(pos.x, pos.y, pos.z);//positionnement au centre de l'objet
+
+	glBegin(GL_QUADS);//macro openGL pour dessiner des quadrilatères, que l'on va utiliser 6 fois autour du centre
+
+					  //dessin du "haut"
+	glVertex3f(-depth / 2, -width / 2, height / 2);
+	glVertex3f(depth / 2, -width / 2, height / 2);
+	glVertex3f(depth / 2, width / 2, height / 2);
+	glVertex3f(-depth / 2, width / 2, height / 2);
+	//dessin du "bas"
+	glVertex3f(-depth / 2, -width / 2, -height / 2);
+	glVertex3f(depth / 2, -width / 2, -height / 2);
+	glVertex3f(depth / 2, width / 2, -height / 2);
+	glVertex3f(-depth / 2, width / 2, -height / 2);
+	//dessin de la face "droite"
+	glVertex3f(-depth / 2, width / 2, -height / 2);
+	glVertex3f(depth / 2, width / 2, -height / 2);
+	glVertex3f(depth / 2, width / 2, height / 2);
+	glVertex3f(-depth / 2, width / 2, height / 2);
+	//dessin de la face "gauche"
+	glVertex3f(-depth / 2, -width / 2, -height / 2);
+	glVertex3f(depth / 2, -width / 2, -height / 2);
+	glVertex3f(depth / 2, -width / 2, height / 2);
+	glVertex3f(-depth / 2, -width / 2, height / 2);
+	//dessin de "l'avant"
+	glVertex3f(depth / 2, -width / 2, -height / 2);
+	glVertex3f(depth / 2, width / 2, -height / 2);
+	glVertex3f(depth / 2, width / 2, height / 2);
+	glVertex3f(depth / 2, -width / 2, height / 2);
+	//dessin de "l'arrière"
+	glVertex3f(-depth / 2, -width / 2, -height / 2);
+	glVertex3f(-depth / 2, width / 2, -height / 2);
+	glVertex3f(-depth / 2, width / 2, height / 2);
+	glVertex3f(-depth / 2, -width / 2, height / 2);
+
+	glEnd();
+
+	glPopMatrix();
+}
+
+//Dessine les murs
+void Game::drawWalls() {
+	if (vueWalls_ != 0) {
+		drawWall(typeWall::behindWall);
+		drawWall(typeWall::rightWall);
+		drawWall(typeWall::downWall);
+		if (vueWalls_ != 1) {
+			drawWall(typeWall::frontWall);
+			drawWall(typeWall::leftWall);
+			drawWall(typeWall::upWall);
+		}
+	}
+}
+
 //Dessin de tout ce qui est affiché à l'écran
 void Game::drawScene()
 {
@@ -247,6 +350,9 @@ void Game::drawScene()
 	gluLookAt(posCamera_.x, posCamera_.y, posCamera_.z, 
 		lookCamera_.x, lookCamera_.y, lookCamera_.z, 
 		0, 0, 1);//réglage de la caméra
+
+	//dessine les murs
+	drawWalls();
 
 	//dessine les bodies
 	drawBodies();
@@ -305,9 +411,17 @@ void Game::deleteAllBodies() {
 void Game::deleteAndClearAll() {
 	deleteAllBodies();
 	register_.clear();
-	tree_.clear();
-	paires_.clear();
-	primitives_.clear();
+	contactResolver_.clear();
+	createWalls();
+}
+
+void Game::createWalls() {
+	contactResolver_.addPrimitive(new Wall(typeWall::upWall));;
+	contactResolver_.addPrimitive(new Wall(typeWall::downWall));;
+	contactResolver_.addPrimitive(new Wall(typeWall::rightWall));;
+	contactResolver_.addPrimitive(new Wall(typeWall::leftWall));;
+	contactResolver_.addPrimitive(new Wall(typeWall::frontWall));;
+	contactResolver_.addPrimitive(new Wall(typeWall::behindWall));;
 }
 
 //démarrage du jeu : paramétrage de glut pour le bon fonctionnement du moteur - on a suivi ce qu'on a trouvé dans les exemples sur internet

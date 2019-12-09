@@ -9,13 +9,14 @@
 #include <time.h>
 
 #include "Vector3D.h"
-#include "RigidBody.h"
 #include "Box.h"
 #include "ForceRegister.h"
 #include "GravityFG.h"
 #include "SpringTorque.h"
 #include "Octree.h"
 #include "Primitive.h"
+#include "Wall.h"
+#include "ContactResolver.h"
 
 // Classe de gestion globale. Dessine la scène, gère les objets, upate la logique et appelle la fonction pour les dessiner
 class Game
@@ -25,12 +26,14 @@ private:
 	//Objets
 	list<Box*> bodies_;//liste de base utilisée pour stocker les bodies
 
+	//Résolution des contacts
+	ContactResolver contactResolver_;
+
 	//int pour les 3 types de rotation pour le premier test
 	int typeRotation_ = 0;
 
-	Octree tree_ = Octree(0, Bounds(-1, 40, -1, 40, -1, 40));//arbre servant à la broad phase pour les collisions
-	list<Primitive*> primitives_;//liste des primitives des objets étant sur scène
-	vector<pair<Primitive*, Primitive*>> paires_;//liste des paires de primitives à tester pour la collision, issue de la broad phase
+	//int pour la vue des murs (0 = pas de murs, 1 = les murs du fond et 2 = tous les murs)
+	int vueWalls_ = 0;
 
 	//registre pour les forces
 	ForceRegister register_;
@@ -64,7 +67,7 @@ public:
 
 	//constructor/deconstructor
 	Game();
-	//~Game();
+	~Game();
 
 	// fonctions reliées à Glut et ses callbacks
 	void handleKeypress(unsigned char key, int x, int y);//gère l'appui sur une touche
@@ -78,6 +81,12 @@ public:
 	//dessine les rigid bodies
 	void drawBodies();
 
+	//dessine un mur
+	void drawWall(typeWall typeW);
+
+	//dessine les murs
+	void drawWalls();
+
 	//permet d'ajouter un RigidBody a la liste des bodies
 	void addBody(Box* rb);
 
@@ -89,6 +98,9 @@ public:
 
 	//permet de supprimer tous les éléments
 	void deleteAndClearAll();
+
+	//permet d'ajouter les 6 murs à la liste des primitives
+	void createWalls();
 
 	//applique les forces sur les bodies
 	void applyRegister(float time);
