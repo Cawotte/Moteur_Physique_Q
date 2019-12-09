@@ -81,6 +81,56 @@ void GlutUtils::drawRectangle(Vector3D pos, Quaternion orientation, float width,
 	glPopMatrix();
 }
 
+void GlutUtils::drawRectangle(Vector3D* p, Vector3D color)
+{
+	glPushMatrix();
+
+	Vector3D pivot = p[8];
+
+	glColor3f(color.x, color.y, color.z);//réglage couleur
+	glTranslatef(pivot.x, pivot.y, pivot.z);//positionnement au centre de l'objet
+
+	for (int i = 0; i < 8; i++) {
+		p[i] = p[i] - pivot;
+	}
+
+	glBegin(GL_QUADS);//macro openGL pour dessiner des quadrilatères, que l'on va utiliser 6 fois autour du centre
+	//dessin du "haut"
+	glVertex3f(p[4].x, p[4].y, p[4].z); //p5
+	glVertex3f(p[7].x, p[7].y, p[7].z); //p8
+	glVertex3f(p[6].x, p[6].y, p[6].z); //p7
+	glVertex3f(p[5].x, p[5].y, p[5].z); //p6
+	//dessin du "bas"
+	glVertex3f(p[0].x, p[0].y, p[0].z); //p1
+	glVertex3f(p[3].x, p[3].y, p[3].z); //p4
+	glVertex3f(p[2].x, p[2].y, p[2].z); //p3
+	glVertex3f(p[1].x, p[1].y, p[1].z); //p2
+	//dessin de la face "droite"
+	glVertex3f(p[4].x, p[4].y, p[4].z);  //p5
+	glVertex3f(p[7].x, p[7].y, p[7].z); //p8
+	glVertex3f(p[3].x, p[3].y, p[3].z); //p4
+	glVertex3f(p[0].x, p[0].y, p[0].z); //p1
+	//dessin de "l'arrière"
+	glVertex3f(p[6].x, p[6].y, p[6].z); //p7
+	glVertex3f(p[7].x, p[7].y, p[7].z); //p8
+	glVertex3f(p[3].x, p[3].y, p[3].z); //p4
+	glVertex3f(p[2].x, p[2].y, p[2].z);  //p3
+	//dessin de la face "gauche"
+	glVertex3f(p[4].x, p[4].y, p[4].z);  //p5
+	glVertex3f(p[5].x, p[5].y, p[5].z);  //p6
+	glVertex3f(p[1].x, p[1].y, p[1].z); //p2
+	glVertex3f(p[0].x, p[0].y, p[0].z); //p1
+	//dessin de "l'avant"
+	glVertex3f(p[6].x, p[6].y, p[6].z); //p7
+	glVertex3f(p[5].x, p[5].y, p[5].z);  //p6
+	glVertex3f(p[1].x, p[1].y, p[1].z); //p2
+	glVertex3f(p[2].x, p[2].y, p[2].z); //p3
+
+	glEnd();
+
+	glPopMatrix();
+}
+
 //Dessine un parallélépipède rectangle incomplet
 void GlutUtils::drawHollowRectangle(Vector3D pos, float width, float height, float depth, Vector3D color)
 {

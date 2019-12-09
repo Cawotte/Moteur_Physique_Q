@@ -19,7 +19,6 @@ public:
 	Bounds(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax);
 	~Bounds();
 
-	Vector3D* rotatedPoints(Quaternion q);
 };
 
 #endif

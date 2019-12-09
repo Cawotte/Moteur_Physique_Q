@@ -307,6 +307,7 @@ void Game::deleteAndClearAll() {
 	register_.clear();
 	tree_.clear();
 	paires_.clear();
+	primitives_.clear();
 }
 
 //démarrage du jeu : paramétrage de glut pour le bon fonctionnement du moteur - on a suivi ce qu'on a trouvé dans les exemples sur internet
