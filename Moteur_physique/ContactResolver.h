@@ -16,16 +16,22 @@ private:
 	list<Primitive*> primitives_;//liste des primitives des objets étant sur scène
 	vector<pair<Primitive*, Primitive*>> paires_;//liste des paires de primitives à tester pour la collision, issue de la broad phase
 
+	int numCollisions_ = 0;
+
 public:
 
 	ContactResolver();
 	~ContactResolver();
 
+	void setNumCollisions(int num) { numCollisions_ = num; }
+
+	int getNumCollisions() { return numCollisions_; }
+
 	void broadPhase();
 
 	void displayBroadPhase();
 
-	void narrowPhase();
+	int narrowPhase();
 
 	void addPrimitive(Primitive* p);
 
