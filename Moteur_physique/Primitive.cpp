@@ -28,3 +28,13 @@ Vector3D Primitive::pointRotationByQuaternion(Vector3D point, Quaternion q)
 	return Vector3D(result.i_, result.j_, result.k_);
 }
 
+void Primitive::updateBounds() {
+	if (body_ != NULL) {
+		bounds_.xmax_ = originalBounds_.xmax_ + body_->getPosition().x;
+		bounds_.xmin_ = originalBounds_.xmin_ + body_->getPosition().x;
+		bounds_.ymax_ = originalBounds_.ymax_ + body_->getPosition().y;
+		bounds_.ymin_ = originalBounds_.ymin_ + body_->getPosition().y;
+		bounds_.zmax_ = originalBounds_.zmax_ + body_->getPosition().z;
+		bounds_.zmin_ = originalBounds_.zmin_ + body_->getPosition().z;
+	}
+}

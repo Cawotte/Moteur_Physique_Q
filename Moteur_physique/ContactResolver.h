@@ -26,6 +26,8 @@ public:
 
 	int getNumCollisions() { return numCollisions_; }
 
+	list<Primitive*> getPrimitives() { return primitives_; }
+
 	void broadPhase();
 
 	void displayBroadPhase();

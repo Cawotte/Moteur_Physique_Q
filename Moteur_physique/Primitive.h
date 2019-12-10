@@ -31,10 +31,11 @@ public:
 	virtual bool isPrimitiveCollidingWith(Cube* prim) = 0;
 	virtual bool isPrimitiveCollidingWith(Wall* prim) = 0;
 
-	void setBounds(Bounds b) {
-		bounds_ = b;
-		originalBounds_ = b;
-	}
+	void setBounds(Bounds b) { bounds_ = b; }
+
+	void setOriginalBounds(Bounds b) { originalBounds_ = b; }
+
+	void updateBounds();
 
 	RigidBody* getBody() { return body_; }
 

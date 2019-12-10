@@ -170,10 +170,10 @@ void Game::applyMovements(float time) {
 
 	std::list<Box*>::iterator it;
 
-	//update physics for each particles
+	//update physics for each body
 	for (it = bodies_.begin(); it != bodies_.end(); it++)
 	{
-		//If particle isn't null for some reasons
+		//If body isn't null for some reasons
 		if (*it != NULL) {
 
 			//Compute new positions !
@@ -181,7 +181,6 @@ void Game::applyMovements(float time) {
 
 		}
 	}
-
 }
 
 //Applique les collisions sur les bodies

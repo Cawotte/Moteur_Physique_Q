@@ -19,6 +19,7 @@ void ContactResolver::broadPhase() {
 	std::list<Primitive*>::iterator it;
 	for (it = primitives_.begin(); it != primitives_.end(); it++)
 	{
+		(*it)->updateBounds();
 		tree_.insert((*it));
 	}
 	//vide la liste de paires

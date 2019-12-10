@@ -88,7 +88,7 @@ Wall::Wall(typeWall type) {
 	}
 
 	setBounds(b);
-
+	setOriginalBounds(b);
 }
 
 
@@ -111,6 +111,7 @@ bool Wall::isPrimitiveCollidingWith(Cube* prim)
 			cout << "Point d'impact: " << points[i].x << ", " << points[i].y << ", " << points[i].z << endl;
 			cout << "Normale: " << getNormal().x << ", " << getNormal().y << ", " << getNormal().z << endl;
 			cout << "Distance de penetration: " << dist << endl;
+			prim->getBody()->getPosition().display();
 			cout << "-----------------------------------" << endl;
 			/*
 			float vs = prim->getBody()->getVelocity().dotProd(normal_) * prim->getBody()->getInverseMass();
