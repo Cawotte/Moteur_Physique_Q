@@ -169,7 +169,7 @@ void Game::applyRegister(float time) {
 	//Register bodies
 	for (it = bodies_.begin(); it != bodies_.end(); it++)
 	{
-		//register_.add(*it, new GravityFG(g_));
+		register_.add(*it, new GravityFG(g_));
 	}
 
 	register_.updateForces(time);

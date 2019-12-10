@@ -101,23 +101,19 @@ bool Wall::isPrimitiveCollidingWith(Cube* prim)
 {
 	Vector3D* points = prim->rotatedRepere();
 
-	bool hasNegativeDist = false;
-	bool hasPositiveDist = false;
-
-	//cout << "start coll" << endl;
 	for (int i = 0; i < 8; i++) {
-
 		float dist = normal_.dotProd(points[i]) + offset_;
-
-		//cout << dist << endl;
 		if (dist <= 0) {
-			hasNegativeDist = true;
-		}
-		else if (dist >= 0) {
-			hasPositiveDist = true;
+			cout << "-----------------------------------" << endl;
+			cout << "Point d'impact: " << points[i].x << ", " << points[i].y << ", " << points[i].z << endl;
+			cout << "Normale: " << getNormal().x << ", " << getNormal().y << ", " << getNormal().z << endl;
+			cout << "Distance de penetration: " << dist << endl;
+			cout << "-----------------------------------" << endl;
+			return true;
 		}
 	}
-	return hasNegativeDist && hasPositiveDist;
+
+	return false;
 }
 
 bool Wall::isPrimitiveCollidingWith(Wall* prim)
