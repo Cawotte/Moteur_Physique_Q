@@ -223,126 +223,21 @@ void Game::drawBodies() {
 
 }
 
-//Dessine un mur
-void Game::drawWall(typeWall typeW) {
-
-	Vector3D color = Color::darkGray;
-	Vector3D pos;
-	float width;
-	float height;
-	float depth;
-	switch (typeW) {
-
-	case upWall:
-		pos.x = 19.5f;
-		pos.y = 19.5f;
-		pos.z = 39.5f;
-		height = 1.f;
-		depth = 39.f;
-		width = 39.f;
-		break;
-
-	case downWall:
-		pos.x = 19.5f;
-		pos.y = 19.5f;
-		pos.z = -0.5f;
-		height = 1.f;
-		depth = 39.f;
-		width = 39.f;
-		break;
-
-	case rightWall:
-		pos.x = 19.5f;
-		pos.y = 39.5f;
-		pos.z = 19.5f;
-		height = 39.f;
-		depth = 39.f;
-		width = 1.f;
-		break;
-
-	case leftWall:
-		pos.x = 19.5f;
-		pos.y = -0.5f;
-		pos.z = 19.5f;
-		height = 39.f;
-		depth = 39.f;
-		width = 1.f;
-		break;
-
-	case frontWall:
-		pos.x = 39.5f;
-		pos.y = 19.5f;
-		pos.z = 19.5f;
-		height = 39.f;
-		depth = 1.f;
-		width = 39.f;
-		break;
-
-	case behindWall:
-		pos.x = -0.5f;
-		pos.y = 19.5f;
-		pos.z = 19.5f;
-		height = 39.f;
-		depth = 1.f;
-		width = 39.f;
-		break;
-
-	}
-	glPushMatrix();
-
-	glColor3f(color.x, color.y, color.z);//réglage couleur
-	glTranslatef(pos.x, pos.y, pos.z);//positionnement au centre de l'objet
-
-	glBegin(GL_QUADS);//macro openGL pour dessiner des quadrilatères, que l'on va utiliser 6 fois autour du centre
-
-					  //dessin du "haut"
-	glVertex3f(-depth / 2, -width / 2, height / 2);
-	glVertex3f(depth / 2, -width / 2, height / 2);
-	glVertex3f(depth / 2, width / 2, height / 2);
-	glVertex3f(-depth / 2, width / 2, height / 2);
-	//dessin du "bas"
-	glVertex3f(-depth / 2, -width / 2, -height / 2);
-	glVertex3f(depth / 2, -width / 2, -height / 2);
-	glVertex3f(depth / 2, width / 2, -height / 2);
-	glVertex3f(-depth / 2, width / 2, -height / 2);
-	//dessin de la face "droite"
-	glVertex3f(-depth / 2, width / 2, -height / 2);
-	glVertex3f(depth / 2, width / 2, -height / 2);
-	glVertex3f(depth / 2, width / 2, height / 2);
-	glVertex3f(-depth / 2, width / 2, height / 2);
-	//dessin de la face "gauche"
-	glVertex3f(-depth / 2, -width / 2, -height / 2);
-	glVertex3f(depth / 2, -width / 2, -height / 2);
-	glVertex3f(depth / 2, -width / 2, height / 2);
-	glVertex3f(-depth / 2, -width / 2, height / 2);
-	//dessin de "l'avant"
-	glVertex3f(depth / 2, -width / 2, -height / 2);
-	glVertex3f(depth / 2, width / 2, -height / 2);
-	glVertex3f(depth / 2, width / 2, height / 2);
-	glVertex3f(depth / 2, -width / 2, height / 2);
-	//dessin de "l'arrière"
-	glVertex3f(-depth / 2, -width / 2, -height / 2);
-	glVertex3f(-depth / 2, width / 2, -height / 2);
-	glVertex3f(-depth / 2, width / 2, height / 2);
-	glVertex3f(-depth / 2, -width / 2, height / 2);
-
-	glEnd();
-
-	glPopMatrix();
-}
-
 //Dessine les murs
 void Game::drawWalls() {
+
+	GlutUtils::drawWall(typeWall::rightWall);
+	/*
 	if (vueWalls_ != 0) {
-		drawWall(typeWall::behindWall);
-		drawWall(typeWall::rightWall);
-		drawWall(typeWall::downWall);
+		GlutUtils::drawWall(typeWall::behindWall);
+		GlutUtils::drawWall(typeWall::rightWall);
+		GlutUtils::drawWall(typeWall::downWall);
 		if (vueWalls_ != 1) {
-			drawWall(typeWall::frontWall);
-			drawWall(typeWall::leftWall);
-			drawWall(typeWall::upWall);
+			GlutUtils::drawWall(typeWall::frontWall);
+			GlutUtils::drawWall(typeWall::leftWall);
+			GlutUtils::drawWall(typeWall::upWall);
 		}
-	}
+	} */
 }
 
 //Dessin de tout ce qui est affiché à l'écran
@@ -422,12 +317,13 @@ void Game::deleteAndClearAll() {
 }
 
 void Game::createWalls() {
+	contactResolver_.addPrimitive(new Wall(typeWall::rightWall));;
+	/*
 	contactResolver_.addPrimitive(new Wall(typeWall::upWall));;
 	contactResolver_.addPrimitive(new Wall(typeWall::downWall));;
-	contactResolver_.addPrimitive(new Wall(typeWall::rightWall));;
 	contactResolver_.addPrimitive(new Wall(typeWall::leftWall));;
 	contactResolver_.addPrimitive(new Wall(typeWall::frontWall));;
-	contactResolver_.addPrimitive(new Wall(typeWall::behindWall));;
+	contactResolver_.addPrimitive(new Wall(typeWall::behindWall));; */
 }
 
 //démarrage du jeu : paramétrage de glut pour le bon fonctionnement du moteur - on a suivi ce qu'on a trouvé dans les exemples sur internet

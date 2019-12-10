@@ -16,9 +16,13 @@ public:
 	float height_ = 0.f;
 	float width_ = 0.f;
 	float depth_ = 0.f;
+
 	Bounds(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax);
+
 	Bounds() {};
 	~Bounds();
+
+	Vector3D getCenter();
 
 };
 

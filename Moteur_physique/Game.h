@@ -82,8 +82,6 @@ public:
 	//dessine les rigid bodies
 	void drawBodies();
 
-	//dessine un mur
-	void drawWall(typeWall typeW);
 
 	//dessine les murs
 	void drawWalls();

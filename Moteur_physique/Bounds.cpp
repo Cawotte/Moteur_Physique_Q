@@ -20,3 +20,11 @@ Bounds::~Bounds()
 {
 }
 
+Vector3D Bounds::getCenter()
+{
+	Vector3D min = Vector3D{xmin_, ymin_, zmin_ }; //p1
+	Vector3D max = Vector3D{xmax_, ymax_, zmax_ }; //p1
+
+	return (min + max) * 0.5f;
+}
+

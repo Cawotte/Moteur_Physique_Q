@@ -13,7 +13,7 @@ class Quaternion
 public:
 	float r_, i_, j_, k_;
 
-	Quaternion() :r_(0), i_(0), j_(0), k_(0) {}
+	Quaternion() :r_(0), i_(0), j_(0), k_(1) {}
 
 	Quaternion(float r, float i, float j, float k) :
 		r_(r), i_(i), j_(j), k_(k)

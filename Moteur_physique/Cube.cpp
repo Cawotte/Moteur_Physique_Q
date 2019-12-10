@@ -20,7 +20,7 @@ Vector3D* Cube::rotatedRepere()
 	points[7] = Vector3D{ bounds_.xmin_, bounds_.ymax_, bounds_.zmax_ }; //p8
 	points[5] = Vector3D{ bounds_.xmax_, bounds_.ymin_, bounds_.zmax_ }; //p6
 
-	points[8] = (points[0] + points[7]) * 0.5f;
+	points[8] = (points[0] + points[6]) * 0.5f;
 
 
 	Quaternion q = body_->getOrientation();
