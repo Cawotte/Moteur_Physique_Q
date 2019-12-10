@@ -24,11 +24,16 @@ Bounds::~Bounds()
 {
 }
 
+// Rôle : Calcule le point central de l'objet associé
+// Entrées : Aucune
+// Sortie : le Vector3 représentant le centre de l'objet associé
 Vector3D Bounds::getCenter()
 {
-	Vector3D min = Vector3D{xmin_, ymin_, zmin_ }; //p1
-	Vector3D max = Vector3D{xmax_, ymax_, zmax_ }; //p1
-
+	//Point fictif représentant l'extrémité "basse" de l'objet
+	Vector3D min = Vector3D{xmin_, ymin_, zmin_ };
+	//Point fictif représentant l'extrémité "haute" de l'objet
+	Vector3D max = Vector3D{xmax_, ymax_, zmax_ };
+	//Calcule et retourne le point moyen entre les extrémités haute et basse : le point central de l
 	return (min + max) * 0.5f;
 }
 

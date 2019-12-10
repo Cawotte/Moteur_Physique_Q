@@ -49,88 +49,87 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 
 	switch (key)
 	{
-	case 's'://touche 's' : change le point de vue de la caméra
-		//selon l'angle de vue courant, on passe au suivant, en changeant la position et la direction de regard de la caméra
-		if (posCamera_.x == 50.f)
-		{
-			posCamera_ = Vector3D(200.0f, 100.f, 40.f);
-			lookCamera_ = Vector3D(-200.f, 100.f, 40.f);
-		}
-		else if (posCamera_.x == 500.0f)
-		{
-			posCamera_ = Vector3D(50.0f, -50.f, 5.f);
-			lookCamera_ = Vector3D(0.f, 100.f, 15.f);
-		}
-		else if (posCamera_.x == 200.f)
-		{
-			posCamera_ = Vector3D(500.0f, 100.f, 0.f);
-			lookCamera_ = Vector3D(0.f, 100.f, 0.f);
-		}
-		break;
-
-	case 'b'://touche 'b' : lance une box
-		b = new Box(100.0f, Vector3D(5.f, 5.f, 5.f), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 2.5f, 2.5f, 2.5f);
-		b->setVelocity(Vector3D(10.f, 50.f, 20.f));
-		if (typeRotation_ == 0) {
-			b->setRotation(Vector3D(3.f, 3.f, 0.f));
-		}else if (typeRotation_ == 1) {
-			b->setRotation(Vector3D(0.f, 3.f, 3.f));
-			b->setColor(Color::orange);
-		}
-		else if (typeRotation_ == 2) {
-			b->setRotation(Vector3D(3.f, 0.f, 3.f));
-			b->setColor(Color::purple);
-		}
-		typeRotation_ += 1;
-		typeRotation_ %= 3;
-		//on ajoute la primitive associée à la liste + la box à la liste
-		contactResolver_.addPrimitive(new Cube(b, Bounds(0.f - 2.5f, 0.f + 2.5f, 0.f - 10.f, 0.f + 10.f, 5.f - 2.5f, 5.f + 2.5f)));
-		addBody(b);
-		break;
-
-	case 't'://touche 't' : fait apparaitre un cube dans la zone -1/40 en x/y/z
-		//tirage des valeurs de x/y/z
-		xxx = rand() % (areaBox) - 1;
-		yyy = rand() % (areaBox) - 1;
-		zzz = rand() % (areaBox) - 1;
-		//création de la boite à la position tirée
-		b = new Box(100.f, Vector3D(float(xxx), float(yyy), float(zzz)), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 0.5f, 0.5f, 0.5f);
-		//velocite et rotation nulle pour la boite : test en statique
-		b->setVelocity(Vector3D(0.f, 0.f, 0.f));
-		b->setRotation(Vector3D(0.f, 0.f, 0.f));
-		b->setColor(Color::green);
-		//on ajoute la primitive associée à la liste + la box à la liste
-		contactResolver_.addPrimitive(new Cube(b, Bounds(xxx - sizeBox, xxx + sizeBox, yyy - sizeBox, yyy + sizeBox, zzz - sizeBox, zzz + sizeBox)));;
-		addBody(b);
-		break;
-
-	case 'm'://touche 'm' : broad phase manuelle
-
-		contactResolver_.broadPhase();
-		contactResolver_.displayBroadPhase();
-		break;
-
-	case 'v'://touche 'v' : affiche ou non les murs
-		vueWalls_ += 1;
-		vueWalls_ %= 3;
-		break;
-
-	case 'd':
-		deleteAndClearAll();
-		break;
-	
-	case 27://touche echap : ferme le programme
-		exit(0);
-		break;
-
-	default:
-		break;
+		//Touche 's' : change le point de vue de la caméra
+		case 's':
+			//Selon l'angle de vue courant, on passe au suivant, en changeant la position et la direction de regard de la caméra
+			if (posCamera_.x == 50.f)
+			{
+				posCamera_ = Vector3D(200.0f, 100.f, 40.f);
+				lookCamera_ = Vector3D(-200.f, 100.f, 40.f);
+			}
+			else if (posCamera_.x == 500.0f)
+			{
+				posCamera_ = Vector3D(50.0f, -50.f, 5.f);
+				lookCamera_ = Vector3D(0.f, 100.f, 15.f);
+			}
+			else if (posCamera_.x == 200.f)
+			{
+				posCamera_ = Vector3D(500.0f, 100.f, 0.f);
+				lookCamera_ = Vector3D(0.f, 100.f, 0.f);
+			}
+			break;
+		//Touche 'b' : lance une box
+		case 'b':
+			b = new Box(100.0f, Vector3D(5.f, 5.f, 5.f), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 2.5f, 2.5f, 2.5f);
+			b->setVelocity(Vector3D(10.f, 50.f, 20.f));
+			//Alternance de trois types de rotation (et par conséquent de couleur pour les différencier)
+			if (typeRotation_ == 0) {
+				b->setRotation(Vector3D(3.f, 3.f, 0.f));
+			}else if (typeRotation_ == 1) {
+				b->setRotation(Vector3D(0.f, 3.f, 3.f));
+				b->setColor(Color::orange);
+			}
+			else if (typeRotation_ == 2) {
+				b->setRotation(Vector3D(3.f, 0.f, 3.f));
+				b->setColor(Color::purple);
+			}
+			typeRotation_ += 1;
+			typeRotation_ %= 3;
+			//On ajoute la primitive associée à la liste + la box à la liste
+			contactResolver_.addPrimitive(new Cube(b, Bounds(0.f - 2.5f, 0.f + 2.5f, 0.f - 10.f, 0.f + 10.f, 5.f - 2.5f, 5.f + 2.5f)));
+			addBody(b);
+			break;
+		//Touche 't' : fait apparaitre un cube dans la zone -1/40 en x/y/z
+		case 't':
+			//Tirage des valeurs de x/y/z
+			xxx = rand() % (areaBox) - 1;
+			yyy = rand() % (areaBox) - 1;
+			zzz = rand() % (areaBox) - 1;
+			//Création de la boite à la position tirée
+			b = new Box(100.f, Vector3D(float(xxx), float(yyy), float(zzz)), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 0.5f, 0.5f, 0.5f);
+			//velocite et rotation nulle pour la boite : test en statique
+			b->setVelocity(Vector3D(0.f, 0.f, 0.f));
+			b->setRotation(Vector3D(0.f, 0.f, 0.f));
+			b->setColor(Color::green);
+			//On ajoute la primitive associée à la liste + la box à la liste
+			contactResolver_.addPrimitive(new Cube(b, Bounds(xxx - sizeBox, xxx + sizeBox, yyy - sizeBox, yyy + sizeBox, zzz - sizeBox, zzz + sizeBox)));;
+			addBody(b);
+			break;
+		//Touche 'm' : broad phase manuelle
+		case 'm':
+			contactResolver_.broadPhase();
+			contactResolver_.displayBroadPhase();
+			break;
+		//Touche 'v' : affiche ou non les murs
+		case 'v':
+			vueWalls_ += 1;
+			vueWalls_ %= 3;
+			break;
+		//Touche 'd' : vide la scène des boîtes
+		case 'd':
+			deleteAndClearAll();
+			break;
+		//touche 'echap' : ferme le programme
+		case 27:
+			exit(0);
+			break;
+		default:
+			break;
 	}
 }
 
-//Gère le redimensionnement de la fenêtre : redessine le fond et repositionne la caméra. Le reste est redessiné automatique correctement à la frame suivante
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
+// Rôle : Gère le redimensionnement de la fenêtre : redessine le fond et repositionne la caméra. Le reste est redessiné automatique correctement à la frame suivante
+// Entrées : Nouvelles dimensions de la fenêtre
 // Sortie : Aucune
 void Game::handleResize(int w, int h)
 {
@@ -139,14 +138,12 @@ void Game::handleResize(int w, int h)
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(45.0, (double)w / (double)h, 1.0, 2000.0);
-
 	screenWidth = w;
 	screenHeight = h;
 }
 
-//Applique les forces sur les bodies
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
+// Rôle : Applique les forces sur les boxs de bodies_
+// Entrées : Durée de la dernière frame
 // Sortie : Aucune
 void Game::applyRegister(float time) {
 
@@ -155,38 +152,36 @@ void Game::applyRegister(float time) {
 	//Register bodies
 	for (it = bodies_.begin(); it != bodies_.end(); it++)
 	{
+		//Ajoute la gravité pour chaque box dans bodies_
 		register_.add(*it, new GravityFG(g_));
 	}
-
+	//Applique toutes les forces dans le registre
 	register_.updateForces(time);
+	//Vide le registre
 	register_.clear();
 }
 
-//Applique les mouvements sur les bodies
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
+// Rôle : Applique les mouvements sur les boxs de bodies_
+// Entrées : Durée de la dernière frame
 // Sortie : Aucune
 void Game::applyMovements(float time) {
 
 	std::list<Box*>::iterator it;
 
-	//update physics for each particles
+	//Update la physique pour chaque box dans bodies_
 	for (it = bodies_.begin(); it != bodies_.end(); it++)
 	{
-		//If particle isn't null for some reasons
+		//Vérifie que la particule n'est pas nulle
 		if (*it != NULL) {
-
-			//Compute new positions !
+			//Calcule la nouvelle position de la box
 			(*it)->integrate(time);
-
 		}
 	}
 
 }
 
-//Applique les collisions sur les bodies
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
+// Rôle : Applique les collisions sur les boxs de bodies_
+// Entrées : Durée de la dernière frame
 // Sortie : Aucune
 void Game::applyCollisions(float time)
 {
@@ -203,60 +198,52 @@ void Game::applyCollisions(float time)
 	contactResolver_.setNumCollisions(0);
 }
 
-//Dessine les bodies
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
+// Rôle : Dessine les boxs de bodies_
+// Entrées : Aucune
 // Sortie : Aucune
 void Game::drawBodies() {
 	std::list<Box*>::iterator it;
 	for (it = bodies_.begin(); it != bodies_.end(); it++)
 	{
 		if (*it != NULL) {
+			//Pour chaque box de bodies_, si elle n'est pas nulle, appel de la fonction qui la dessine
 			(*it)->display();
 		}
 	}
 
 }
 
-//Dessine les murs
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
+// Rôle : Dessine les murs
+// Entrées : Aucune
 // Sortie : Aucune
 void Game::drawWalls() {
 
 	GlutUtils::drawWall(typeWall::rightWall);
-	/*
-	if (vueWalls_ != 0) {
-		GlutUtils::drawWall(typeWall::behindWall);
-		GlutUtils::drawWall(typeWall::rightWall);
-		GlutUtils::drawWall(typeWall::downWall);
-		if (vueWalls_ != 1) {
-			GlutUtils::drawWall(typeWall::frontWall);
-			GlutUtils::drawWall(typeWall::leftWall);
-			GlutUtils::drawWall(typeWall::upWall);
-		}
-	} */
 }
 
-//Dessin de tout ce qui est affiché à l'écran
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
+// Rôle : Dessine l'intégralité de la scène
+// Entrées : Aucune
 // Sortie : Aucune
 void Game::drawScene()
 {
-	//mise a zéro de l'affichage, réglage des paramètres d'OpenGL
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);//vide les buffers de couleur et de profondeur
-	glClearColor(0.5, 0.5, 0.5, 1);//maj de la couleur de fond
-	glMatrixMode(GL_MODELVIEW);//mode de réglage du point de vue
-	glLoadIdentity();//raz du point de vue
+	//Mise a zéro de l'affichage, réglage des paramètres d'OpenGL
+	//Vide les buffers de couleur et de profondeur
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//Maj de la couleur de fond
+	glClearColor(0.5, 0.5, 0.5, 1);
+	//Mode de réglage du point de vue
+	glMatrixMode(GL_MODELVIEW);
+	//Raz du point de vue
+	glLoadIdentity();
+	//Réglage de la caméra
 	gluLookAt(posCamera_.x, posCamera_.y, posCamera_.z, 
 		lookCamera_.x, lookCamera_.y, lookCamera_.z, 
-		0, 0, 1);//réglage de la caméra
+		0, 0, 1);
 
-	//dessine les murs
+	//Dessine les murs
 	drawWalls();
 
-	//dessine les bodies
+	//Dessine les boxs de bodies_
 	drawBodies();
 
 	glutSwapBuffers();
@@ -264,31 +251,30 @@ void Game::drawScene()
 
 #pragma endregion
 
-// Boucle d'update maintenant à jour les objets et d'autres valeurs.
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
+// Rôle : Boucle d'update maintenant à jour les objets et d'autres valeurs
+// Entrées : Paramètre par défaut de la fonction - non utilisé
 // Sortie : Aucune
 void Game::update(int value)
 {
-	//calcul de la durée de la dernière frame
+	//Calcul de la durée de la dernière frame
 	startTime = stopTime;
 	stopTime = clock();
 	elapsedTime = ((float)(stopTime - startTime)) / (CLOCKS_PER_SEC);
 
+	//Applique les forces, les mouvements puis les collisions sur les boxs
 	applyRegister(elapsedTime);
 	applyMovements(elapsedTime);
 	applyCollisions(elapsedTime);
 
-	//dessine à l'écran
+	//Dessine à l'écran
 	drawScene();
 
 	glutPostRedisplay();//indique qu'il faut redessiner à la frame suivante
 	glutTimerFunc((unsigned int)elapsedTime * 1000, updateCallback, 0);//gestion de la durée de la frame
 }
 
-//liste des interactions possibles avec le moteur affichée dans la console au lancement
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
+// Rôle : Affiche les interactions possibles avec le moteur au lancement de celui-ci
+// Entrées : Aucune
 // Sortie : Aucune
 void Game::instructions() {
 	cout << "##############################################" << endl;
@@ -302,61 +288,58 @@ void Game::instructions() {
 	cout << "La touche D sert a supprimer les objets ajoutes par l'utilisateur." << endl;
 }
 
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
+// Rôle : Ajoute un RigidBody à la liste des bodies
+// Entrées : La box à ajouter au vecteur
 // Sortie : Aucune
 void Game::addBody(Box* rb) {
 	bodies_.push_back(rb);
 }
 
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
+// Rôle : Retire un RigidBody à la liste des bodies
+// Entrées : La box à retirer du vecteur
 // Sortie : Aucune
 void Game::deleteBody(Box* rb) {
 	bodies_.remove(rb);
 	delete(rb);
 }
 
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
+// Rôle : Supprime tous les bodies de la liste
+// Entrées : Aucune
 // Sortie : Aucune
 void Game::deleteAllBodies() {
 	while (!bodies_.empty())
 		deleteBody(bodies_.front());
 }
 
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
+// Rôle : Supprimer tous les éléments contenus dans la scène
+// Entrées : Aucune
 // Sortie : Aucune
 void Game::deleteAndClearAll() {
+	//Supprime toutes les boxs
 	deleteAllBodies();
+	//Vide le registre de forces
 	register_.clear();
+	//Vide le registre des contacts
 	contactResolver_.clear();
+	//Recrée les murs de la pièce
 	createWalls();
 }
 
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
+// Rôle : /Ajoute les 6 murs de la pièce à la liste des primitives
+// Entrées : Aucune
 // Sortie : Aucune
 void Game::createWalls() {
-	contactResolver_.addPrimitive(new Wall(typeWall::rightWall));;
-	/*
-	contactResolver_.addPrimitive(new Wall(typeWall::upWall));;
-	contactResolver_.addPrimitive(new Wall(typeWall::downWall));;
-	contactResolver_.addPrimitive(new Wall(typeWall::leftWall));;
-	contactResolver_.addPrimitive(new Wall(typeWall::frontWall));;
-	contactResolver_.addPrimitive(new Wall(typeWall::behindWall));; */
+	contactResolver_.addPrimitive(new Wall(typeWall::rightWall));
 }
 
-//démarrage du jeu : paramétrage de glut pour le bon fonctionnement du moteur - on a suivi ce qu'on a trouvé dans les exemples sur internet
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
+// Rôle : Paramètre le moteur et l'affichage, appelé au lancement du programme
+// Entrées : Paramètres par défaut
 // Sortie : Aucune
 void Game::execute(int argc, char** argv)
 {
 	instructions();
 
-	//launch Glut
+	//Lance Glut
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(screenWidth, screenHeight);
@@ -376,22 +359,22 @@ void Game::execute(int argc, char** argv)
 
 #pragma region Glut
 
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
+// Rôle : Glut - initialise l'affichage graphique
+// Entrées : Aucune
 // Sortie : Aucune
-void Game::initRendering()//initialisation de l'affichage
+void Game::initRendering()
 {
-	glEnable(GL_DEPTH_TEST);//permet de dessiner avec prise en compte de la profondeur
-	glClearColor(0.5, 0.5, 0.5, 1);//initialisation de la couleur de fond
+	//Permet de dessiner avec prise en compte de la profondeur
+	glEnable(GL_DEPTH_TEST);
+	//Initialisation de la couleur de fond
+	glClearColor(0.5, 0.5, 0.5, 1);
 }
 
 
 #pragma endregion
 
-
-//part of hotfix pour l'encapsulation des fonctions de callback/interactions avec l'utilisateur
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
+// Rôle : Partie de hotfix pour l'encapsulation des fonctions de callback/interactions avec l'utilisateur
+// Entrées : Aucune
 // Sortie : Aucune
 void Game::setupInstance() {
 	::j_CurrentInstance = this;

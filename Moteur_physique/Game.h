@@ -88,7 +88,6 @@ public:
 	//Dessine les rigid bodies
 	void drawBodies();
 
-
 	//Dessine tous les murs
 	void drawWalls();
 
@@ -107,13 +106,13 @@ public:
 	//Ajoute les 6 murs de la pièce à la liste des primitives
 	void createWalls();
 
-	//Applique les forces sur les bodies
+	//Applique les forces sur les boxs de bodies_
 	void applyRegister(float time);
 
-	//Applique les mouvements sur les bodies
+	//Applique les mouvements sur les boxs de bodies_
 	void applyMovements(float time);
 
-	//Applique les collisons sur les bodies
+	//Applique les collisons sur les boxs de bodies_
 	void applyCollisions(float time);
 
 	//Update global, appelée à chaque frame pour mettre à jour les entrées, la logique et les sorties : boucle de jeu
@@ -126,7 +125,7 @@ public:
 	void execute(int argc, char** argv);	
 };
 
-//hotfix car Glut n'apprécie pas l'encapsulation des fonctions comme Reshape/DisplayFunc ect..
+//Hotfix car Glut n'apprécie pas l'encapsulation des fonctions comme Reshape/DisplayFunc ect..
 static Game* j_CurrentInstance;
 
 extern "C"

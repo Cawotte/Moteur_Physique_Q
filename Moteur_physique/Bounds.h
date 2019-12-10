@@ -30,7 +30,7 @@ public:
 	Bounds() {};
 	//Destructeur
 	~Bounds();
-
+	//Calcule le point central de l'objet associé
 	Vector3D getCenter();
 
 };
