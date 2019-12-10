@@ -9,7 +9,6 @@
 //			- matrice inverse
 //			- changement de base
 //		Cette representation omet la derniere ligne qui vaut toujours 0 0 0 1.
-// Date de creation : 06/11/2019
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include "Vector3D.h"

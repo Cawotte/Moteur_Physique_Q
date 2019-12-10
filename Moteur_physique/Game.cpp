@@ -153,7 +153,7 @@ void Game::applyRegister(float time) {
 	for (it = bodies_.begin(); it != bodies_.end(); it++)
 	{
 		//Ajoute la gravité pour chaque box dans bodies_
-		register_.add(*it, new GravityFG(g_));
+		//register_.add(*it, new GravityFG(g_));
 	}
 	//Applique toutes les forces dans le registre
 	register_.updateForces(time);
