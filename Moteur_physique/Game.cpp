@@ -5,15 +5,22 @@
 #pragma region Glut Callbacks
 
 
-//Constructeur. Appelé au démarrage. Indique que le temps de la frame précédente (qui n'existe pas en réalité) est de 0
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 Game::Game()
 {
+	//Initialisation pour l'aléatoire
 	srand(unsigned int(time(NULL)));
+	//Mise à zéro du temps de la frame précédente (qui n'existe pas en réalité)
 	elapsedTime = 0.f;
+	//Crée les murs
 	createWalls();
 }
 
-//Destructeur
+// Rôle : Destructeur - Vide les listes et détruit l'objet
+// Entrées : Aucune
+// Sortie : Aucune
 Game::~Game() {
 	deleteAllBodies();
 	register_.clear();
@@ -21,16 +28,24 @@ Game::~Game() {
 }
 
 //Gestion de l'appui sur une touche du clavier
+// Rôle : Gère l'appui sur une touche
+// Entrées : code de la touche appuyée, coordonnées de la souris au moment où la touche est pressée
+// Sortie : Aucune
 void Game::handleKeypress(unsigned char key, int x, int y)
 {
+	//Les variables sont déclarées ici car elle ne peuvent pas l'être à l'intérieur du switch
+	//Box utilisée lors de l'appui sur la touche B
 	Box * b = NULL;
-
+	//Itérateur pour parcourir une liste de primitives
 	std::list<Primitive*>::iterator it;
+	//coordonnées xyz tirées au sort pour l'apparition des boxs lors de l'appui sur la touche T
 	int xxx;
 	int yyy;
 	int zzz;
-	float sizeBox;
-	int areaBox;
+	//demi-dimensions des boites utilisées lors de l'appui sur la touche T
+	float sizeBox = 2.f;
+	//dimension de la zone dans laquelle on teste les collisions
+	int areaBox = 41;
 
 	switch (key)
 	{
@@ -74,9 +89,6 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		break;
 
 	case 't'://touche 't' : fait apparaitre un cube dans la zone -1/40 en x/y/z
-
-		sizeBox = 0.5f;
-		areaBox = 41;
 		//tirage des valeurs de x/y/z
 		xxx = rand() % (areaBox) - 1;
 		yyy = rand() % (areaBox) - 1;
@@ -117,6 +129,9 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 }
 
 //Gère le redimensionnement de la fenêtre : redessine le fond et repositionne la caméra. Le reste est redessiné automatique correctement à la frame suivante
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 void Game::handleResize(int w, int h)
 {
 	glViewport(0, 0, w, h);
@@ -129,39 +144,10 @@ void Game::handleResize(int w, int h)
 	screenHeight = h;
 }
 
-//Permet de suivre la position de la souris quand on clique, donc adapter la direction de tir de l'objet
-void Game::handlePassiveMouseMotion(int x, int y) {
-	//move reticle toward mouse
-	float h = (float)(screenHeight - y - 50);
-	Vector3D mouseDirection2D = Vector3D(0.0f, (float)x, h);
-}
-
-//Gestion d'un clic sur la souris
-void Game::handleMouseClick(int button, int state, int x, int y) {
-
-	switch (button) {//selon le bouton cliqué
-		
-		case GLUT_LEFT_BUTTON://si c'est le bouton gauche : gestion du tir/chargement du tir
-			if (state == GLUT_UP) {//si on soulève/arrête le clic : on tire
-				//TIREZ!
-				isLeftMouseButtonDown_ = false;
-			}
-			else if (state == GLUT_DOWN) {//si on appuie/commence le clic : on commence le chargement du tir
-
-				isLeftMouseButtonDown_ = true;
-			}
-		break;
-		
-		case GLUT_RIGHT_BUTTON://si c'est le bouton droit : gestion du changement de la particule
-			if (state == GLUT_DOWN) {//si on appuie : on change la particule à tirer
-				drawScene();
-			}
-
-		break;
-	}
-}
-
 //Applique les forces sur les bodies
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 void Game::applyRegister(float time) {
 
 	std::list<Box*>::iterator it;
@@ -177,6 +163,9 @@ void Game::applyRegister(float time) {
 }
 
 //Applique les mouvements sur les bodies
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 void Game::applyMovements(float time) {
 
 	std::list<Box*>::iterator it;
@@ -196,6 +185,9 @@ void Game::applyMovements(float time) {
 }
 
 //Applique les collisions sur les bodies
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 void Game::applyCollisions(float time)
 {
 	//BroadPhase
@@ -212,6 +204,9 @@ void Game::applyCollisions(float time)
 }
 
 //Dessine les bodies
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 void Game::drawBodies() {
 	std::list<Box*>::iterator it;
 	for (it = bodies_.begin(); it != bodies_.end(); it++)
@@ -224,6 +219,9 @@ void Game::drawBodies() {
 }
 
 //Dessine les murs
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 void Game::drawWalls() {
 
 	GlutUtils::drawWall(typeWall::rightWall);
@@ -241,6 +239,9 @@ void Game::drawWalls() {
 }
 
 //Dessin de tout ce qui est affiché à l'écran
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 void Game::drawScene()
 {
 	//mise a zéro de l'affichage, réglage des paramètres d'OpenGL
@@ -264,6 +265,9 @@ void Game::drawScene()
 #pragma endregion
 
 // Boucle d'update maintenant à jour les objets et d'autres valeurs.
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 void Game::update(int value)
 {
 	//calcul de la durée de la dernière frame
@@ -283,6 +287,9 @@ void Game::update(int value)
 }
 
 //liste des interactions possibles avec le moteur affichée dans la console au lancement
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 void Game::instructions() {
 	cout << "##############################################" << endl;
 	cout << "# Bienvenue dans le test du moteur physique! #" << endl;
@@ -295,20 +302,32 @@ void Game::instructions() {
 	cout << "La touche D sert a supprimer les objets ajoutes par l'utilisateur." << endl;
 }
 
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 void Game::addBody(Box* rb) {
 	bodies_.push_back(rb);
 }
 
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 void Game::deleteBody(Box* rb) {
 	bodies_.remove(rb);
 	delete(rb);
 }
 
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 void Game::deleteAllBodies() {
 	while (!bodies_.empty())
 		deleteBody(bodies_.front());
 }
 
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 void Game::deleteAndClearAll() {
 	deleteAllBodies();
 	register_.clear();
@@ -316,6 +335,9 @@ void Game::deleteAndClearAll() {
 	createWalls();
 }
 
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 void Game::createWalls() {
 	contactResolver_.addPrimitive(new Wall(typeWall::rightWall));;
 	/*
@@ -327,6 +349,9 @@ void Game::createWalls() {
 }
 
 //démarrage du jeu : paramétrage de glut pour le bon fonctionnement du moteur - on a suivi ce qu'on a trouvé dans les exemples sur internet
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 void Game::execute(int argc, char** argv)
 {
 	instructions();
@@ -351,6 +376,9 @@ void Game::execute(int argc, char** argv)
 
 #pragma region Glut
 
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 void Game::initRendering()//initialisation de l'affichage
 {
 	glEnable(GL_DEPTH_TEST);//permet de dessiner avec prise en compte de la profondeur
@@ -362,12 +390,13 @@ void Game::initRendering()//initialisation de l'affichage
 
 
 //part of hotfix pour l'encapsulation des fonctions de callback/interactions avec l'utilisateur
+// Rôle : Constructeur - Initialise l'objet
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 void Game::setupInstance() {
 	::j_CurrentInstance = this;
 	::glutDisplayFunc(::drawSceneCallback);
 	::glutReshapeFunc(::handleResizeCallback);
-	::glutPassiveMotionFunc(::handlePassiveMouseMotionCallback);
-	::glutMouseFunc(::handleMouseClickCallback);
 	::glutKeyboardFunc(::handleKeypressCallback);
 }
 

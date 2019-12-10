@@ -1,7 +1,8 @@
 #include "Bounds.h"
-
-
-
+  
+// Rôle : Constructeur - Initialise l'objet en associant extrémités aux valeurs passées en paramètres
+// Entrées : Valeurs des extrémités de l'objet associé
+// Sortie : Aucune
 Bounds::Bounds(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax)
 {
 	xmin_ = xmin;
@@ -16,6 +17,9 @@ Bounds::Bounds(float xmin, float xmax, float ymin, float ymax, float zmin, float
 }
 
 
+// Rôle : Constructeur par défaut - Initialise l'objet avec les valeurs par défaut indiquées dans le header
+// Entrées : Aucune
+// Sortie : Aucune
 Bounds::~Bounds()
 {
 }

@@ -20,6 +20,13 @@
 #include "Cube.h"
 
 // Classe de gestion globale. Dessine la scène, gère les objets, upate la logique et appelle la fonction pour les dessiner
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Nom : Game
+// But : Gestion globale
+//		 Gère la boucle de jeu
+//		 Dessine la scène, gère les objets, upate la logique et appelle la fonction pour les dessiner
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class Game
 {
 private:
@@ -42,7 +49,6 @@ private:
 	//Constantes
 	Vector3D g_ = Vector3D(0, 0, -9.8f);
 
-	bool isLeftMouseButtonDown_ = false;
 
 	//pour calculer le framerate variable 
 	float elapsedTime;//durée d'une frame : différence entre les deux variables suivantes
@@ -59,65 +65,65 @@ private:
 
 public:
 
-	//Glut : intialise l'affichage graphique
+	//Glut : initialise l'affichage graphique
 	void initRendering();
 
 	//part of hotfix, fait le lien entre les fonctions de callback de glut et celles appelées dans le code pour exécuter l'action appropriée
 	void setupInstance();
 
-
-	//constructor/deconstructor
+	//Constructeur
 	Game();
+	//Destructeur
 	~Game();
 
-	// fonctions reliées à Glut et ses callbacks
-	void handleKeypress(unsigned char key, int x, int y);//gère l'appui sur une touche
-	void handleResize(int w, int h);//gère le redimensionnent de la fenêtre
-	void handlePassiveMouseMotion(int x, int y);//gère le déplacement de la souris dans la fenêtre quand un ou plusieurs boutons sont enfoncés
-	void handleMouseClick(int button, int state, int x, int y);//gère l'appui sur les boutons de la souris
-
-	//dessine tout ce qu'il faut à l'écran
+	//Fonctions reliées à Glut et ses callbacks
+	//Gère l'appui sur une touche
+	void handleKeypress(unsigned char key, int x, int y);
+	//Gère le redimensionnent de la fenêtre
+	void handleResize(int w, int h);
+	
+	//Dessine l'intégralité de la scène
 	void drawScene();
 
-	//dessine les rigid bodies
+	//Dessine les rigid bodies
 	void drawBodies();
 
 
-	//dessine les murs
+	//Dessine tous les murs
 	void drawWalls();
 
-	//permet d'ajouter un RigidBody a la liste des bodies
+	//Ajoute un RigidBody à la liste des bodies
 	void addBody(Box* rb);
 
-	//permet de retirer un RigidBody a la liste des bodies
+	//Retire un RigidBody à la liste des bodies
 	void deleteBody(Box* rb);
 
-	//permet de supprimer tous les bodies
+	//Supprime tous les bodies de la liste
 	void deleteAllBodies();
 
-	//permet de supprimer tous les éléments
+	//Supprimer tous les éléments contenus dans la scène
 	void deleteAndClearAll();
 
-	//permet d'ajouter les 6 murs à la liste des primitives
+	//Ajoute les 6 murs de la pièce à la liste des primitives
 	void createWalls();
 
-	//applique les forces sur les bodies
+	//Applique les forces sur les bodies
 	void applyRegister(float time);
 
-	//applique les mouvements sur les bodies
+	//Applique les mouvements sur les bodies
 	void applyMovements(float time);
 
-	//applique les collisons sur les bodies
+	//Applique les collisons sur les bodies
 	void applyCollisions(float time);
 
-	//// fonctions update
-	// global update, appelée à chaque frame pour mettre à jour les entrées, la logique et les sorties
+	//Update global, appelée à chaque frame pour mettre à jour les entrées, la logique et les sorties : boucle de jeu
 	void update(int value);
 
-	//start the game and write the instructions
-	void instructions();//affiche les interactions possibles avec le moteur au lancement de celui-ci
-	void execute(int argc, char** argv);//paramètre le moteur et l'affichage, appelé au lancement du programme
-	
+	//Démarrent le jeu
+	//Affiche les interactions possibles avec le moteur au lancement de celui-ci	
+	void instructions();
+	//Paramètre le moteur et l'affichage, appelé au lancement du programme
+	void execute(int argc, char** argv);	
 };
 
 //hotfix car Glut n'apprécie pas l'encapsulation des fonctions comme Reshape/DisplayFunc ect..
@@ -129,14 +135,6 @@ static void drawSceneCallback() {
 }
 static void handleResizeCallback(int w, int h) {
 	j_CurrentInstance->handleResize(w, h);
-}
-
-static void handlePassiveMouseMotionCallback(int x, int y) {
-	j_CurrentInstance->handlePassiveMouseMotion(x, y);
-}
-
-static void handleMouseClickCallback(int button, int state, int x, int y) {
-	j_CurrentInstance->handleMouseClick(button, state, x, y);
 }
 
 static void handleKeypressCallback(unsigned char key, int x, int y) {
