@@ -27,14 +27,6 @@ Vector3D* Cube::rotatedRepere()
 
 	points[8] = (points[0] + points[6]) * 0.5f;
 
-
-	Quaternion q = body_->getOrientation();
-
-	//Points déplacés et rotatés autour du centre du pivot
-	for (int i = 0; i < 8; i++) {
-		points[i] = points[i] + body_->getPosition();
-		points[i] = pointRotationByQuaternion(points[i], q);
-	}
 	return points;
 }
 
@@ -63,14 +55,6 @@ bool Cube::isPointWithinCube(Vector3D point, Vector3D* p)
 		2 * py <= yLenght &&
 		2 * pz <= zLenght
 		);
-}
-
-// Rôle : Fait pivoter un point selon l'orientation de la primitive
-// Entrées : Le point à faire pivoter dans le repère du cube
-// Sortie : Le point rotaté
-Vector3D Cube::rotatePointWithOrientation(Vector3D point)
-{
-	return pointRotationByQuaternion(point, body_->getOrientation());
 }
 
 // Rôle : Teste si le cube est en collision avec une primitive

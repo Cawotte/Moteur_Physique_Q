@@ -8,18 +8,18 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Nom : ContactResolver
-// But : Gère la détection de collision entre les primitives qu'il contient
+// But : Gï¿½re la dï¿½tection de collision entre les primitives qu'il contient
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class ContactResolver
 {
 
 private:
-	//Arbre servant à la broad phase pour les collisions
+	//Arbre servant ï¿½ la broad phase pour les collisions
 	Octree tree_ = Octree(0, Bounds(-1, 40, -1, 40, -1, 40));
-	//Liste des primitives des objets étant sur scène
+	//Liste des primitives des objets ï¿½tant sur scï¿½ne
 	list<Primitive*> primitives_;
-	//Liste des paires de primitives à tester pour la collision, issue de la broad phase
+	//Liste des paires de primitives ï¿½ tester pour la collision, issue de la broad phase
 	vector<pair<Primitive*, Primitive*>> paires_;
 	//Nombre de collisions 
 	int numCollisions_ = 0;
@@ -33,9 +33,10 @@ public:
 	void setNumCollisions(int num) { numCollisions_ = num; }
 	//Getter du nombre de collisions
 	int getNumCollisions() { return numCollisions_; }
+	list<Primitive*> getPrimitives() { return primitives_; }
 	//Effectue la broad phase
 	void broadPhase();
-	//Affiche le résultat de la broad phase
+	//Affiche le rï¿½sultat de la broad phase
 	void displayBroadPhase();
 	//Effectue la narrow phase
 	int narrowPhase();

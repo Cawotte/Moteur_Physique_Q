@@ -177,7 +177,6 @@ void Game::applyMovements(float time) {
 			(*it)->integrate(time);
 		}
 	}
-
 }
 
 // Rôle : Applique les collisions sur les boxs de bodies_
