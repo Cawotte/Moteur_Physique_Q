@@ -10,15 +10,15 @@ Vector3D* Cube::rotatedRepere()
 	Vector3D* points = new Vector3D[9];
 
 	//Points du repres
-	points[0] = Vector3D{ bounds_.xmin_, bounds_.ymin_, bounds_.zmin_ }; //p1
-	points[1] = Vector3D{ bounds_.xmax_, bounds_.ymin_, bounds_.zmin_ }; //p2
-	points[3] = Vector3D{ bounds_.xmin_, bounds_.ymax_, bounds_.zmin_ }; //p4
-	points[4] = Vector3D{ bounds_.xmin_, bounds_.ymin_, bounds_.zmax_ }; //p5
+	points[0] = Vector3D{ originalBounds_.xmin_, originalBounds_.ymin_, originalBounds_.zmin_ }; //p1
+	points[1] = Vector3D{ originalBounds_.xmax_, originalBounds_.ymin_, originalBounds_.zmin_ }; //p2
+	points[3] = Vector3D{ originalBounds_.xmin_, originalBounds_.ymax_, originalBounds_.zmin_ }; //p4
+	points[4] = Vector3D{ originalBounds_.xmin_, originalBounds_.ymin_, originalBounds_.zmax_ }; //p5
 
-	points[2] = Vector3D{ bounds_.xmax_, bounds_.ymax_, bounds_.zmin_ }; //p3
-	points[6] = Vector3D{ bounds_.xmax_, bounds_.ymax_, bounds_.zmax_ }; //p7
-	points[7] = Vector3D{ bounds_.xmin_, bounds_.ymax_, bounds_.zmax_ }; //p8
-	points[5] = Vector3D{ bounds_.xmax_, bounds_.ymin_, bounds_.zmax_ }; //p6
+	points[2] = Vector3D{ originalBounds_.xmax_, originalBounds_.ymax_, originalBounds_.zmin_ }; //p3
+	points[6] = Vector3D{ originalBounds_.xmax_, originalBounds_.ymax_, originalBounds_.zmax_ }; //p7
+	points[7] = Vector3D{ originalBounds_.xmin_, originalBounds_.ymax_, originalBounds_.zmax_ }; //p8
+	points[5] = Vector3D{ originalBounds_.xmax_, originalBounds_.ymin_, originalBounds_.zmax_ }; //p6
 
 	points[8] = (points[0] + points[6]) * 0.5f;
 

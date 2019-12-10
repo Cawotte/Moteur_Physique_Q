@@ -23,6 +23,7 @@ protected :
 public:
 
 	Bounds bounds_;
+	Bounds originalBounds_;
 
 	~Primitive();
 	
@@ -30,7 +31,12 @@ public:
 	virtual bool isPrimitiveCollidingWith(Cube* prim) = 0;
 	virtual bool isPrimitiveCollidingWith(Wall* prim) = 0;
 
-	void setBounds(Bounds b) { bounds_ = b; }
+	void setBounds(Bounds b) {
+		bounds_ = b;
+		originalBounds_ = b;
+	}
+
+	RigidBody* getBody() { return body_; }
 
 };
 
