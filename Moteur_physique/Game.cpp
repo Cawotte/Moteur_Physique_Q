@@ -94,7 +94,7 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		yyy = rand() % (areaBox) - 1;
 		zzz = rand() % (areaBox) - 1;
 		//création de la boite à la position tirée
-		b = new Box(100.f, Vector3D(float(xxx), float(yyy), float(zzz)), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 0.5f, 0.5f, 0.5f);
+		b = new Box(100.f, Vector3D(float(xxx), float(yyy), float(zzz)), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 2.f, 2.f, 2.f);
 		//velocite et rotation nulle pour la boite : test en statique
 		b->setVelocity(Vector3D(0.f, 0.f, 0.f));
 		b->setRotation(Vector3D(0.f, 0.f, 0.f));

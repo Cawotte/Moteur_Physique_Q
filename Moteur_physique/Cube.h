@@ -12,8 +12,6 @@ private:
 
 	bool isPointWithinCube(Vector3D point, Vector3D* rotatedRepere);
 
-	Vector3D rotatePointWithOrientation(Vector3D point);
-
 	bool arePointsCollidingWithPrimitive(Vector3D* points, int sizeArray);
 
 public:

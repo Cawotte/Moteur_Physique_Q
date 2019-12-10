@@ -30,11 +30,27 @@ Vector3D Primitive::pointRotationByQuaternion(Vector3D point, Quaternion q)
 
 void Primitive::updateBounds() {
 	if (body_ != NULL) {
+
+		//Déplacement
 		bounds_.xmax_ = originalBounds_.xmax_ + body_->getPosition().x;
 		bounds_.xmin_ = originalBounds_.xmin_ + body_->getPosition().x;
 		bounds_.ymax_ = originalBounds_.ymax_ + body_->getPosition().y;
 		bounds_.ymin_ = originalBounds_.ymin_ + body_->getPosition().y;
 		bounds_.zmax_ = originalBounds_.zmax_ + body_->getPosition().z;
 		bounds_.zmin_ = originalBounds_.zmin_ + body_->getPosition().z;
+
+		//Rotation
+		Vector3D* points = new Vector3D[2];
+		points[0] = Vector3D{ bounds_.xmin_, bounds_.ymin_, bounds_.zmin_ };
+		points[1] = Vector3D{ bounds_.xmax_, bounds_.ymax_, bounds_.zmax_ };
+		Quaternion q = body_->getOrientation();
+		//points[0] = pointRotationByQuaternion(points[0], q);
+		//points[1] = pointRotationByQuaternion(points[1], q);
+		bounds_.xmax_ = points[1].x;
+		bounds_.xmin_ = points[0].x;
+		bounds_.ymax_ = points[1].y;
+		bounds_.ymin_ = points[0].y;
+		bounds_.zmax_ = points[1].z;
+		bounds_.zmin_ = points[0].z;
 	}
 }

@@ -113,13 +113,13 @@ bool Wall::isPrimitiveCollidingWith(Cube* prim)
 			cout << "Distance de penetration: " << dist << endl;
 			prim->getBody()->getPosition().display();
 			cout << "-----------------------------------" << endl;
-			/*
+			
 			float vs = prim->getBody()->getVelocity().dotProd(normal_) * prim->getBody()->getInverseMass();
 			prim->getBody()->setPosition(prim->getBody()->getPosition() - normal_ * dist);
 			prim->getBody()->setVelocity(prim->getBody()->getVelocity() - normal_ * vs);
 			float d = (points[i] - prim->getBody()->getPosition()).norm() * prim->getBody()->getInverseMass(); //distance du point d'impact avec le centre du cube
 			prim->getBody()->setRotation(prim->getBody()->getRotation() + (prim->getBody()->getVelocity().crossProd(normal_).normalized()) * d);
-			*/
+			
 			return true;
 		}
 	}
