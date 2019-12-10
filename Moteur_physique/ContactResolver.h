@@ -5,7 +5,6 @@
 
 #include "Octree.h"
 #include "Primitive.h"
-#include "Wall.h"
 
 class ContactResolver
 {
