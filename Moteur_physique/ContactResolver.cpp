@@ -39,7 +39,8 @@ void ContactResolver::displayBroadPhase() {
 	}
 }
 
-void ContactResolver::narrowPhase() {
+int ContactResolver::narrowPhase() {
+	int collisions = 0;
 	std::vector<pair<Primitive*, Primitive*>>::iterator itp;
 	for (itp = paires_.begin(); itp != paires_.end(); itp++)
 	{
@@ -47,9 +48,11 @@ void ContactResolver::narrowPhase() {
 		Primitive* b = itp->second;
 		if (hasCollision(a, b)) {
 			cout << "Collision!" << endl;
+			collisions += 1;
 			//ajouter les données du contact a une liste de contacts
 		}
 	}
+	return collisions;
 }
 
 bool ContactResolver::hasCollision(Primitive* a, Primitive* b) {	

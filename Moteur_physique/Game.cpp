@@ -202,7 +202,13 @@ void Game::applyCollisions(float time)
 	contactResolver_.broadPhase();
 	
 	//NarrowPhase
-	contactResolver_.narrowPhase();
+	int lastNumberCollisions = contactResolver_.narrowPhase();
+	contactResolver_.setNumCollisions(2 * lastNumberCollisions);
+	while (contactResolver_.getNumCollisions() > 0 && lastNumberCollisions != 0) {
+		lastNumberCollisions = contactResolver_.narrowPhase();
+		contactResolver_.setNumCollisions(contactResolver_.getNumCollisions() - lastNumberCollisions);
+	}
+	contactResolver_.setNumCollisions(0);
 }
 
 //Dessine les bodies
