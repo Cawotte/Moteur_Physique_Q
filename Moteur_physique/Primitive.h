@@ -5,26 +5,33 @@
 #include "Matrix4.h"
 #include "Bounds.h"
 
+class Cube;
+class Wall;
+
 class Primitive {
 
-private :
+protected :
 
 	RigidBody* body_ = NULL;
-	Matrix4 rotation;
+
+
+	Primitive(RigidBody* body, Bounds b);
+	Primitive() {};
+
+	Vector3D pointRotationByQuaternion(Vector3D point, Quaternion q);
 
 public:
 
 	Bounds bounds_;
 
-	Primitive(RigidBody* body, Bounds b);
-	Primitive() {};
 	~Primitive();
-
-	Vector3D pointRotationByQuaternion(Vector3D point, Quaternion q);
-	bool pointIsWithinBox(Vector3D point, Vector3D* p);
-	Vector3D* rotatedRepere();
+	
+	virtual bool isPrimitiveCollidingWith(Primitive* prim) = 0;
+	virtual bool isPrimitiveCollidingWith(Cube* prim) = 0;
+	virtual bool isPrimitiveCollidingWith(Wall* prim) = 0;
 
 	void setBounds(Bounds b) { bounds_ = b; }
+
 };
 
 #endif

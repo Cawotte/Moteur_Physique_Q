@@ -2,6 +2,7 @@
 #define WALL_H
 
 #include "Primitive.h"
+#include "Cube.h"
 
 enum typeWall {
 	frontWall,
@@ -18,14 +19,18 @@ private:
 
 	typeWall type_;
 
-	Vector3D normal_;
 
+	Vector3D normal_;
 	float offset_ = 0.f;
 
 public:
 
 	Wall(typeWall type);
 	~Wall();
+
+	bool isPrimitiveCollidingWith(Primitive* prim);
+	bool isPrimitiveCollidingWith(Cube* prim);
+	bool isPrimitiveCollidingWith(Wall* prim);
 
 	typeWall getType() { return type_; }
 };

@@ -87,3 +87,19 @@ Wall::Wall(typeWall type) {
 Wall::~Wall()
 {
 }
+
+bool Wall::isPrimitiveCollidingWith(Primitive* prim)
+{
+	return prim->isPrimitiveCollidingWith(this);
+}
+
+bool Wall::isPrimitiveCollidingWith(Cube* prim)
+{
+	return false;
+}
+
+bool Wall::isPrimitiveCollidingWith(Wall* prim)
+{
+	//not handled
+	return false;
+}

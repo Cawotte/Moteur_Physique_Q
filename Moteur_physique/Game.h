@@ -17,6 +17,7 @@
 #include "Primitive.h"
 #include "Wall.h"
 #include "ContactResolver.h"
+#include "Cube.h"
 
 // Classe de gestion globale. Dessine la scène, gère les objets, upate la logique et appelle la fonction pour les dessiner
 class Game

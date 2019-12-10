@@ -53,6 +53,8 @@ void ContactResolver::narrowPhase() {
 }
 
 bool ContactResolver::hasCollision(Primitive* a, Primitive* b) {	
+
+	return (a->isPrimitiveCollidingWith(b) || b->isPrimitiveCollidingWith(a));
 	/*
 	Wall* aW = dynamic_cast<Wall*>(a);
 	Wall* bW = dynamic_cast<Wall*>(b);
@@ -79,7 +81,6 @@ bool ContactResolver::hasCollision(Primitive* a, Primitive* b) {
 		return false;
 	}
 	*/
-	return false;
 }
 
 void ContactResolver::addPrimitive(Primitive* p) {

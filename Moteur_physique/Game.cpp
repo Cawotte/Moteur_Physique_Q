@@ -69,7 +69,7 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		typeRotation_ += 1;
 		typeRotation_ %= 3;
 		//on ajoute la primitive associée à la liste + la box à la liste
-		contactResolver_.addPrimitive(new Primitive(b, Bounds(0.f - 2.5f, 0.f + 2.5f, 0.f - 10.f, 0.f + 10.f, 5.f - 2.5f, 5.f + 2.5f)));
+		contactResolver_.addPrimitive(new Cube(b, Bounds(0.f - 2.5f, 0.f + 2.5f, 0.f - 10.f, 0.f + 10.f, 5.f - 2.5f, 5.f + 2.5f)));
 		addBody(b);
 		break;
 
@@ -88,7 +88,7 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		b->setRotation(Vector3D(0.f, 0.f, 0.f));
 		b->setColor(Color::green);
 		//on ajoute la primitive associée à la liste + la box à la liste
-		contactResolver_.addPrimitive(new Primitive(b, Bounds(xxx - sizeBox, xxx + sizeBox, yyy - sizeBox, yyy + sizeBox, zzz - sizeBox, zzz + sizeBox)));;
+		contactResolver_.addPrimitive(new Cube(b, Bounds(xxx - sizeBox, xxx + sizeBox, yyy - sizeBox, yyy + sizeBox, zzz - sizeBox, zzz + sizeBox)));;
 		addBody(b);
 		break;
 
