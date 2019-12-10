@@ -3,10 +3,15 @@
 
 #include "RigidBody.h"
 
-//Interface des générateurs de force pour les particules
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Nom : ForceGenerator
+// But : Interface des générateurs de force
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class ForceGenerator {
 
 public:
+	//Méthode virtuelle mettant à jour la force selon le RigidBody et le temps passés en paramètres
 	virtual void updateForce(RigidBody* rb, float t) = 0;
 };
 
