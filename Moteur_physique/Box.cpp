@@ -17,7 +17,7 @@ void Box::calculDonneesDerivees() {
 	//Calcul de I^-1 dans le repere du monde)
 	float data[] = { dy_ * dy_ + dz_ * dz_, 0, 0, 0, dx_*dx_ + dz_ * dz_, 0, 0, 0, dx_*dx_ + dy_ * dy_ };
 	Matrix3 I(data);
-	I = I * (1 / (12 * inverseMass_));
+	I = I * (1 / (3 * inverseMass_));
 	inverseInertiaTensor_ = I.inv().changeBase(transformMatrix_);
 
 }

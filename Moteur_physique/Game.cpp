@@ -54,7 +54,7 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		break;
 
 	case 'b'://touche 'b' : lance une box
-		b = new Box(100.0f, Vector3D(5.f, 5.f, 5.f), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 5.f, 5.f, 5.f);
+		b = new Box(100.0f, Vector3D(5.f, 5.f, 5.f), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 2.5f, 2.5f, 2.5f);
 		b->setVelocity(Vector3D(10.f, 50.f, 20.f));
 		if (typeRotation_ == 0) {
 			b->setRotation(Vector3D(3.f, 3.f, 0.f));
@@ -75,14 +75,14 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 
 	case 't'://touche 't' : fait apparaitre un cube dans la zone -1/40 en x/y/z
 
-		sizeBox = 2.f; //0.5f
-		areaBox = 41; //1
+		sizeBox = 0.5f;
+		areaBox = 41;
 		//tirage des valeurs de x/y/z
 		xxx = rand() % (areaBox) - 1;
 		yyy = rand() % (areaBox) - 1;
 		zzz = rand() % (areaBox) - 1;
 		//création de la boite à la position tirée
-		b = new Box(100.f, Vector3D(float(xxx), float(yyy), float(zzz)), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 1.f, 1.f, 1.f);
+		b = new Box(100.f, Vector3D(float(xxx), float(yyy), float(zzz)), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 0.5f, 0.5f, 0.5f);
 		//velocite et rotation nulle pour la boite : test en statique
 		b->setVelocity(Vector3D(0.f, 0.f, 0.f));
 		b->setRotation(Vector3D(0.f, 0.f, 0.f));
