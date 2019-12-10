@@ -14,7 +14,6 @@ private:
 
 	Vector3D rotatePointWithOrientation(Vector3D point);
 
-	Vector3D* rotatedRepere();
 	bool arePointsCollidingWithPrimitive(Vector3D* points, int sizeArray);
 
 public:
@@ -24,6 +23,8 @@ public:
 
 	~Cube();
 
+
+	Vector3D* rotatedRepere();
 
 	bool isPrimitiveCollidingWith(Primitive* prim);
 	bool isPrimitiveCollidingWith(Cube* prim);

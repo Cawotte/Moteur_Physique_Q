@@ -47,9 +47,7 @@ int ContactResolver::narrowPhase() {
 		Primitive* a = itp->first;
 		Primitive* b = itp->second;
 		if (hasCollision(a, b)) {
-			cout << "Collision!" << endl;
 			collisions += 1;
-			//ajouter les données du contact a une liste de contacts
 		}
 	}
 	return collisions;
@@ -58,32 +56,7 @@ int ContactResolver::narrowPhase() {
 bool ContactResolver::hasCollision(Primitive* a, Primitive* b) {	
 
 	return (a->isPrimitiveCollidingWith(b) || b->isPrimitiveCollidingWith(a));
-	/*
-	Wall* aW = dynamic_cast<Wall*>(a);
-	Wall* bW = dynamic_cast<Wall*>(b);
-	if (aW == NULL) {
-		if (bW == NULL) {
-			//Collision entre deux box
-			Vector3D* aRep = a->rotatedRepere();
-			Vector3D* bRep = b->rotatedRepere();
-			for (int i = 0; i < 8; i++) {
-				if (a->pointIsWithinBox(bRep[i], aRep)) {
-					return true;
-				}
-			}
 
-			return false;
-		}
-		else {
-			//Collision de a avec le mur bW
-			return false;
-		}
-	}
-	else if (bW == NULL) {
-		//Collision de b avec le mur aW
-		return false;
-	}
-	*/
 }
 
 void ContactResolver::addPrimitive(Primitive* p) {

@@ -69,7 +69,7 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		break;
 
 	case 'b'://touche 'b' : lance une box
-		b = new Box(100.0f, Vector3D(5.f, 5.f, 5.f), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 5.f, 5.f, 5.f);
+		b = new Box(100.0f, Vector3D(5.f, 5.f, 5.f), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 2.5f, 2.5f, 2.5f);
 		b->setVelocity(Vector3D(10.f, 50.f, 20.f));
 		if (typeRotation_ == 0) {
 			b->setRotation(Vector3D(3.f, 3.f, 0.f));
@@ -94,7 +94,7 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		yyy = rand() % (areaBox) - 1;
 		zzz = rand() % (areaBox) - 1;
 		//création de la boite à la position tirée
-		b = new Box(100.f, Vector3D(float(xxx), float(yyy), float(zzz)), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 1.f, 1.f, 1.f);
+		b = new Box(100.f, Vector3D(float(xxx), float(yyy), float(zzz)), Quaternion(1., 0., 0., 0.f), 0.99f, 0.99f, 0.5f, 0.5f, 0.5f);
 		//velocite et rotation nulle pour la boite : test en statique
 		b->setVelocity(Vector3D(0.f, 0.f, 0.f));
 		b->setRotation(Vector3D(0.f, 0.f, 0.f));
@@ -155,7 +155,7 @@ void Game::applyRegister(float time) {
 	//Register bodies
 	for (it = bodies_.begin(); it != bodies_.end(); it++)
 	{
-		//register_.add(*it, new GravityFG(g_));
+		register_.add(*it, new GravityFG(g_));
 	}
 
 	register_.updateForces(time);
@@ -218,132 +218,24 @@ void Game::drawBodies() {
 
 }
 
-//Dessine un mur
-// Rôle : Constructeur - Initialise l'objet
-// Entrées : Valeurs des extrémités de l'objet associé
-// Sortie : Aucune
-void Game::drawWall(typeWall typeW) {
-
-	Vector3D color = Color::darkGray;
-	Vector3D pos;
-	float width;
-	float height;
-	float depth;
-	switch (typeW) {
-
-	case upWall:
-		pos.x = 19.5f;
-		pos.y = 19.5f;
-		pos.z = 39.5f;
-		height = 1.f;
-		depth = 39.f;
-		width = 39.f;
-		break;
-
-	case downWall:
-		pos.x = 19.5f;
-		pos.y = 19.5f;
-		pos.z = -0.5f;
-		height = 1.f;
-		depth = 39.f;
-		width = 39.f;
-		break;
-
-	case rightWall:
-		pos.x = 19.5f;
-		pos.y = 39.5f;
-		pos.z = 19.5f;
-		height = 39.f;
-		depth = 39.f;
-		width = 1.f;
-		break;
-
-	case leftWall:
-		pos.x = 19.5f;
-		pos.y = -0.5f;
-		pos.z = 19.5f;
-		height = 39.f;
-		depth = 39.f;
-		width = 1.f;
-		break;
-
-	case frontWall:
-		pos.x = 39.5f;
-		pos.y = 19.5f;
-		pos.z = 19.5f;
-		height = 39.f;
-		depth = 1.f;
-		width = 39.f;
-		break;
-
-	case behindWall:
-		pos.x = -0.5f;
-		pos.y = 19.5f;
-		pos.z = 19.5f;
-		height = 39.f;
-		depth = 1.f;
-		width = 39.f;
-		break;
-
-	}
-	glPushMatrix();
-
-	glColor3f(color.x, color.y, color.z);//réglage couleur
-	glTranslatef(pos.x, pos.y, pos.z);//positionnement au centre de l'objet
-
-	glBegin(GL_QUADS);//macro openGL pour dessiner des quadrilatères, que l'on va utiliser 6 fois autour du centre
-
-					  //dessin du "haut"
-	glVertex3f(-depth / 2, -width / 2, height / 2);
-	glVertex3f(depth / 2, -width / 2, height / 2);
-	glVertex3f(depth / 2, width / 2, height / 2);
-	glVertex3f(-depth / 2, width / 2, height / 2);
-	//dessin du "bas"
-	glVertex3f(-depth / 2, -width / 2, -height / 2);
-	glVertex3f(depth / 2, -width / 2, -height / 2);
-	glVertex3f(depth / 2, width / 2, -height / 2);
-	glVertex3f(-depth / 2, width / 2, -height / 2);
-	//dessin de la face "droite"
-	glVertex3f(-depth / 2, width / 2, -height / 2);
-	glVertex3f(depth / 2, width / 2, -height / 2);
-	glVertex3f(depth / 2, width / 2, height / 2);
-	glVertex3f(-depth / 2, width / 2, height / 2);
-	//dessin de la face "gauche"
-	glVertex3f(-depth / 2, -width / 2, -height / 2);
-	glVertex3f(depth / 2, -width / 2, -height / 2);
-	glVertex3f(depth / 2, -width / 2, height / 2);
-	glVertex3f(-depth / 2, -width / 2, height / 2);
-	//dessin de "l'avant"
-	glVertex3f(depth / 2, -width / 2, -height / 2);
-	glVertex3f(depth / 2, width / 2, -height / 2);
-	glVertex3f(depth / 2, width / 2, height / 2);
-	glVertex3f(depth / 2, -width / 2, height / 2);
-	//dessin de "l'arrière"
-	glVertex3f(-depth / 2, -width / 2, -height / 2);
-	glVertex3f(-depth / 2, width / 2, -height / 2);
-	glVertex3f(-depth / 2, width / 2, height / 2);
-	glVertex3f(-depth / 2, -width / 2, height / 2);
-
-	glEnd();
-
-	glPopMatrix();
-}
-
 //Dessine les murs
 // Rôle : Constructeur - Initialise l'objet
 // Entrées : Valeurs des extrémités de l'objet associé
 // Sortie : Aucune
 void Game::drawWalls() {
+
+	GlutUtils::drawWall(typeWall::rightWall);
+	/*
 	if (vueWalls_ != 0) {
-		drawWall(typeWall::behindWall);
-		drawWall(typeWall::rightWall);
-		drawWall(typeWall::downWall);
+		GlutUtils::drawWall(typeWall::behindWall);
+		GlutUtils::drawWall(typeWall::rightWall);
+		GlutUtils::drawWall(typeWall::downWall);
 		if (vueWalls_ != 1) {
-			drawWall(typeWall::frontWall);
-			drawWall(typeWall::leftWall);
-			drawWall(typeWall::upWall);
+			GlutUtils::drawWall(typeWall::frontWall);
+			GlutUtils::drawWall(typeWall::leftWall);
+			GlutUtils::drawWall(typeWall::upWall);
 		}
-	}
+	} */
 }
 
 //Dessin de tout ce qui est affiché à l'écran
@@ -447,12 +339,13 @@ void Game::deleteAndClearAll() {
 // Entrées : Valeurs des extrémités de l'objet associé
 // Sortie : Aucune
 void Game::createWalls() {
+	contactResolver_.addPrimitive(new Wall(typeWall::rightWall));;
+	/*
 	contactResolver_.addPrimitive(new Wall(typeWall::upWall));;
 	contactResolver_.addPrimitive(new Wall(typeWall::downWall));;
-	contactResolver_.addPrimitive(new Wall(typeWall::rightWall));;
 	contactResolver_.addPrimitive(new Wall(typeWall::leftWall));;
 	contactResolver_.addPrimitive(new Wall(typeWall::frontWall));;
-	contactResolver_.addPrimitive(new Wall(typeWall::behindWall));;
+	contactResolver_.addPrimitive(new Wall(typeWall::behindWall));; */
 }
 
 //démarrage du jeu : paramétrage de glut pour le bon fonctionnement du moteur - on a suivi ce qu'on a trouvé dans les exemples sur internet

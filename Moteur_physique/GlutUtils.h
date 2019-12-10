@@ -6,6 +6,7 @@
 #include <GL/glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include "Wall.h"
 
 //Contient des fonctions pour dessiner facilement des formes avec glut et openGL
 class GlutUtils
@@ -21,10 +22,11 @@ public:
 	//dessine un parall�l�pip�de rectangle avec son centre, son orientation, sa hauteur, sa largeur, sa profondeur et sa couleur
 	static void drawRectangle(Vector3D pos, Quaternion orientation, float width, float height, float depth, Vector3D color);
 
-	static void drawRectangle(Vector3D* points, Vector3D color);
-
 	//dessine un parall�l�pip�de rectangle de la m�me mani�re, mais avec deux c�t�s en moins, pour voir � l'int�rieur
-	static void drawHollowRectangle(Vector3D pos, float width, float height, float depth, Vector3D color);};
+	static void drawHollowRectangle(Vector3D pos, float width, float height, float depth, Vector3D color);
+	
+	//dessine un mur
+	static void drawWall(typeWall typeW);
+};
 
 #endif
-

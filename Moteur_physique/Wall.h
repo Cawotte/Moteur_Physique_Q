@@ -33,6 +33,7 @@ public:
 	bool isPrimitiveCollidingWith(Wall* prim);
 
 	typeWall getType() { return type_; }
+	Vector3D getNormal() { return normal_; }
 };
 
 #endif

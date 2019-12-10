@@ -80,7 +80,11 @@ Wall::Wall(typeWall type) {
 		break;
 
 	}
+
 	setBounds(b);
+
+	offset_ = bounds_.getCenter().norm();
+
 }
 
 
@@ -95,6 +99,20 @@ bool Wall::isPrimitiveCollidingWith(Primitive* prim)
 
 bool Wall::isPrimitiveCollidingWith(Cube* prim)
 {
+	Vector3D* points = prim->rotatedRepere();
+
+	for (int i = 0; i < 8; i++) {
+		float dist = normal_.dotProd(points[i]) + offset_;
+		if (dist <= 0) {
+			cout << "-----------------------------------" << endl;
+			cout << "Point d'impact: " << points[i].x << ", " << points[i].y << ", " << points[i].z << endl;
+			cout << "Normale: " << getNormal().x << ", " << getNormal().y << ", " << getNormal().z << endl;
+			cout << "Distance de penetration: " << dist << endl;
+			cout << "-----------------------------------" << endl;
+			return true;
+		}
+	}
+
 	return false;
 }
 

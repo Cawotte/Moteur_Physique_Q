@@ -6,30 +6,32 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Nom : Bounds
-// But : Représente les 8 extrémités d'un parallélépipède rectangle, ainsi que sa largeur/hauteur/profondeur
-//		 Utilisé afin de détecter les contacts entre des primitives
+// But : Reprï¿½sente les 8 extrï¿½mitï¿½s d'un parallï¿½lï¿½pipï¿½de rectangle, ainsi que sa largeur/hauteur/profondeur
+//		 Utilisï¿½ afin de dï¿½tecter les contacts entre des primitives
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Bounds
 {
 public:
-	//extrémités minimum et maximum en largeur, hauteur et profondeur de l'objet associé. Valeurs par défaut : 0
+	//extrï¿½mitï¿½s minimum et maximum en largeur, hauteur et profondeur de l'objet associï¿½. Valeurs par dï¿½faut : 0
 	float xmin_ = 0.f;
 	float xmax_ = 0.f;
 	float ymin_ = 0.f;
 	float ymax_ = 0.f;
 	float zmin_ = 0.f;
 	float zmax_ = 0.f;
-	//hauteur, largeur et profondeur associées
+	//hauteur, largeur et profondeur associï¿½es
 	float height_ = 0.f;
 	float width_ = 0.f;
 	float depth_ = 0.f;
-	//Constructeur avec les extrémités en paramètres
+	//Constructeur avec les extrï¿½mitï¿½s en paramï¿½tres
 	Bounds(float xmin, float xmax, float ymin, float ymax, float zmin, float zmax);
-	//Constructeur par défaut
+	//Constructeur par dï¿½faut
 	Bounds() {};
 	//Destructeur
 	~Bounds();
+
+	Vector3D getCenter();
 
 };
 
