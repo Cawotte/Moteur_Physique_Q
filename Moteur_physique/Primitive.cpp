@@ -1,5 +1,8 @@
 #include "Primitive.h"
 
+// Rôle : Constructeur - Initialise le RigidBody et les Bounds
+// Entrées : Le RigidBody et les bounds_
+// Sortie : Aucune
 Primitive::Primitive(RigidBody* body, Bounds b)
 {
 	bounds_ = b;
@@ -12,11 +15,16 @@ Primitive::Primitive(RigidBody* body, Bounds b)
 	body_ = body;
 }
 
-
+// Rôle : Destructeur - Détruit l'objet
+// Entrées : Aucune
+// Sortie : Aucune
 Primitive::~Primitive()
 {
 }
 
+// Rôle : Pivote un point selon une orientation 
+// Entrées : Le point à pivoter et l'orientation en question
+// Sortie : Le point pivoté
 Vector3D Primitive::pointRotationByQuaternion(Vector3D point, Quaternion q)
 {
 	Quaternion r{ 0, point.x, point.y, point.z };
@@ -28,6 +36,9 @@ Vector3D Primitive::pointRotationByQuaternion(Vector3D point, Quaternion q)
 	return Vector3D(result.i_, result.j_, result.k_);
 }
 
+// Rôle : Mise à jour des bounds_
+// Entrées : Aucune
+// Sortie : Aucune
 void Primitive::updateBounds() {
 	if (body_ != NULL) {
 

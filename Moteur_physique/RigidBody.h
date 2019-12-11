@@ -4,21 +4,31 @@
 #include "Vector3D.h"
 #include "Quaternion.h"
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Nom : RigidBody
+// But : Représentation physique d'un objet
+//		 Permet de gérer les opérations concernant la physique
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class RigidBody
 {
 protected:
-
+	//Inverse de la masse
 	float inverseMass_;
+	//Damping linéraire et angulaires
 	float linearDamping_;
 	float angularDamping_;
-
+	//Position
 	Vector3D position_;
+	//Vélocité linéaire
 	Vector3D velocity_;
-
+	//Orientation
 	Quaternion orientation_;
-	Vector3D rotation_; //velocité angulaire
-
+	//Velocité angulaire
+	Vector3D rotation_; 
+	//Matrice de tranformation
 	Matrix3 transformMatrix_;
+	//Inverse du moment d'intertie
 	Matrix3 inverseInertiaTensor_;
 
 	//Forces
@@ -26,7 +36,7 @@ protected:
 	Vector3D torqueAccum_;
 
 public:
-
+	//Constructeur avec initialisation des attributs
 	RigidBody(float mass, Vector3D position, Quaternion orientation, float linearDamping, float angularDamping) :
 		inverseMass_(1 / mass), position_(position), orientation_(orientation), linearDamping_(linearDamping), angularDamping_(angularDamping) {
 	}
@@ -81,19 +91,19 @@ public:
 
 	#pragma endregion
 
-	//Forces
+	//Ajoute une force
 	void addForce(Vector3D force);
 
-	//Torques
+	//Ajoute un torque
 	void addTorque(Vector3D torque);
 
-	//Applique F a un point précis de l'objet. (Repère Monde)
+	//Applique une force a un point précis de l'objet. (Repère Monde)
 	void addForceAtPoint(Vector3D force, Vector3D point);
 
-	//Applique F a un point précis de l'objet. (Repère Local)
+	//Applique une force a un point précis de l'objet. (Repère Local)
 	void addForceAtBodyPoint(Vector3D force, Vector3D point);
 
-	//Compute the new orientation, velocities and position for the next frame.
+	//Calcule les nouvelles orientations, vélocités et position pour la prochaine frame
 	void integrate(float elapsedTime);
 	
 	//Vide les accumulateurs
@@ -102,7 +112,7 @@ public:
 	////Methodes virtuelles
 	//Calcul transformMatrix et moment d'inertie
 	void calculDonneesDerivees() {};
-	//Display du rigid body
+	//Affichage du RigidBody
 	void display() {};
 };
 

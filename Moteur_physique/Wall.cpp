@@ -1,5 +1,8 @@
 #include "Wall.h"
 
+// Rôle : Constructeur initialisant le type du mur - Calcule des attributs en fonction
+// Entrées : Le type du mur
+// Sortie : Aucune
 Wall::Wall(typeWall type) {
 
 	Bounds b;
@@ -91,16 +94,24 @@ Wall::Wall(typeWall type) {
 	setOriginalBounds(b);
 }
 
-
+// Rôle : Destructeur
+// Entrées : Aucune
+// Sortie : Aucune
 Wall::~Wall()
 {
 }
 
+// Rôle : Teste si le mur est en collision avec une primitive
+// Entrées : La primitive avec laquelle la collision est testée
+// Sortie : S'il y a collision
 bool Wall::isPrimitiveCollidingWith(Primitive* prim)
 {
 	return prim->isPrimitiveCollidingWith(this);
 }
 
+// Rôle : Teste si le mur est en collision avec un cube
+// Entrées : Le cube avec lequel la collision est testée
+// Sortie : S'il y a collision
 bool Wall::isPrimitiveCollidingWith(Cube* prim)
 {
 	Vector3D* points = prim->rotatedRepere();
@@ -127,6 +138,9 @@ bool Wall::isPrimitiveCollidingWith(Cube* prim)
 	return false;
 }
 
+// Rôle : Teste si le mur est en collision avec un autre mur
+// Entrées : Le mur avec lequel la collision est testée
+// Sortie : S'il y a collision
 bool Wall::isPrimitiveCollidingWith(Wall* prim)
 {
 	//not handled
