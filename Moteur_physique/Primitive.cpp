@@ -40,17 +40,57 @@ void Primitive::updateBounds() {
 		bounds_.zmin_ = originalBounds_.zmin_ + body_->getPosition().z;
 
 		//Rotation
-		Vector3D* points = new Vector3D[2];
-		points[0] = Vector3D{ bounds_.xmin_, bounds_.ymin_, bounds_.zmin_ };
-		points[1] = Vector3D{ bounds_.xmax_, bounds_.ymax_, bounds_.zmax_ };
 		Quaternion q = body_->getOrientation();
-		//points[0] = pointRotationByQuaternion(points[0], q);
-		//points[1] = pointRotationByQuaternion(points[1], q);
-		bounds_.xmax_ = points[1].x;
-		bounds_.xmin_ = points[0].x;
-		bounds_.ymax_ = points[1].y;
-		bounds_.ymin_ = points[0].y;
-		bounds_.zmax_ = points[1].z;
-		bounds_.zmin_ = points[0].z;
+		float xmin;
+		float xmax;
+		float ymin;
+		float ymax;
+		float zmin;
+		float zmax;
+		Vector3D* points = new Vector3D[9];
+		points[0] = Vector3D{ bounds_.xmin_, bounds_.ymin_, bounds_.zmin_ };
+		points[1] = Vector3D{ bounds_.xmin_, bounds_.ymin_, bounds_.zmax_ };
+		points[2] = Vector3D{ bounds_.xmin_, bounds_.ymax_, bounds_.zmin_ };
+		points[3] = Vector3D{ bounds_.xmin_, bounds_.ymax_, bounds_.zmax_ };
+		points[4] = Vector3D{ bounds_.xmax_, bounds_.ymin_, bounds_.zmin_ };
+		points[5] = Vector3D{ bounds_.xmax_, bounds_.ymin_, bounds_.zmax_ };
+		points[6] = Vector3D{ bounds_.xmax_, bounds_.ymax_, bounds_.zmin_ };
+		points[7] = Vector3D{ bounds_.xmax_, bounds_.ymax_, bounds_.zmax_ };
+		points[0] = pointRotationByQuaternion(points[0], q);
+		xmin = points[0].x;
+		xmax = points[0].x;
+		ymin = points[0].y;
+		ymax = points[0].y;
+		zmin = points[0].z;
+		zmax = points[0].z;
+		for (int i = 1; i < 8; i++) {
+			points[i] = pointRotationByQuaternion(points[i], q);
+			if (points[i].x < xmin) {
+				xmin = points[i].x;
+			}
+			else if (points[i].x > xmax) {
+				xmax = points[i].x;
+			}
+			if (points[i].y < ymin) {
+				ymin = points[i].y;
+			}
+			else if (points[i].y > ymax) {
+				ymax = points[i].y;
+			}
+			if (points[i].z < zmin) {
+				zmin = points[i].z;
+			}
+			else if (points[i].z > zmax) {
+				zmax = points[i].z;
+			}
+		}
+		/*
+		bounds_.xmax_ = xmax;
+		bounds_.xmin_ = xmin;
+		bounds_.ymax_ = ymax;
+		bounds_.ymin_ = ymin;
+		bounds_.zmax_ = zmax;
+		bounds_.zmin_ = zmin;
+		*/
 	}
 }
