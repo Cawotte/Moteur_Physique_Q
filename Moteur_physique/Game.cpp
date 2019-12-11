@@ -153,7 +153,7 @@ void Game::applyRegister(float time) {
 	for (it = bodies_.begin(); it != bodies_.end(); it++)
 	{
 		//Ajoute la gravité pour chaque box dans bodies_
-		//register_.add(*it, new GravityFG(g_));
+		register_.add(*it, new GravityFG(g_));
 	}
 	//Applique toutes les forces dans le registre
 	register_.updateForces(time);
@@ -218,6 +218,18 @@ void Game::drawBodies() {
 void Game::drawWalls() {
 
 	GlutUtils::drawWall(typeWall::rightWall);
+	/*
+	if (vueWalls_ != 0) {
+	GlutUtils::drawWall(typeWall::behindWall);
+	GlutUtils::drawWall(typeWall::rightWall);
+	GlutUtils::drawWall(typeWall::downWall);
+		if (vueWalls_ != 1) {
+			GlutUtils::drawWall(typeWall::frontWall);
+			GlutUtils::drawWall(typeWall::leftWall);
+			GlutUtils::drawWall(typeWall::upWall);
+		}
+	}
+	*/
 }
 
 // Rôle : Dessine l'intégralité de la scène
@@ -324,11 +336,18 @@ void Game::deleteAndClearAll() {
 	createWalls();
 }
 
-// Rôle : /Ajoute les 6 murs de la pièce à la liste des primitives
+// Rôle : Ajoute les 6 murs de la pièce à la liste des primitives
 // Entrées : Aucune
 // Sortie : Aucune
 void Game::createWalls() {
 	contactResolver_.addPrimitive(new Wall(typeWall::rightWall));
+	/*
+	contactResolver_.addPrimitive(new Wall(typeWall::upWall));;
+	contactResolver_.addPrimitive(new Wall(typeWall::downWall));;
+	contactResolver_.addPrimitive(new Wall(typeWall::leftWall));;
+	contactResolver_.addPrimitive(new Wall(typeWall::frontWall));;
+	contactResolver_.addPrimitive(new Wall(typeWall::behindWall));;
+	*/
 }
 
 // Rôle : Paramètre le moteur et l'affichage, appelé au lancement du programme
