@@ -3,8 +3,9 @@
 
 #include "Primitive.h"
 #include "Cube.h"
+#include "ContactResolver.h"
 
-//Les différentes types de murs
+//Les différents types de murs
 enum typeWall {
 	frontWall,
 	rightWall,

@@ -113,7 +113,7 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 		//Touche 'v' : affiche ou non les murs
 		case 'v':
 			vueWalls_ += 1;
-			vueWalls_ %= 3;
+			vueWalls_ %= 4;
 			break;
 		//Touche 'd' : vide la scène des boîtes
 		case 'd':
@@ -216,15 +216,27 @@ void Game::drawBodies() {
 // Entrées : Aucune
 // Sortie : Aucune
 void Game::drawWalls() {
-	if (vueWalls_ != 0) {
-	GlutUtils::drawWall(typeWall::behindWall);
-	GlutUtils::drawWall(typeWall::rightWall);
-	GlutUtils::drawWall(typeWall::downWall);
-		if (vueWalls_ != 1) {
-			GlutUtils::drawWall(typeWall::frontWall);
-			GlutUtils::drawWall(typeWall::leftWall);
-			GlutUtils::drawWall(typeWall::upWall);
-		}
+	switch (vueWalls_) {
+	case 0:
+		GlutUtils::drawWall(typeWall::rightWall);
+		break;
+	case 1:
+		GlutUtils::drawWall(typeWall::rightWall);
+		GlutUtils::drawWall(typeWall::behindWall);
+		GlutUtils::drawWall(typeWall::downWall);
+		break;
+	case 2:
+		GlutUtils::drawWall(typeWall::rightWall);
+		GlutUtils::drawWall(typeWall::behindWall);
+		GlutUtils::drawWall(typeWall::downWall);
+		GlutUtils::drawWall(typeWall::frontWall);
+		GlutUtils::drawWall(typeWall::leftWall);
+		GlutUtils::drawWall(typeWall::upWall);
+		break;
+	case 3:
+		break;
+	default:
+		break;
 	}
 }
 
@@ -289,7 +301,7 @@ void Game::instructions() {
 	cout << "##############################################" << endl << endl;
 	cout << "La touche S sert a changer la camera." << endl;
 	cout << "La touche B sert a lancer une boite (l'axe change a chaque fois)." << endl;
-	cout << "La touche V sert a afficher les murs." << endl;
+	cout << "La touche V sert a changer la quantite de murs." << endl;
 	cout << "La touche T sert a ajouter un cube avec une position aleatoire dans la zone [-1, 40]." << endl;
 	cout << "La touche M sert a lancer une broadphase manuelle." << endl;
 	cout << "La touche D sert a supprimer les objets ajoutes par l'utilisateur." << endl;
@@ -336,12 +348,28 @@ void Game::deleteAndClearAll() {
 // Entrées : Aucune
 // Sortie : Aucune
 void Game::createWalls() {
-	contactResolver_.addPrimitive(new Wall(typeWall::rightWall));
-	contactResolver_.addPrimitive(new Wall(typeWall::upWall));;
-	contactResolver_.addPrimitive(new Wall(typeWall::downWall));;
-	contactResolver_.addPrimitive(new Wall(typeWall::leftWall));;
-	contactResolver_.addPrimitive(new Wall(typeWall::frontWall));;
-	contactResolver_.addPrimitive(new Wall(typeWall::behindWall));;
+	switch (vueWalls_) {
+	case 0:
+		contactResolver_.addPrimitive(new Wall(typeWall::rightWall));
+		break;
+	case 1:
+		contactResolver_.addPrimitive(new Wall(typeWall::rightWall));
+		contactResolver_.addPrimitive(new Wall(typeWall::behindWall));
+		contactResolver_.addPrimitive(new Wall(typeWall::downWall));
+		break;
+	case 2:
+		contactResolver_.addPrimitive(new Wall(typeWall::rightWall));
+		contactResolver_.addPrimitive(new Wall(typeWall::upWall));
+		contactResolver_.addPrimitive(new Wall(typeWall::downWall));
+		contactResolver_.addPrimitive(new Wall(typeWall::leftWall));
+		contactResolver_.addPrimitive(new Wall(typeWall::frontWall));
+		contactResolver_.addPrimitive(new Wall(typeWall::behindWall));
+		break;
+	case 3:
+		break;
+	default:
+		break;
+	}
 }
 
 // Rôle : Paramètre le moteur et l'affichage, appelé au lancement du programme

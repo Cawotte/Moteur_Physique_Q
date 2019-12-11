@@ -119,15 +119,23 @@ bool Wall::isPrimitiveCollidingWith(Cube* prim)
 	for (int i = 0; i < 8; i++) {
 		float dist = normal_.dotProd(points[i]) + offset_;
 		if (dist <= 0) {
-			cout << "-----------------------------------" << endl;
-			cout << "Point d'impact: " << points[i].x << ", " << points[i].y << ", " << points[i].z << endl;
-			cout << "Normale: " << getNormal().x << ", " << getNormal().y << ", " << getNormal().z << endl;
-			cout << "Distance de penetration: " << dist << endl;
+			//Affichage des données de la première collision seulement
+			if (firstOnly) {
+				cout << "-----------------------------------" << endl;
+				cout << "Point d'impact: " << points[i].x << ", " << points[i].y << ", " << points[i].z << endl;
+				cout << "Normale: " << getNormal().x << ", " << getNormal().y << ", " << getNormal().z << endl;
+				cout << "Distance de penetration: " << dist << endl;
+				firstOnly = false;
+			}
+			// Variation de la vitesse
 			float vs = prim->getBody()->getVelocity().dotProd(normal_) * prim->getBody()->getInverseMass();
 			prim->getBody()->setPosition(prim->getBody()->getPosition() - normal_ * dist);
 			prim->getBody()->setVelocity(prim->getBody()->getVelocity() - normal_ * vs);
-			float d = (points[i] - prim->getBody()->getPosition()).norm() * prim->getBody()->getInverseMass(); //distance du point d'impact avec le centre du cube
+			// Variation de la vitesse de rotation
+			/*
+			float d = (points[i] - prim->getBody()->getPosition()).norm() * prim->getBody()->getInverseMass(); //distance entre le point d'impact et le centre du cube
 			prim->getBody()->setRotation(prim->getBody()->getRotation() + (prim->getBody()->getVelocity().crossProd(normal_).normalized()) * d);
+			*/
 			
 			return true;
 		}

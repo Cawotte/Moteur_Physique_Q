@@ -33,7 +33,6 @@ public:
 	void setNumCollisions(int num) { numCollisions_ = num; }
 	//Getter du nombre de collisions
 	int getNumCollisions() { return numCollisions_; }
-	list<Primitive*> getPrimitives() { return primitives_; }
 	//Effectue la broad phase
 	void broadPhase();
 	//Affiche le r�sultat de la broad phase
@@ -47,5 +46,8 @@ public:
 	//Vide les listes et l'arbre
 	void clear();
 };
+
+//Booleen permettant d'afficher les données seulement du premier contact
+static bool firstOnly = true;
 
 #endif

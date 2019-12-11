@@ -81,7 +81,7 @@ bool Cube::isPrimitiveCollidingWith(Wall* prim)
 	return prim->isPrimitiveCollidingWith(this);
 }
 
-// Rôle : //Calcule si un point parmi une liste se trouve dans le cube
+// Rôle : Calcule si un point parmi une liste se trouve dans le cube
 // Entrées : Les points à tester, et leur nombre
 // Sortie : Si au moins un des points est dans le cube
 bool Cube::arePointsCollidingWithPrimitive(Vector3D* points, int nbPoints)

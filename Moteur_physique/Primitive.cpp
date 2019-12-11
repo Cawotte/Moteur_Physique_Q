@@ -51,6 +51,7 @@ void Primitive::updateBounds() {
 		bounds_.zmin_ = originalBounds_.zmin_ + body_->getPosition().z;
 
 		//Rotation
+		/*
 		Quaternion q = body_->getOrientation();
 		float xmin;
 		float xmax;
@@ -95,7 +96,6 @@ void Primitive::updateBounds() {
 				zmax = points[i].z;
 			}
 		}
-		/*
 		bounds_.xmax_ = xmax;
 		bounds_.xmin_ = xmin;
 		bounds_.ymax_ = ymax;
