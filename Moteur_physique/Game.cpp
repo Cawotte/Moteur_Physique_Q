@@ -86,7 +86,7 @@ void Game::handleKeypress(unsigned char key, int x, int y)
 			typeRotation_ += 1;
 			typeRotation_ %= 3;
 			//On ajoute la primitive associée à la liste + la box à la liste
-			contactResolver_.addPrimitive(new Cube(b, Bounds(0.f - 2.5f, 0.f + 2.5f, 0.f - 10.f, 0.f + 10.f, 5.f - 2.5f, 5.f + 2.5f)));
+			contactResolver_.addPrimitive(new Cube(b, Bounds(5.f - 2.5f, 5.f + 2.5f, 5.f - 2.5f, 5.f + 2.5f, 5.f - 2.5f, 5.f + 2.5f)));
 			addBody(b);
 			break;
 		//Touche 't' : fait apparaitre un cube dans la zone -1/40 en x/y/z
@@ -216,9 +216,6 @@ void Game::drawBodies() {
 // Entrées : Aucune
 // Sortie : Aucune
 void Game::drawWalls() {
-
-	GlutUtils::drawWall(typeWall::rightWall);
-	/*
 	if (vueWalls_ != 0) {
 	GlutUtils::drawWall(typeWall::behindWall);
 	GlutUtils::drawWall(typeWall::rightWall);
@@ -229,7 +226,6 @@ void Game::drawWalls() {
 			GlutUtils::drawWall(typeWall::upWall);
 		}
 	}
-	*/
 }
 
 // Rôle : Dessine l'intégralité de la scène
@@ -341,13 +337,11 @@ void Game::deleteAndClearAll() {
 // Sortie : Aucune
 void Game::createWalls() {
 	contactResolver_.addPrimitive(new Wall(typeWall::rightWall));
-	/*
 	contactResolver_.addPrimitive(new Wall(typeWall::upWall));;
 	contactResolver_.addPrimitive(new Wall(typeWall::downWall));;
 	contactResolver_.addPrimitive(new Wall(typeWall::leftWall));;
 	contactResolver_.addPrimitive(new Wall(typeWall::frontWall));;
 	contactResolver_.addPrimitive(new Wall(typeWall::behindWall));;
-	*/
 }
 
 // Rôle : Paramètre le moteur et l'affichage, appelé au lancement du programme
