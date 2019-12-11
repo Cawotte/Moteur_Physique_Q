@@ -12,7 +12,6 @@
 #include "Box.h"
 #include "ForceRegister.h"
 #include "GravityFG.h"
-#include "SpringTorque.h"
 #include "Octree.h"
 #include "Primitive.h"
 #include "Wall.h"

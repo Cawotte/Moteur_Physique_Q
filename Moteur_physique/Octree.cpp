@@ -171,66 +171,77 @@ void Octree::insert(Primitive* prim)
 				//Pour chaque subdivision concernée
 				for (int j = 0; j < indexes.size(); j++)
 				{
+					//On y ajoute la primitive
 					nodes_[indexes[j]]->insert(primitives_[i]);
 
 					//SI CAPLANTE CA PEUT VENIR DE LA
 				}
+				//Puis on la supprime de la liste du niveau actuelle
 				primitives_.erase(primitives_.begin() + i);
 			}
 			else
 			{
-				//sinon on passe à la subdivision suivante
+				//sinon on passe à la primitive suivante
 				i++;
 			}
 		}
 	}
 }
 
-// Rôle : Détruit l'objet
-// Entrées : Aucune
+// Rôle : Calcule les paires de primitives pour lesquelles il est pertinent d'appliquer la nnarrow phase
+// Entrées : La liste des paires
 // Sortie : Aucune
 void Octree::pairing(vector<pair<Primitive*, Primitive*>> &paires)
 {
+	//S'il y a des subdivisions
 	if (nodes_.size() != 0)
 	{
+		//Appel récursif sur les subdivisions
 		for (int j = 0; j < nodes_.size(); j++)
 		{
 			nodes_[j]->pairing(paires);
 		}
 	}
-
+	//Si le niveau actuel contient au moins une primitive
 	if (primitives_.size() >1)
 	{
 		for (int j = 0; j < primitives_.size()-1; j++)
 		{
 			for (int i = j+1; i < primitives_.size(); i++)
 			{
+				//On pousse toutes paires possibles de primitives
 				paires.push_back(pair<Primitive*, Primitive*>(primitives_[j],primitives_[i]));
 			}
 		}
 	}
 }
 
-// Rôle : Détruit l'objet
+// Rôle : Affiche l'arbre
 // Entrées : Aucune
 // Sortie : Aucune
 void Octree::display()
 {
+	//Indentation selon le niveau
 	for (int u = 0; u < level_; u++)
 	{
 		cout << '\t';
 	}
+	//Affichage du niveau actuel
 	cout << level_ << " ";
+	//S'il y a des subdivisions
 	if (nodes_.size() != 0)
 	{
 		cout << endl;
+		//Appel récursif sur les subdivisions
 		for (int j = 0; j < nodes_.size(); j++)
 		{
 			nodes_[j]->display();
 		}
 	}
+	//Si le niveau actuel contient des primitives
 	if (primitives_.size() != 0)
 	{
+		//Affichage des coordonnées de chacune des primitives, numérotées
 		for (int j = 0; j < primitives_.size(); j++)
 		{			
 			cout << "  ("<< j+1<<")"<<(primitives_[j]->bounds_.xmin_ + primitives_[j]->bounds_.xmax_) / 2 << " " << (primitives_[j]->bounds_.ymin_ + primitives_[j]->bounds_.ymax_) / 2 << " " << (primitives_[j]->bounds_.zmin_ + primitives_[j]->bounds_.zmax_) / 2 << " ";
